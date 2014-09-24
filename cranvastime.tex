@@ -488,8 +488,11 @@ There are three possible conditions to facet on: variable, individual
 (for the longitudinal data), or period. Figure \ref{fig:faceting-var-ind}
 gives an example for faceting on variable and individual. Design of
 the faceting interaction should make the switching among five panels
-done on-the-fly. Figure \ref{fig:faceting-period} explains why and
-shows how to facet on period. Those faceting methods change the y-coordinates
+done on-the-fly. Figure \ref{fig:faceting-2ind} shows faceting on
+individual by two independent groups (longitude and latitude). Both
+horizontal and vertical directions can be utilized to facet. 
+Figure \ref{fig:faceting-period} explains why and shows how to
+facet on period. Those faceting methods change the y-coordinates
 of the points, and then the baselines of the area layer.
 
 
@@ -521,7 +524,26 @@ are separated. (e) disperses the variables for each individual in
 
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-24-3}
+\par\end{centering}
+
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-24-4}
+\par\end{centering}
+
+\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
+that have 72-month surface temperatures on a 24$\times$24 spatial grid 
+\citep{murrell2010}. (Top left) The mixed individuals. (Top right) Faceting
+by longitudinal grid. (Bottom left) Faceting by latitudinal grid.
+(Bottom right) Faceting by longitude and latitude.}
+\end{figure}
+
+\par\end{center}
+
+\begin{center}
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-01-1} \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
@@ -629,7 +651,7 @@ much easier.
 
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
 \par\end{centering}
@@ -667,8 +689,21 @@ the peaks last shortly but are sharp and irregular, the valleys are
 smooth and regular.
 
 
+However, two issues raise up during the mirroring process: (1) how
+to choose the horizontal divider -- midpoint of the range, mean of
+the series, or the initial value? For the financial related data,
+the starting value is preferred, like the price when entering the
+market. But for other types of time series, the choice would depend
+on the research interest. (2) when an edge crosses the divider, the
+intersection will be a new data point to the line and need to be recorded.
+The new data points could make problems, especially when other interactions
+are added on the mirrored graph, like wrapping or linking. Section
+\ref{sub:Linking-of-the-addition} introduces the problems from the
+additional data in linking.
+
+
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-18-original}
 \par\end{centering}
@@ -685,20 +720,6 @@ mean.}
 
 \par\end{center}
 
-
-\begin{flushleft}
-However, two issues raise up during the mirroring process: (1) how
-to choose the horizontal divider -- midpoint of the range, mean of
-the series, or the initial value? For the financial related data,
-the starting value is preferred, like the price when entering the
-market. But for other types of time series, the choice would depend
-on the research interest. (2) when an edge crosses the divider, the
-intersection will be a new data point to the line and need to be recorded.
-The new data points could make problems, especially when other interactions
-are added on the mirrored graph, like wrapping or linking. Section
-\ref{sub:Linking-of-the-addition} introduces the problems from the
-additional data in linking.
-\par\end{flushleft}
 
 \item Shifting.
 
@@ -764,7 +785,7 @@ and initial status are required by a faceting example. Section \ref{sub:Two-proc
 will introduce the ways to store the initial and current status.
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.5\textwidth]{graph/pipeline-20-additive-interactions}
 \par\end{centering}
@@ -806,7 +827,7 @@ optimum. The big steps get close to the target quickly, but may miss
 it. Hence a gear to adjust the step length will be handy to control.
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-original}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-smooth}
@@ -836,7 +857,7 @@ backing to the previous position will be a little painful by this
 design.
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-21-directions}
 \par\end{centering}
@@ -1242,7 +1263,7 @@ should be assigned to the polygons when the red dots are generated.
 
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-1} \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
 \par\end{centering}
