@@ -46,7 +46,7 @@ temporal and longitudinal data in this section.
 \subsection{Time-dependent data}
 
 Time-dependent data could be complex due to many factors, like the
-time formats (year/month/week/day/hour/minute/second/...), data types(discrete
+time formats (year/month/week/day/hour/minute/ second/...), data types(discrete
 or continuous, events or intervals, etc.), dependent variables, and
 so on. The custom time formats brings some further problems, for example,
 the number of weeks per year is not an integer, the number of days
@@ -486,13 +486,11 @@ well.
 
 There are three possible conditions to facet on: variable, individual
 (for the longitudinal data), or period. Figure \ref{fig:faceting-var-ind}
-gives an example for faceting on variable and individual. Design of
-the faceting interaction should make the switching among five panels
-done on-the-fly. Figure \ref{fig:faceting-2ind} shows faceting on
-individual by two independent groups (longitude and latitude). Both
-horizontal and vertical directions can be utilized to facet. 
+gives an example for faceting on two variables and three individuals.
+Design of the faceting interaction should make the switching among
+five panels done on-the-fly. 
 Figure \ref{fig:faceting-period} explains why and shows how to
-facet on period. Those faceting methods change the y-coordinates
+facet on period. Those faceting methods change the coordinates
 of the points, and then the baselines of the area layer.
 
 
@@ -526,25 +524,6 @@ are separated. (e) disperses the variables for each individual in
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-24-3}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-24-4}
-\par\end{centering}
-
-\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
-that have 72-month surface temperatures on a 24$\times$24 spatial grid 
-\citep{murrell2010}. (Top left) The mixed individuals. (Top right) Faceting
-by longitudinal grid. (Bottom left) Faceting by latitudinal grid.
-(Bottom right) Faceting by longitude and latitude.}
-\end{figure}
-
-\par\end{center}
-
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-01-1} \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
 \par\end{centering}
@@ -554,6 +533,28 @@ time series with a period of every 12 observations. The left panel
 is the original series, the center and right panels show the periods
 before and after faceting. From the left to center, the wrapping interaction
 is used.}
+\end{figure}
+
+\par\end{center}
+
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
+\par\end{centering}
+
+\begin{centering}
+\includegraphics[width=0.38\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-4}
+\par\end{centering}
+
+\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
+that have 72-month surface temperatures on a 24$\times$24 spatial grid 
+\citep{murrell2010}. (Top left) The mixed individuals. (Top right) Faceting
+by longitudinal grid. There is more variation from the west areas
+than the east. (Bottom left) Faceting by latitudinal grid.
+The north part is bumpier than the middle and south part.
+(Bottom right) Faceting by longitude and latitude.}
 \end{figure}
 
 \par\end{center}
@@ -582,6 +583,39 @@ from Figure \ref{fig:faceting-period}(right). A necessary step for
 faceting on period is to re-index the time points from the left panel
 to the right. So it can not be replaced by faceting on individual.
 
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
+\par\end{centering}
+
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
+\par\end{centering}
+
+\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
+a longitudinal data set (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
+Sex and height are used in the horizontal direction, age and weight
+are used in the vertical direction. (Top left) Original data without
+facetting. (Top right) Facetted by height and weight. (Bottom left)
+Facetted by sex and age. (Bottom right) Facetted by sex and height
+horizontally, age and weight vertically.}
+\end{figure}
+
+\par\end{center}
+
+
+Faceting by individual sometimes extends to much more complex situations,
+because individuals can be grouped under different combinations of
+categorical variables, not only the individual IDs. Both horizontal
+and vertical directions will be needed to facet, and in each direction,
+more than one variable may be utilized to facet. For example, Figure
+\ref{fig:faceting-2ind} shows faceting on individual by two independent
+groups (longitude and latitude). Figure \ref{fig:faceting-4ind} shows
+faceting by four categorical variables, two in the horizontal direction
+and two in the vertical direction.
+
+
 \item Slicing and wrapping.
 
 
@@ -601,17 +635,17 @@ example of wrapping process with an unknown period.
 
 
 \begin{center}
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-16-original}
+\includegraphics[width=0.84\textwidth]{graph/pipeline-16-original}
 \par\end{centering}
 
 \begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-16-1} \includegraphics[width=0.48\textwidth]{graph/pipeline-16-2}
+\includegraphics[width=0.42\textwidth]{graph/pipeline-16-1} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-2}
 \par\end{centering}
 
 \begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-16-xwrap} \includegraphics[width=0.48\textwidth]{graph/pipeline-16-xwrap-facet}
+\includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap-facet}
 \par\end{centering}
 
 \caption{\label{fig:x-wrapping}Top: time series plot of annual numbers of
