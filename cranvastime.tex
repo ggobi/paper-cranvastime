@@ -27,6 +27,9 @@
 
 \makeatother
 
+\usepackage{color}
+\newcommand{\red}[1]{{\color{red} #1}} 
+
 \usepackage{babel}
 \begin{document}
 
@@ -56,24 +59,21 @@ The most common description of time is as a continuous or discrete ordered numer
 
 On a discrete scale, it may be possible to have regular or irregular time spacing. Regular time spacing means that the measurement happens constant time intervals, e.g. average monthly temperature in climate records. Irregular time spacing typically arise from events like measurements take during visits to the doctor's office. Figure \ref{fig:Time-series-plots} illustrates data collected at regular, and irregular, intervals, respectively.
 
-\begin{center}
 \begin{figure}[h]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-01-1} \includegraphics[width=0.48\textwidth]{graph/pipeline-02-1}
 \par\end{centering}
 
 \caption{\label{fig:Time-series-plots}Time series plots for regular time spacing
- (left) and irregular time spacing  (right).}
+ (left) and irregular time spacing  (right). \red{*** trim off the long tail on the longitudinal data plot.}}
 \end{figure}
-
-\par\end{center}
 
 When many measurements are made more complications ensue. In climate records we may have temperature measurements taken at many different locations. In longitudinal data, we may have records for many patients. Making comparisons between many time series is a challenge. This work addresses this for a moderate number of series.
 
 %Visualizing the longitudinal data is another challenge to the time plots. It brings some issues, such as  (1) intensive layout for a relatively large number% \footnote{20 can be considered as a large number for the graphical layout.% } of individuals,  (2) a few overwhelming large representatives could make the other individuals invisible,  (3) comparison between two or more individuals is difficult if they are not plotted closely.
 
 
-\subsection{Time visualization}
+\subsection{Visualizing time}
 
 The common factor in the temporal and longitudinal data plots is the
 time, and the different ways to orient time as the axis classifies
@@ -93,7 +93,7 @@ line graph is like Figure \ref{fig:Line-graph}.
 \includegraphics[width=0.6\textwidth]{graph/pipeline-03-1}
 \par\end{centering}
 
-\caption{\label{fig:Line-graph}Line graph for the longitudinal data.}
+\caption{\label{fig:Line-graph}Line graph for the longitudinal data. \red{*** trim off the long tail on the longitudinal data plot.}}
 \end{figure}
 
 \par\end{center}
