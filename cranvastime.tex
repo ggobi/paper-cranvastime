@@ -30,50 +30,31 @@
 \usepackage{babel}
 \begin{document}
 
-\title{Interactive Visualization on Temporal and Longitudinal Data}
+\title{Methods for Enabling Interactivity on Temporal and Longitudinal Displays}
 
 \maketitle
+\section*{Abstract}
 
-\section{Overview}
+Exploring temporal data can be facilitated by interactive graphics. This paper describes structuring data and plots to make interactive exploration of temporal data possible. The methods are implemented in the software cranvas, for the qtime display.
 
-Any interactive visualization is built upon the static graphs. Interactions
-would change the static pictures by some order such that the user
-can find the best graphical summary. Hence before introducing the
-interactive graphics, we give an overview of the static graphics for
-temporal and longitudinal data in this section.
+\section{Introduction}
+
+Interactive graphics for temporal data build upon static displays. Aspects of the displays are made available for modifying by user actions on the plot, for the purpose of facilitating different explorations. There are many different ways of displaying temporal data, some of which depends on the structure of the time descriptor. 
+
+%Interactions would change the static pictures by some order such that the user can find the best graphical summary. Hence before introducing the interactive graphics, we give an overview of the static graphics for temporal and longitudinal data in this section.
 
 
-\subsection{Time-dependent data}
+\subsection{Characterizing time}
 
-Time-dependent data could be complex due to many factors, like the
-time formats (year/month/week/day/hour/minute/ second/...), data types(discrete
-or continuous, events or intervals, etc.), dependent variables, and
-so on. The custom time formats brings some further problems, for example,
-the number of weeks per year is not an integer, the number of days
-per month varies over the year, and the leap year recurs every four
-years. In some cases, the data can only be collected during the weekdays.
-Therefore, the time plot may not be accurate in an absolute time line,
-and the length of the periodicity could be hard to verify. Besides,
-the dependent variables could appear with different time formats,
-which makes the visualization more difficult but interesting.
+Time can be coded in many different ways: as a date/time format ("Wed Oct 15 09:51:53 2014"), as discrete or continuous values, sporadic events or intervals. Recoding a time variable into other units like week in the year or days in the month, although convenient for some tasks, brings imprecision, as does events like leap years, and seconds. There may not be a well-defined absolute time line, and periodicity can be hard to quantify. Variables measured over time may be measured on different scales, e.g. atmospheric particulate matter and mortality drawn from different sources to study the effect of pollution on human health. 
 
-The main division of the data types is that whether the time is discrete
-or continuous. For example, the time to record the salary of an employee
-is discrete, but the time for the temperature in a location is continuous.
-However, people can not measure a variable continuously over time,
-so the data collected is still discrete. To simplify the problem,
-we only consider the discrete case. Another further division of the
-discrete time series data is that whether a time datum is recorded
-as an event or an interval. For example, in a customer visiting problem,
-the time length that each customer stays (interval) is as important
-as the time that the customer enters (event). Again, to simplify,
-we only consider the event type. 
+%The custom time formats brings some further problems, for example, the number of weeks per year is not an integer, the number of days per month varies over the year, and the leap year recurs every four years. In some cases, the data can only be collected during the weekdays.  Therefore, the time plot may not be accurate in an absolute time line, and the length of the periodicity could be hard to verify. Besides, the dependent variables could appear with different time formats, which makes the visualization more difficult but interesting.
 
-Now we will have two situations: regular time spacing and irregular
-time spacing. Regular time spacing means that the measurement happens
-successively with a constant time space. Irregular time spacing could
-arise from the missing values of regular time spacing, or the varying
-time interval. Figure \ref{fig:Time-series-plots} shows the two situations.
+The most common description of time is as a continuous or discrete ordered numerical variable. All data is technically discrete, but if measurements are recorded often enough, and long enough they are effectively continuous. For example, currency exchange rates change on a microsecond basis, blood pressure measurements made with a wearable device records at every minute. For these examples time could essentially be considered continuous. However, it may be not helpful to evaluate trends on this microscale, and aggregating at an hourly, daily or monthly value may be sufficient. For simplicity, the methods developed in this paper assume the time variable is measured on a discrete scale.
+
+%The main division of the data types is that whether the time is discrete or continuous. For example, the time to record the salary of an employee is discrete, but the time for the temperature in a location is continuous. However, people can not measure a variable continuously over time, so the data collected is still discrete. To simplify the problem, we only consider the discrete case. Another further division of the discrete time series data is that whether a time datum is recorded as an event or an interval. For example, in a customer visiting problem, the time length that each customer stays  (interval) is as important as the time that the customer enters  (event). Again, to simplify, we only consider the event type. 
+
+On a discrete scale, it may be possible to have regular or irregular time spacing. Regular time spacing means that the measurement happens constant time intervals, e.g. average monthly temperature in climate records. Irregular time spacing typically arise from events like measurements take during visits to the doctor's office. Figure \ref{fig:Time-series-plots} illustrates data collected at regular, and irregular, intervals, respectively.
 
 \begin{center}
 \begin{figure}[h]
@@ -82,18 +63,14 @@ time interval. Figure \ref{fig:Time-series-plots} shows the two situations.
 \par\end{centering}
 
 \caption{\label{fig:Time-series-plots}Time series plots for regular time spacing
-(left) and irregular time spacing (right).}
+ (left) and irregular time spacing  (right).}
 \end{figure}
 
 \par\end{center}
 
-Visualizing the longitudinal data is another challenge to the time
-plots. It brings some issues, such as (1) intensive layout for a relatively
-large number%
-\footnote{20 can be considered as a large number for the graphical layout.%
-} of individuals, (2) a few overwhelming large representatives could
-make the other individuals invisible, (3) comparison between two or
-more individuals is difficult if they are not plotted closely.
+When many measurements are made more complications ensue. In climate records we may have temperature measurements taken at many different locations. In longitudinal data, we may have records for many patients. Making comparisons between many time series is a challenge. This work addresses this for a moderate number of series.
+
+%Visualizing the longitudinal data is another challenge to the time plots. It brings some issues, such as  (1) intensive layout for a relatively large number% \footnote{20 can be considered as a large number for the graphical layout.% } of individuals,  (2) a few overwhelming large representatives could make the other individuals invisible,  (3) comparison between two or more individuals is difficult if they are not plotted closely.
 
 
 \subsection{Time visualization}
@@ -145,12 +122,12 @@ to visualize the details of multiple time series precisely and effectively.
 However, the horizon graph became more popular after mirroring the
 lower part of the series and simplifying the color scheme. The horizon
 graphs were designed for visualizing the stock prices and economic/financial
-data, so the features fit the requirements very well: (1) The data
+data, so the features fit the requirements very well:  (1) The data
 have a baseline, which is usually the value at the starting time point.
 Then the baseline can be used to mirror the negative part to the positive,
 in order to save the graph space, where `negative/positive' means
-smaller/greater than the baseline. (2) The positive and negative performance
-should be distinguished, so the horizon graph provides two hues. (3)
+smaller/greater than the baseline.  (2) The positive and negative performance
+should be distinguished, so the horizon graph provides two hues.  (3)
 The number of the color bands should be small, usually three color
 bands for the positive values and three for the negative. Finding
 the band height is easy for the stock prices since they can use 10\%
@@ -162,7 +139,7 @@ or decrease for more than 30\%.
 \begin{itemize}
 \item Calendar heat maps. The idea of using two axes for the time is not
 new. \citet{keller1993visual} used days and hours on two axes. \citet{van1999cluster}
-proposed a colored calendar visualization (weeks and days on two axes).
+proposed a colored calendar visualization  (weeks and days on two axes).
 \texttt{\textbf{d3.js}} \citep{bostock2012data} applies the calendar
 heat maps and makes it interactive.
 \end{itemize}
@@ -207,7 +184,7 @@ From another angle, the interactions can be classified by complexity:
 \begin{itemize}
 \item Human command. This is a one-way, direct manipulation that the user
 asks the computer to execute immediately. For example, with a graphical
-user interface (GUI), we can change the graph parameters simply by
+user interface  (GUI), we can change the graph parameters simply by
 clicking a button. Another example is querying. \citet{theus2011interactive}
 gave a well description on how to query the information, where the
 ``command'' is pausing the mouse icon on an object. This type of
@@ -283,7 +260,7 @@ type. Table \ref{tab:Layers} lists the layers for a few graph types
 as an example.
 
 To visualize time-dependent data, we should consider three basic layers:
-point layer, line layer, and area layer (Figure \ref{fig:three-layers}).
+point layer, line layer, and area layer  (Figure \ref{fig:three-layers}).
 Three painting functions will call three types of data input for the
 three layers. The coordinates of the points are initially adopted
 from the data, then the interactions may change the locations of the
@@ -347,7 +324,7 @@ points, or, one edge, i.e.,
 Now the problem is, how to get the painting features for each edge
 and polygon? It is easy to answer the question when the features of
 points are identical. But when they are varied, we have to skip the
-features of $n$ points for $n$ lines by Equation (\ref{eq:points_edges}).
+features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}).
 Then how to choose the $n$ points? One possible but not perfect solution
 is the first or last point of a line, like shown in Figure \ref{fig:features}.
 A smoother method should be considered for the edges and polygons
@@ -380,7 +357,7 @@ For the time-dependent plots, \citet{wills2012visualizing} summarized
 the interactivity from two aspects: parameters and data. On one hand,
 the parameters are modified for the purpose of changing the element,
 aesthetic, coordinate, statistic, scale, facet, or transform, while
-the data remain the same. On the other hand, to brush, link, or drill-down(zoom-in),
+the data remain the same. On the other hand, to brush, link, or drill-down (zoom-in),
 the data are modified -- not necessarily the positional information,
 but also the augmented variables used in the display. However, some
 of the ideas for the parameters are conceptual and there is no software
@@ -409,7 +386,7 @@ the strength of the above software is to support the instantly data
 exploration conveniently, compared to other interactive tools like
 GUI. 
 
-Note that these interactions (brushing, selection, linking, zooming,
+Note that these interactions  (brushing, selection, linking, zooming,
 panning, querying, etc.) are universal for all graph types. Considering
 the unusual characteristics of the temporal and longitudinal data,
 some special interactions should be utilized to reveal the time-dependent
@@ -428,11 +405,11 @@ support the switch between the line and area layers, as the line and
 area plots have their own pluses and minuses. The line plots are concise
 when comparing the series in the same scales, in contrast the area
 plots make the space noisy with the overlapping area. As shown in
-Figure \ref{fig:switching-layers}(1), the area draws much attention
+Figure \ref{fig:switching-layers} (1), the area draws much attention
 but not necessary. In some other cases like the small multiples, the
 area plots are better because when the baselines are not of the same
 height, the area makes the understanding and comparison more accurate
-between values from different series. In Figure \ref{fig:switching-layers}(2),
+between values from different series. In Figure \ref{fig:switching-layers} (2),
 the line plot does not deliver the information as clearly as the area
 plot, on the overall high values of series B1 and low values of series
 A1.
@@ -441,10 +418,10 @@ A1.
 \begin{figure}[h]
 \begin{centering}
 \begin{tabular}{cc}
-\multicolumn{2}{c}{{\scriptsize{(1) Line plot is better than the area plot.}}}\tabularnewline
+\multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
  & \tabularnewline
-\multicolumn{2}{c}{{\scriptsize{(2) Area plot is better than the line plot.}}}\tabularnewline
+\multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
 \end{tabular}
 \par\end{centering}
@@ -457,7 +434,7 @@ second row for the easier comparison among values in different lines.}
 
 
 
-Switching between the layers does not change the data (just need to
+Switching between the layers does not change the data  (just need to
 add the baselines), but the following interactions will require for
 some data modification.
 
@@ -485,7 +462,7 @@ well.
 
 
 There are three possible conditions to facet on: variable, individual
-(for the longitudinal data), or period. Figure \ref{fig:faceting-var-ind}
+ (for the longitudinal data), or period. Figure \ref{fig:faceting-var-ind}
 gives an example for faceting on two variables and three individuals.
 Design of the faceting interaction should make the switching among
 five panels done on-the-fly. 
@@ -498,24 +475,24 @@ of the points, and then the baselines of the area layer.
 \begin{figure}[H]
 \begin{centering}
 \begin{tabular}{cc}
-\multicolumn{2}{c}{{\scriptsize{(a) not faceting}}}\tabularnewline
+\multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
 \multicolumn{2}{c}{\includegraphics[width=0.48\textwidth]{graph/pipeline-14-1}}\tabularnewline
 $\swarrow$ & $\searrow$\tabularnewline
-{\scriptsize{(b) faceting by variable}} & {\scriptsize{(c) faceting by individual}}\tabularnewline
+{\scriptsize{ (b) faceting by variable}} & {\scriptsize{ (c) faceting by individual}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-2} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-3}\tabularnewline
 $\downarrow$ & $\downarrow$\tabularnewline
-{\scriptsize{(d) by variable then individual}} & {\scriptsize{(e) by individual then variable}}\tabularnewline
+{\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
 \end{tabular}
 \par\end{centering}
 
 \caption{\label{fig:faceting-var-ind}Faceting on a longitudinal data set with
-two variables and three individuals. (a) is the original plot with
-six lines mixed. (b) splits the lines into two groups for two variables.
-(d) follows the faceting from (b) then separates the three lines in
-each group. (c) is another way of faceting where three individuals
-are separated. (e) disperses the variables for each individual in
-(c).}
+two variables and three individuals.  (a) is the original plot with
+six lines mixed.  (b) splits the lines into two groups for two variables.
+ (d) follows the faceting from  (b) then separates the three lines in
+each group.  (c) is another way of faceting where three individuals
+are separated.  (e) disperses the variables for each individual in
+ (c).}
 \end{figure}
 
 \par\end{center}
@@ -550,11 +527,11 @@ is used.}
 
 \caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
 that have 72-month surface temperatures on a 24$\times$24 spatial grid 
-\citep{murrell2010}. (Top left) The mixed individuals. (Top right) Faceting
+\citep{murrell2010}.  (Top left) The mixed individuals.  (Top right) Faceting
 by longitudinal grid. There is more variation from the west areas
-than the east. (Bottom left) Faceting by latitudinal grid.
+than the east.  (Bottom left) Faceting by latitudinal grid.
 The north part is bumpier than the middle and south part.
-(Bottom right) Faceting by longitude and latitude.}
+ (Bottom right) Faceting by longitude and latitude.}
 \end{figure}
 
 \par\end{center}
@@ -574,12 +551,12 @@ together and use the individual faceting method to separate the lines.
 But the answer is no. Two things are ignored in the idea. First, it
 assumes that the period exists as a variable in the data, like the
 year for monthly data. Second, it assumes that the time indexes for
-each period are already the same. For example, in Figure \ref{fig:faceting-period}(left),
+each period are already the same. For example, in Figure \ref{fig:faceting-period} (left),
 the time indexes for the original series are from 1-72. The indexes
 for the six periods are 1-12, 13-24, 25-36, 37-48, 49-60, 61-72, respectively.
 If we facet the period as faceting by individual, then the six lines
 are separated vertically and also horizontally, which is different
-from Figure \ref{fig:faceting-period}(right). A necessary step for
+from Figure \ref{fig:faceting-period} (right). A necessary step for
 faceting on period is to re-index the time points from the left panel
 to the right. So it can not be replaced by faceting on individual.
 
@@ -594,11 +571,11 @@ to the right. So it can not be replaced by faceting on individual.
 \par\end{centering}
 
 \caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
-a longitudinal data set (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
+a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
 Sex and height are used in the horizontal direction, age and weight
-are used in the vertical direction. (Top left) Original data without
-facetting. (Top right) Facetted by height and weight. (Bottom left)
-Facetted by sex and age. (Bottom right) Facetted by sex and height
+are used in the vertical direction.  (Top left) Original data without
+facetting.  (Top right) Facetted by height and weight.  (Bottom left)
+Facetted by sex and age.  (Bottom right) Facetted by sex and height
 horizontally, age and weight vertically.}
 \end{figure}
 
@@ -611,7 +588,7 @@ categorical variables, not only the individual IDs. Both horizontal
 and vertical directions will be needed to facet, and in each direction,
 more than one variable may be utilized to facet. For example, Figure
 \ref{fig:faceting-2ind} shows faceting on individual by two independent
-groups (longitude and latitude). Figure \ref{fig:faceting-4ind} shows
+groups  (longitude and latitude). Figure \ref{fig:faceting-4ind} shows
 faceting by four categorical variables, two in the horizontal direction
 and two in the vertical direction.
 
@@ -629,7 +606,7 @@ There are two reasons for slicing and wrapping. The first one is to
 compare the periods, or to find the period for the data that is potentially
 periodical. Also the periodic variation could be explored \citep{mcdonald1986periodic}.
 For this purpose we suggest to wrap the series horizontally. Figure
-\ref{fig:faceting-period}(left to center) gives an example of horizontal
+\ref{fig:faceting-period} (left to center) gives an example of horizontal
 wrapping with a known period. Figure \ref{fig:x-wrapping} shows an
 example of wrapping process with an unknown period.
 
@@ -665,9 +642,9 @@ parts for a better aspect ratio which will increase the effectiveness
 of data display \citep{cleveland1987graphical}, and then reveal more
 details. When the time series is long, to keep a proper aspect ratio
 is not always workable, due to the the limit of the screen width.
-Two possible solutions are (1) if the series is periodical, then wrap
+Two possible solutions are  (1) if the series is periodical, then wrap
 it horizontally by the period, as Figure \ref{fig:faceting-period}
-and \ref{fig:x-wrapping}. (2) Wrap the series vertically, especially
+and \ref{fig:x-wrapping}.  (2) Wrap the series vertically, especially
 when multiple series are faceted.
 
 
@@ -723,12 +700,12 @@ the peaks last shortly but are sharp and irregular, the valleys are
 smooth and regular.
 
 
-However, two issues raise up during the mirroring process: (1) how
+However, two issues raise up during the mirroring process:  (1) how
 to choose the horizontal divider -- midpoint of the range, mean of
 the series, or the initial value? For the financial related data,
 the starting value is preferred, like the price when entering the
 market. But for other types of time series, the choice would depend
-on the research interest. (2) when an edge crosses the divider, the
+on the research interest.  (2) when an edge crosses the divider, the
 intersection will be a new data point to the line and need to be recorded.
 The new data points could make problems, especially when other interactions
 are added on the mirrored graph, like wrapping or linking. Section
@@ -766,8 +743,8 @@ series.
 
 
 Figure \ref{fig:x-shifting} shows how shifting reveals the leading
-pattern. From the left panel we see variable B (blue lines) has all
-its pumps later than variable A (red lines), but we are not sure if
+pattern. From the left panel we see variable B  (blue lines) has all
+its pumps later than variable A  (red lines), but we are not sure if
 the lag is fixed or varied. So we can shift variable A to the right
 by four time points and get the right panel. The peaks and valleys
 match well for the two variables, which confirms the guess of leading
@@ -801,8 +778,8 @@ of interactions for the temporal and longitudinal data. Most of them
 are additive. That means interaction A can start at any status of
 interaction B. For example, in Figure \ref{fig:faceting-var-ind},
 if faceting on individual after faceting on variable, then the process
-is in panel $(a\rightarrow b\rightarrow d)$, if faceting on variable
-after individual, then it is $(a\rightarrow c\rightarrow e)$. In
+is in panel $ (a\rightarrow b\rightarrow d)$, if faceting on variable
+after individual, then it is $ (a\rightarrow c\rightarrow e)$. In
 Figure \ref{fig:faceting-period}, from the left to right, we experienced
 horizontally wrapping and faceting by period, similar as Figure \ref{fig:x-wrapping}.
 If wrapping vertically after mirroring, the result will be a horizon
@@ -843,8 +820,8 @@ and saved.}
 \subsubsection{Transfer speed}
 
 For the interactions that modify the data coordinates, there will
-be a starting position, several (or none) intermediate positions and
-a target position (Figure \ref{fig:smoothness}). The starting position
+be a starting position, several  (or none) intermediate positions and
+a target position  (Figure \ref{fig:smoothness}). The starting position
 is the point coordinates before the interaction. The target position
 is the coordinates that maximize the effect of the interaction. The
 target position could either be known or unknown by the user. When
@@ -935,9 +912,9 @@ could change the coordinates of the data.
 
 \subsection{Notations}
 
-For each interaction, let $\mathbf{in}{}_{ij}^{T}=\left(in_{ij1},\, in_{ij2},\cdots\right)$
-denote the user's input. Let $\mathbf{pa}{}_{i}^{T}=\left(pa_{i1},\, pa_{i2},\, pa_{i3},\cdots\right)$
-be the corresponding parameter vector and $\mathbf{mv}{}_{ij}=\left(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij}\right)$
+For each interaction, let $\mathbf{in}{}_{ij}^{T}=\left (in_{ij1},\, in_{ij2},\cdots\right)$
+denote the user's input. Let $\mathbf{pa}{}_{i}^{T}=\left (pa_{i1},\, pa_{i2},\, pa_{i3},\cdots\right)$
+be the corresponding parameter vector and $\mathbf{mv}{}_{ij}=\left (\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij}\right)$
 denote the movements in x- and y- directions, where $i\in\mathcal{I}$
 is an interaction type, $\mathcal{I}$ gives the temporal stream of
 interaction types, such as $\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},\textrm{zooming},\cdots\}$,
@@ -950,22 +927,22 @@ three times from the left panel, so for the center panel $j=3$. The
 right panel appears after hitting key U for at least 20 times from
 the left panel, so $j\geq20$. The number 20 is got by the initial
 setting of the parameter $pa_{i1}=0.05$, which means that every hit
-on key U will lift the $k$th standardized line by $(k-1)\times0.05$.
+on key U will lift the $k$th standardized line by $ (k-1)\times0.05$.
 Hence for $i=$ faceting and $j\in\mathcal{N}$,
 \begin{eqnarray*}
 \mathbf{mv}{}_{ij} & = & \begin{cases}
-\left(0,\;0.05\,(k-1)\, j\right) & 1\leq j<20,\\
-\left(0,\; k-1\right) & j\ge20.
+\left (0,\;0.05\, (k-1)\, j\right) & 1\leq j<20,\\
+\left (0,\; k-1\right) & j\ge20.
 \end{cases}
 \end{eqnarray*}
 We can also generalize the equation above by
 \begin{eqnarray*}
 \mathbf{mv}{}_{ij} & = & \begin{cases}
-\left(0,\; pa_{i1}\,(k-1)\, j\right) & 1\leq j<\frac{1}{pa_{i1}},\\
-\left(0,\; k-1\right) & j\ge\frac{1}{pa_{i1}},
+\left (0,\; pa_{i1}\, (k-1)\, j\right) & 1\leq j<\frac{1}{pa_{i1}},\\
+\left (0,\; k-1\right) & j\ge\frac{1}{pa_{i1}},
 \end{cases}
 \end{eqnarray*}
-where $pa_{i1}\in(0,1)$.
+where $pa_{i1}\in (0,1)$.
 \end{lyxlist}
 The example shows that $\mathbf{mv}{}_{ij}$ is a function of $\mathbf{pa}{}_{i}$,
 $j$, and $\mathbf{k}_{ij}$, where $\mathbf{k}_{ij}=k$ in this example
@@ -974,7 +951,7 @@ may have different line group indicators, for example, wrapping chops
 the series into a few lines, and the times of wrapping $j$ will determine
 the line groups. Then the new data coordinates are given by 
 \[
-\left(\mathbf{x},\mathbf{y}\right)_{s+interaction_{ij}}=\left(\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{mv}{}_{ij},
+\left (\mathbf{x},\mathbf{y}\right)_{s+interaction_{ij}}=\left (\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{mv}{}_{ij},
 \]
 where $s$ is the previous status before the interaction.
 
@@ -982,10 +959,10 @@ In some occasions $\mathbf{mv}{}_{ij}$ not only depends on $\mathbf{pa}{}_{i}$,
 $j$, and $\mathbf{k}_{ij}$, but also the user input $\mathbf{in}{}_{ij}$.
 Like shifting in Section \ref{sub:Special-interactions}, the user
 can drag the series horizontally to any position. Then the direction
-$(in_{ij1})$ and distance $(in_{ij2})$ dragged is the input from
+$ (in_{ij1})$ and distance $ (in_{ij2})$ dragged is the input from
 the user. Hence we have
 \[
-\mathbf{mv}{}_{ij}=f_{i}\left(\mathbf{pa}{}_{i},\:\mathbf{in}{}_{ij},\;\mathbf{k}_{ij},\; j\right).
+\mathbf{mv}{}_{ij}=f_{i}\left (\mathbf{pa}{}_{i},\:\mathbf{in}{}_{ij},\;\mathbf{k}_{ij},\; j\right).
 \]
 
 
@@ -1007,8 +984,8 @@ s_{t+1} & = & s_{t}+in_{i{\color{red}1}}.
  Note that every new status is only one interaction after the previous
 status. The coordinates are given by
 \begin{eqnarray*}
-\left(\mathbf{x},\mathbf{y}\right)_{s_{t+1}} & = & \left(\mathbf{x},\mathbf{y}\right)_{s_{t}}+\mathbf{mv}{}_{i1}\\
-\mathbf{mv}{}_{i1} & = & f_{i}\left(\mathbf{pa}{}_{i},\;\mathbf{in}{}_{i1},\;\mathbf{k}_{i1}\right)
+\left (\mathbf{x},\mathbf{y}\right)_{s_{t+1}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{t}}+\mathbf{mv}{}_{i1}\\
+\mathbf{mv}{}_{i1} & = & f_{i}\left (\mathbf{pa}{}_{i},\;\mathbf{in}{}_{i1},\;\mathbf{k}_{i1}\right)
 \end{eqnarray*}
 
 
@@ -1018,7 +995,7 @@ current position. The change only depends on the corresponding interaction
 parameters and the input. The current status is stored in the memory
 and ready to use for getting the next status. This method is an intuitive
 design and widely used in the interactive graphs with few special
-interaction types. For example, rotations by GGobi (\citealt{STLBC03})
+interaction types. For example, rotations by GGobi  (\citealt{STLBC03})
 could be either auto-oriented or user-oriented. Only the current position
 of the data is stored and the next movement can be got easily from
 the parameter setting and the user's input. The old positions are
@@ -1029,9 +1006,9 @@ The advantage of this procedure includes the straightforward design,
 and the convenience of moving to the previous or next status. However,
 when there are many special interactions that could transform the
 data, we need to record both the initial and current data positions
-of each interaction type in the stream $\mathcal{I}$ (recall Section
+of each interaction type in the stream $\mathcal{I}$  (recall Section
 \ref{sub:Additivity}). Then for an interaction stream $\mathcal{I}$
-of length $l$, at least $l+1$ phases $\left(\left(\mathbf{x},\mathbf{y}\right)_{s_{0}},\left(\mathbf{x},\mathbf{y}\right)_{s_{t_{1}}},\left(\mathbf{x},\mathbf{y}\right)_{s_{t_{2}}}\cdots,\left(\mathbf{x},\mathbf{y}\right)_{s_{t_{l}}}\right)$
+of length $l$, at least $l+1$ phases $\left (\left (\mathbf{x},\mathbf{y}\right)_{s_{0}},\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{1}}},\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{2}}}\cdots,\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{l}}}\right)$
 should be saved, where $t_{1},t_{2},\cdots,t_{l}$ are the time of
 the end of interaction types $1,2,\cdots,l$. When the data set is
 large, those copies will occupy too much memory. Also, the storage
@@ -1042,8 +1019,8 @@ is often in a mess. Hence we considered the second procedure as follows.
 copies of the data set, instead, the movement item is traceable. The
 coordinates of any status can be computed by 
 \begin{eqnarray*}
-\left(\mathbf{x},\mathbf{y}\right)_{s_{t}} & = & \left(\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}\mathbf{mv}{}_{ij}\\
- & = & \left(\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}f_{i}\left(\mathbf{pa}{}_{i},\;\mathbf{in}{}_{ij},\;\mathbf{k}_{ij},\; j\right).
+\left (\mathbf{x},\mathbf{y}\right)_{s_{t}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}\mathbf{mv}{}_{ij}\\
+ & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}f_{i}\left (\mathbf{pa}{}_{i},\;\mathbf{in}{}_{ij},\;\mathbf{k}_{ij},\; j\right).
 \end{eqnarray*}
 Note that when a new position is required, the calculation starts
 from the initial position instead of the previous status. The movements
@@ -1185,7 +1162,7 @@ shown in Table \ref{tab:wide-long-linking}.
 \begin{table}[h]
 \begin{centering}
 \begin{tabular}{c|cc|ccc}
-\multicolumn{1}{c}{} & \multicolumn{2}{c}{(a) Long data} & \multicolumn{3}{c}{}\tabularnewline
+\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (a) Long data} & \multicolumn{3}{c}{}\tabularnewline
 \hline 
 Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
 \hline 
@@ -1204,7 +1181,7 @@ $\Downarrow$
 
 \begin{centering}
 \begin{tabular}{c|ccc|ccc}
-\multicolumn{4}{c}{(b) Wide data} & \multicolumn{3}{c}{}\tabularnewline
+\multicolumn{4}{c}{ (b) Wide data} & \multicolumn{3}{c}{}\tabularnewline
 \hline 
 Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
 \hline 
@@ -1221,7 +1198,7 @@ $\Downarrow$
 
 \begin{centering}
 \begin{tabular}{c|cc|ccc}
-\multicolumn{1}{c}{} & \multicolumn{2}{c}{(c) Long data} & \multicolumn{3}{c}{}\tabularnewline
+\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (c) Long data} & \multicolumn{3}{c}{}\tabularnewline
 \hline 
 Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
 \hline 
@@ -1235,12 +1212,12 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
 \par\end{centering}
 
 \caption{\label{tab:wide-long-linking}Linking between the long and wide data
-may produce a problem. Suppose we start from brushing a point (V1
-at time 2) in the long data (a). Then the listener of the long data
+may produce a problem. Suppose we start from brushing a point  (V1
+at time 2) in the long data  (a). Then the listener of the long data
 is triggered and changes the .brushed parameter for time 2 in the
-wide data (b). Then the listener of the wide data is triggered and
+wide data  (b). Then the listener of the wide data is triggered and
 switches the .brushed parameter for all the observations at time 2
-in the long data (c), which conflicts with (a).}
+in the long data  (c), which conflicts with  (a).}
 \end{table}
 
 \par\end{center}
@@ -1250,7 +1227,7 @@ To facilitate the cutoff, we can make a trick when adding the listeners
 to the datasets. We put two signals in the two listeners. When one
 listener is triggered, the signal will be turned on until the listener
 finishes its work. During this period, the other listener cannot work.
-As in Table \ref{tab:wide-long-linking}, the arrow from (b) to (c)
+As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
 will be cut off.
 
 
@@ -1316,7 +1293,7 @@ dots are created during the slicing.}
 In this paper we reviewed the static and interactive graphics for
 the time series and longitudinal data and refined the types of interactions.
 For the time dependent data, several issues for the interactive design
-(three layers, four interactions, two pipeline procedures, and linking)
+ (three layers, four interactions, two pipeline procedures, and linking)
 are elaborated. However, some issues are still open to further discussion,
 like the additivity, transfer speed, and the interaction direction.
 Also, more special interactions would be needed for the time dependent
