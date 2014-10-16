@@ -1,14 +1,13 @@
 ########## Figure 1,2 ##########################################################
 devtools::load_all('~/Software/cranvas')
-library(cranvas)
 library(nlme)
-qRem <- qdata(Remifentanil[complete.cases(Remifentanil) & Remifentanil$ID==1,])
+qRem <- qdata(Remifentanil[complete.cases(Remifentanil) & Remifentanil$ID==1 & Remifentanil$Time<=41,])
 qtime(Time, conc, qRem, series.stats=FALSE, ylab='Value')
 
-Remi <- Remifentanil[complete.cases(Remifentanil),]
+Remi <- Remifentanil[complete.cases(Remifentanil) & Remifentanil$Time<=41,]
 Remi$ID <- factor(Remi$ID)
 qRemi <- qdata(Remi)
-qtime(Time, conc, qRemi, group=ID, ylab='Value')
+qtime(Time, conc, qRemi, vdiv=ID, ylab='Value')
 
 ########## Figure 6,7,12 #######################################################
 nasa21 = subset(nasa, Gridx %in% 19:21 & Gridy == 21)
@@ -16,7 +15,7 @@ nasa21$Year = factor(nasa21$Year)
 nasa21$Gridx = factor(as.integer(factor(nasa21$Gridx)))
 colnames(nasa21)[c(1,6,9,14)]=c('Individual','Time','A','B')
 qnasa = qdata(nasa21)
-qtime(Time,c(A,B),qnasa,Individual,shift=c(1,12))
+qtime(Time,c(A,B),qnasa,vdiv=Individual,shift=c(1,12))
 
 
 ########## Figure 1,8 ##########################################################
@@ -26,7 +25,7 @@ colnames(nasa2221)[c(6,7,9)]=c('Time','Period','Value')
 nasa2221$Value = (nasa2221$Value - min(nasa2221$Value))/(diff(range(nasa2221$Value)))
 qnasa2221 = qdata(nasa2221)
 qtime(Time,Value,qnasa2221,shift=c(1,12),series.stats=FALSE)
-qtime(Time,Value,qnasa2221,shift=c(1,12),group=Period)
+qtime(Time,Value,qnasa2221,shift=c(1,12),vdiv=Period)
 
 
 ########## Figure 9 ############################################################
@@ -47,7 +46,7 @@ flu2014 <- subset(flu.melt, days>3980 & days<4100)
 ord <- names(sort(tapply(flu2014$FluSearches,flu2014$State,function(x)which(x>(max(x)/5*3))[1])))
 flu2014$State <- factor(flu2014$State,levels=ord)
 qflu <- qdata(flu2014)
-qtime(days, FluSearches, data=qflu, group="State",shift=c(1,7,28,35,91))
+qtime(days, FluSearches, data=qflu, vdiv="State",shift=c(1,7,28,35,91))
 
 ########## Figure 15 ###########################################################
 
