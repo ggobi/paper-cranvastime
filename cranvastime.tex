@@ -57,7 +57,7 @@ The most common description of time is as a continuous or discrete ordered numer
 
 %The main division of the data types is that whether the time is discrete or continuous. For example, the time to record the salary of an employee is discrete, but the time for the temperature in a location is continuous. However, people can not measure a variable continuously over time, so the data collected is still discrete. To simplify the problem, we only consider the discrete case. Another further division of the discrete time series data is that whether a time datum is recorded as an event or an interval. For example, in a customer visiting problem, the time length that each customer stays  (interval) is as important as the time that the customer enters  (event). Again, to simplify, we only consider the event type. 
 
-On a discrete scale, it may be possible to have regular or irregular time spacing. Regular time spacing means that the measurement happens constant time intervals, e.g. average monthly temperature in climate records. Irregular time spacing typically arise from events like measurements take during visits to the doctor's office. Figure \ref{fig:Time-series-plots} illustrates data collected at regular, and irregular, intervals, respectively.
+On a discrete scale, it may be possible to have regular or irregular time spacing. Regular time spacing means that the measurement is collected on constant time intervals, e.g. average monthly temperature in climate records. Irregular time spacing typically arise from events like measurements taken during visits to the doctor's office. Figure \ref{fig:Time-series-plots} illustrates data collected at regular, and irregular, intervals, respectively.
 
 \begin{figure}[h]
 \begin{centering}
@@ -65,7 +65,7 @@ On a discrete scale, it may be possible to have regular or irregular time spacin
 \par\end{centering}
 
 \caption{\label{fig:Time-series-plots}Time series plots for regular time spacing
- (left) and irregular time spacing  (right).}
+ (left) and irregular time spacing  (right). \red{Can you add tick mark lines on the horizontal axis that show the times of measurements? That will make the regular and irregular collection clearer.} }
 \end{figure}
 
 When many measurements are made more complications ensue. In climate records we may have temperature measurements taken at many different locations. In longitudinal data, we may have records for many patients. Making comparisons between many time series is a challenge. This work addresses this for a moderate number of series.
@@ -75,16 +75,13 @@ When many measurements are made more complications ensue. In climate records we 
 
 \subsection{Visualizing time}
 
-Longitudinal data and time series data, although analyzed very differently, have in common a context of time.  There are several different ways that time is commonly displayed in plots.
+Longitudinal data and time series data, although analyzed very differently, have in common the context of time.  There are common ways to display  in plots.
 
 \begin{enumerate}
-\item Time on the horizontal axis
+\item Time is most commonly displayed on a horizontal axis of a plot. There are many different variations. 
 
 \begin{itemize}
-\item Line graphs. Figure \ref{fig:Time-series-plots} gives two examples
-for the univariate time series. For the longitudinal data, the
-line graph is commonly used, like Figure \ref{fig:Line-graph}, but called a profile plot.
-
+\item A line graph, the basic building block for temporal data, displays the measured variable on the vertical axis, time horizontally, and consecutive time points are connected with line segments. Figure \ref{fig:Time-series-plots} gives two examples of line graphs, for a single measured variable: (left) a classical time series plot, (right) a profile plot of longitudinal data. When there are many series, for example time series of different stocks or different geographic locations, or many patients, the series may be overlaid on the same plot (Figure \ref{fig:Line-graph}). 
 
 \begin{center}
 \begin{figure}[h]
@@ -92,16 +89,13 @@ line graph is commonly used, like Figure \ref{fig:Line-graph}, but called a prof
 \includegraphics[width=0.6\textwidth]{graph/pipeline-03-2}
 \par\end{centering}
 
-\caption{\label{fig:Line-graph}Profile plot for the longitudinal data.}
+\caption{\label{fig:Line-graph}Profile plots of longitudinal data for multiple patients. \red{recommend adding examples of small multiples, and other types mentioned here.}}
 \end{figure}
 
 \par\end{center}
 
-\item Small multiples. Widely used for ages but summarized and introduced
-by \citet{tufte1983visual,tufte1991envisioning}, the small multiples
-display the data in multiple images. For multiple time series, including
-the multivariate and longitudinal data, the graphical space is split
-by the series.
+\item Small multiples are used to display multiple series in separate plots. The terminology small multiples was introduced by \citet{tufte1983visual}. A special modification was developed for multiple times series, called sparklines \citet{tufte2006evidence}. Small multiples can also be generated by subsetting based on categorical covariates (e.g. \citet{Cleveland1993}). 
+
 \item Stacked graphs. Originated by \citeauthor{playfair2005playfair} in
 1700's and recently discussed by \citet{byron2008stacked,javed2010graphical,heer2010tour},
 a stacked graph draws the time series sequentially, and uses the previous
