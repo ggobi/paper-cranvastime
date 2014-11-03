@@ -1,13 +1,124 @@
-########## Figure 1,2 ##########################################################
+########## Figure 1 ############################################################
 devtools::load_all('~/Software/cranvas')
-library(nlme)
-qRem <- qdata(Remifentanil[complete.cases(Remifentanil) & Remifentanil$ID==1 & Remifentanil$Time<=41,])
-qtime(Time, conc, qRem, series.stats=FALSE, ylab='Value')
+library(ggplot2)
+nasa2221 = subset(nasa, Gridx == 22 & Gridy == 21)
+nasa2221$ts = (nasa2221$ts-min(nasa2221$ts))/(diff(range(nasa2221$ts)))
+pdf("pipeline-01-regular.pdf",width=5,height=3)
+qplot(TimeIndx, ts, data=nasa2221, geom='line', xlab='Time', ylab='Value') +
+  geom_point(size=I(2)) +
+  geom_rug(sides="b",size=I(0.2)) #+
+  #theme(axis.title = element_text(size = rel(1.5)),
+  #      axis.text = element_text(size = rel(1.2)))
+dev.off()
 
+library(nlme)
+Rem = Remifentanil[complete.cases(Remifentanil) & Remifentanil$ID==1 & Remifentanil$Time<=41,]
+# qRem <- qdata(Rem)
+# qtime(Time, conc, qRem, series.stats=FALSE, ylab='Value')
+pdf("pipeline-01-irregular.pdf",width=5,height=3)
+qplot(Time, conc, data=Rem, geom='line',ylab='Value') +
+  geom_point(size=I(2)) +
+  geom_rug(sides="b",size=I(0.2)) #+
+  #theme(axis.title = element_text(size = rel(1.5)),
+  #      axis.text = element_text(size = rel(1.2)))
+dev.off()
+
+########## Figure 2 ############################################################
 Remi <- Remifentanil[complete.cases(Remifentanil) & Remifentanil$Time<=41,]
 Remi$ID <- factor(Remi$ID)
 qRemi <- qdata(Remi)
 qtime(Time, conc, qRemi, vdiv=ID, ylab='Value')
+
+pig = pigs[,c(1:3,7:8,10:11)]
+for (i in 4:7) pig[,i] = (pig[,i]-min(pig[,i]))/diff(range(pig[,i]))
+names(pig)[4:7]=paste0("V",1:4)
+pig = reshape2::melt(pig,1:3)
+
+pdf("pipeline-02-linegraph.pdf",width=5,height=3)
+qplot(TIME, value, data=pig, geom='line', group=variable, color=variable, size=I(1), xlab='Time', ylab='Value') + theme(legend.position='none')
+dev.off()
+
+pdf("pipeline-02-smallmultiples.pdf",width=5,height=3)
+qplot(TIME, value, data=pig, geom='line', group=variable, color=variable, xlab='Time', ylab='Value',facets=variable~.) + geom_area(aes(fill=variable)) + theme(legend.position='none') + scale_y_continuous(breaks = c(0,0.5,1))
+dev.off()
+
+pdf("pipeline-02-stacked.pdf",width=5,height=3)
+pig$variable = factor(as.character(pig$variable),levels=paste0('V',4:1))
+qplot(TIME, value, data=pig, geom=c('area'), group=variable, color=variable, fill=variable, xlab='Time', ylab='Value') + theme(legend.position='none')
+dev.off()
+
+pig = pig[,-(2:3)]
+pig$sign = sign(pig$value-0.5)
+pig$mirrorUP = pmax(pig$value-0.5,0)
+pig$mirrorDOWN = pmax(0.5-pig$value,0)
+idx0=setdiff(which(diff(pig$sign)!=0),1:4*48)
+for (i in 1:length(idx0)){
+  wt = (0.5-pig$value[idx0[i]])/diff(pig$value[0:1+idx0[i]])
+  pig=rbind(pig,data.frame(TIME=pig$TIME[idx0[i]]+wt,variable=pig$variable[idx0[i]],value=0.5,sign=0,mirrorUP=0,mirrorDOWN=0))
+}
+pig=pig[order(pig$variable,pig$TIME),]
+pig$levelUP = pig$mirrorUP %/% 0.2
+pig$valueUP0 = pmin(pig$mirrorUP,0.2)
+pig$valueUP1 = pmin(pmax(pig$mirrorUP,0.2),0.4)-0.2
+pig$valueUP2 = pmax(pig$mirrorUP,0.4)-0.4
+pig$levelDOWN = pig$mirrorDOWN %/% 0.2
+pig$valueDOWN0 = pmin(pig$mirrorDOWN,0.2)
+pig$valueDOWN1 = pmin(pmax(pig$mirrorDOWN,0.2),0.4)-0.2
+pig$valueDOWN2 = pmax(pig$mirrorDOWN,0.4)-0.4
+idx2 = setdiff(which(abs(diff(pig$levelUP))==1),which(pig$TIME %in% (1:4*48.00)))
+for (i in 1:length(idx2)){
+  if (any(pig$levelUP[c(idx2[i],idx2[i]+1)]==2)){
+    wt = (0.4-pig$mirrorUP[idx2[i]])/diff(pig$mirrorUP[0:1+idx2[i]])
+    pig=rbind(pig,data.frame(TIME=pig$TIME[idx2[i]]*(1-wt)+pig$TIME[idx2[i]+1]*wt,variable=pig$variable[idx2[i]],value=0.9,sign=pig$sign[idx2[i]],mirrorUP=0.4,mirrorDOWN=0,levelUP=2,valueUP0=0.2,valueUP1=0.2,valueUP2=0,levelDOWN=0,valueDOWN0=0,valueDOWN1=0,valueDOWN2=0))
+  } else {
+    wt = (0.2-pig$mirrorUP[idx2[i]])/diff(pig$mirrorUP[0:1+idx2[i]])
+    pig=rbind(pig,data.frame(TIME=pig$TIME[idx2[i]]*(1-wt)+pig$TIME[idx2[i]+1]*wt,variable=pig$variable[idx2[i]],value=0.7,sign=pig$sign[idx2[i]],mirrorUP=0.2,mirrorDOWN=0,levelUP=1,valueUP0=0.2,valueUP1=0,valueUP2=0,levelDOWN=0,valueDOWN0=0,valueDOWN1=0,valueDOWN2=0))
+  }
+}
+idx3 = setdiff(which(abs(diff(pig$levelDOWN))==1),which(pig$TIME %in% (1:4*48.00)))
+for (i in 1:length(idx3)){
+  if (any(pig$levelDOWN[c(idx3[i],idx3[i]+1)]==2)){
+    wt = (0.4-pig$mirrorDOWN[idx3[i]])/diff(pig$mirrorDOWN[0:1+idx3[i]])
+    pig=rbind(pig,data.frame(TIME=pig$TIME[idx3[i]]*(1-wt)+pig$TIME[idx3[i]+1]*wt,variable=pig$variable[idx3[i]],value=0.1,sign=pig$sign[idx3[i]],mirrorUP=0,mirrorDOWN=0.4,levelUP=0,valueUP0=0,valueUP1=0,valueUP2=0,levelDOWN=2,valueDOWN0=0.2,valueDOWN1=0.2,valueDOWN2=0))
+  } else {
+    wt = (0.2-pig$mirrorDOWN[idx3[i]])/diff(pig$mirrorDOWN[0:1+idx3[i]])
+    pig=rbind(pig,data.frame(TIME=pig$TIME[idx3[i]]*(1-wt)+pig$TIME[idx3[i]+1]*wt,variable=pig$variable[idx3[i]],value=0.3,sign=pig$sign[idx3[i]],mirrorUP=0,mirrorDOWN=0.2,levelUP=0,valueUP0=0,valueUP1=0,valueUP2=0,levelDOWN=1,valueDOWN0=0.2,valueDOWN1=0,valueDOWN2=0))
+  }
+}
+idx1 = setdiff(which(abs(diff(pig$levelUP))==2),which(pig$TIME %in% (1:4*48.00)))
+idx1 = idx1[1:2]
+for (i in 1:length(idx1)){
+  wt1 = (0.2-pig$mirrorUP[idx1[i]])/diff(pig$mirrorUP[0:1+idx1[i]])
+  wt2 = (0.4-pig$mirrorUP[idx1[i]])/diff(pig$mirrorUP[0:1+idx1[i]])
+  wt = c(wt1,wt2)
+  pig=rbind(pig,data.frame(TIME=pig$TIME[idx1[i]]+wt,variable=pig$variable[idx1[i]],value=c(0.7,0.9),sign=pig$sign[idx1[i]],mirrorUP=c(0.2,0.4),mirrorDOWN=0,levelUP=c(1,2),valueUP0=0.2,valueUP1=c(0,0.2),valueUP2=0,levelDOWN=0,valueDOWN0=0,valueDOWN1=0,valueDOWN2=0))
+}
+pig=pig[order(pig$variable,pig$TIME),]
+pig2=reshape2::melt(pig[,-c(3:7,11)],1:2)
+names(pig2)[2:3] = c('V','level')
+pig2$line = paste(pig2$V,pig2$level,sep=":")
+pig2$V = factor(as.character(pig2$V),levels=paste0('V',4:1))
+pdf("pipeline-02-horizon.pdf",width=5,height=3)
+qplot(TIME, value, data=pig2, geom='area', fill=level, group=level, facets=V~.,position='identity',alpha=I(0.3)) + scale_y_continuous(breaks = c(0,0.1,0.2)) + scale_fill_manual(values = c("red","red", "red","blue","blue","blue")) + theme(legend.position='none')
+dev.off()
+
+pig = pigs[,c(1:3,7:8,10:11,7:8,10:11)]
+names(pig)[8:11]=paste0("V",1:4)
+for (i in 4:7) pig[,i] = (pig[,i]-min(pig[,i]))/diff(range(pig[,i]))
+for (i in 4:7) pig[,i+4] = rowSums(pig[,4:i,drop=FALSE])
+pig$V0 = 0
+pig2=data.frame(t(apply(pig[,8:12],1,function(x){x-mean(range(x))})))
+pig2$Time = pig$TIME
+pig2 = pig2[,c(6,5,1:4)]
+pig = reshape2::melt(pig2,1)
+pig$variable = factor(as.character(pig$variable),levels=paste0('V',4:0))
+pig$value2 = pig$value[c(49:nrow(pig),1:48)]
+pig$variable2 = pig$variable[c(49:nrow(pig),1:48)]
+pig = pig[1:(nrow(pig)-48),]
+pig$variable = pig$variable2
+pdf("pipeline-02-themeriver.pdf",width=5,height=3)
+ggplot(pig, aes(x=Time,group=variable,fill=variable))+geom_ribbon(aes(ymin=value, ymax=value2))+theme(legend.position='none')+ylab("Value")
+dev.off()
 
 ########## Figure 6,7,12 #######################################################
 nasa21 = subset(nasa, Gridx %in% 19:21 & Gridy == 21)
