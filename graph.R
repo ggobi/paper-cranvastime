@@ -126,14 +126,14 @@ dev.off()
 
 ########## Figure 3 ############################################################
 pdf("pipeline-03-polarline.pdf",width=5,height=5)
-qplot(TimeIndx, ts, data=nasa2221, geom=c('line','point'), xlab='',ylab='') + coord_polar() +
+qplot(TimeIndx, ts, data=nasa2221, geom=c('line','point'), ylim=c(-0.1,1), xlab='',ylab='') +
+  coord_polar() +
   theme(axis.text=element_blank(), axis.ticks=element_blank(),
         panel.grid.major.x = element_blank(),panel.grid.minor = element_blank())
 dev.off()
 
 pdf("pipeline-03-polarperiod.pdf",width=5,height=5)
-qplot(Month, ts, data=nasa2221, geom=c('line','point'), group=Year, xlab='',ylab='') +
-  coord_polar() + 
+qplot(Month, ts, data=nasa2221, geom=c('line','point'),group=Year,ylim=c(-0.1,1), xlab='',ylab='') + coord_polar() + 
   theme(axis.text=element_blank(), axis.ticks=element_blank(),
         panel.grid.major.x = element_blank(),panel.grid.minor = element_blank())
 dev.off()
