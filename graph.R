@@ -24,18 +24,23 @@ qplot(Time, conc, data=Rem, geom='line',ylab='Value') +
 dev.off()
 
 ########## Figure 2 ############################################################
-Remi <- Remifentanil[complete.cases(Remifentanil) & Remifentanil$Time<=41,]
-Remi$ID <- factor(Remi$ID)
-qRemi <- qdata(Remi)
-qtime(Time, conc, qRemi, vdiv=ID, ylab='Value')
+#Remi <- Remifentanil[complete.cases(Remifentanil) & Remifentanil$Time<=41,]
+#Remi$ID <- factor(Remi$ID)
+#qRemi <- qdata(Remi)
+#qtime(Time, conc, qRemi, vdiv=ID, ylab='Value')
 
 pig = pigs[,c(1:3,7:8,10:11)]
 for (i in 4:7) pig[,i] = (pig[,i]-min(pig[,i]))/diff(range(pig[,i]))
 names(pig)[4:7]=paste0("V",1:4)
 pig = reshape2::melt(pig,1:3)
+pig$variable = factor(as.character(pig$variable),levels=paste0('V',4:1))
 
 pdf("pipeline-02-linegraph.pdf",width=5,height=3)
 qplot(TIME, value, data=pig, geom='line', group=variable, color=variable, size=I(1), xlab='Time', ylab='Value') + theme(legend.position='none')
+dev.off()
+
+pdf("pipeline-02-multilines.pdf",width=5,height=3)
+qplot(TIME, value, data=pig, geom='line', group=variable, color=variable, size=I(1), xlab='Time', ylab='Value',facets=variable~.) + theme(legend.position='none') + scale_y_continuous(breaks = c(0,0.5,1))
 dev.off()
 
 pdf("pipeline-02-smallmultiples.pdf",width=5,height=3)
@@ -43,7 +48,6 @@ qplot(TIME, value, data=pig, geom='line', group=variable, color=variable, xlab='
 dev.off()
 
 pdf("pipeline-02-stacked.pdf",width=5,height=3)
-pig$variable = factor(as.character(pig$variable),levels=paste0('V',4:1))
 qplot(TIME, value, data=pig, geom=c('area'), group=variable, color=variable, fill=variable, xlab='Time', ylab='Value') + theme(legend.position='none')
 dev.off()
 
@@ -118,6 +122,30 @@ pig = pig[1:(nrow(pig)-48),]
 pig$variable = pig$variable2
 pdf("pipeline-02-themeriver.pdf",width=5,height=3)
 ggplot(pig, aes(x=Time,group=variable,fill=variable))+geom_ribbon(aes(ymin=value, ymax=value2))+theme(legend.position='none')+ylab("Value")
+dev.off()
+
+########## Figure 3 ############################################################
+pdf("pipeline-03-polarline.pdf",width=5,height=5)
+qplot(TimeIndx, ts, data=nasa2221, geom=c('line','point'), xlab='',ylab='') + coord_polar() +
+  theme(axis.text=element_blank(), axis.ticks=element_blank(),
+        panel.grid.major.x = element_blank(),panel.grid.minor = element_blank())
+dev.off()
+
+pdf("pipeline-03-polarperiod.pdf",width=5,height=5)
+qplot(Month, ts, data=nasa2221, geom=c('line','point'), group=Year, xlab='',ylab='') +
+  coord_polar() + 
+  theme(axis.text=element_blank(), axis.ticks=element_blank(),
+        panel.grid.major.x = element_blank(),panel.grid.minor = element_blank())
+dev.off()
+
+pdf("pipeline-03-spiral.pdf",width=5,height=5)
+qplot(Month, TimeIndx, data=nasa2221, geom='rect', fill=ts, group=Year,
+      xmin=Month-0.5, xmax=Month+0.5, ymin=TimeIndx-5, ymax=TimeIndx+5,
+      xlab='',ylab='',ylim=c(-96,80)) +
+  coord_polar() + scale_fill_gradient(low='black',high='yellow') +
+  theme(axis.text=element_blank(), axis.ticks=element_blank(),
+        panel.grid.major.x = element_blank(),panel.grid.minor = element_blank(),
+        legend.position='none')
 dev.off()
 
 ########## Figure 6,7,12 #######################################################
