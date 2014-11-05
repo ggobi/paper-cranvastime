@@ -154,14 +154,28 @@ time series. (Row 1 left) profile plots. (Row 1 right) facetted profile plots.
 
 \item Time on both horizontal and vertical axes
 
+A high frequency time series often has hierarchic or nested
+period levels, like year, day, minute, etc. Those levels can
+be placed on horizontal and vertical axes to reveal the periodic
+dependency. For example, \citet{keller1993visual} used days
+and hours on two axes. In these graphs, the measurements of
+the time series are drawn in the grids via aesthetic settings
+like color or size.
+
 \begin{itemize}
-\item Calendar heat maps. The idea of using two axes for the time is not
-new. \citet{keller1993visual} used days and hours on two axes. \citet{van1999cluster}
-proposed a colored calendar visualization  (weeks and days on two axes).
+\item Calendar heat maps. \citet{van1999cluster} proposed a
+colored calendar visualization  (weeks and days on two axes).
 \texttt{\textbf{d3.js}} \citep{bostock2012data} applies the calendar
 heat maps and makes it interactive.
 \end{itemize}
+
 \item Time in the polar coordinates
+
+As an alternative to the Euclidean coordinates, polar coordinates
+provide a compact way to visualize the series by rolling the line
+clockwise or counterclockwise. Any line graphs in Euclidean
+coordinates can be converted to polar coordinates. Two named
+graphs to visualize time in polar coordinates are given as follows.
 
 \begin{itemize}
 \item Nightingale's coxcomb. Florence Nightingale might be the earliest
@@ -186,11 +200,11 @@ the short period problems and multiple time series.
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-polarperiod}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-spiral}
 \par\end{centering}
-\caption{\label{fig:polar-axis}Three types of time series plots for 
-a univariate series in polar coordinates. (Left) the same time series
-as Figure \ref{fig:Time-series-plots} (left).
-(Center) the series wrapped by its period.
-(Right) spiral graph with the color representing the value.}
+\caption{\label{fig:polar-axis}Three types of time series plots
+in polar coordinates for the same data in Figure
+\ref{fig:Time-series-plots} (left).
+(Left) direct conversion. (Center) wrapped by the period.
+(Right) spiral graph with the color representing the values.}
 \end{figure}
 \par\end{center}
 
