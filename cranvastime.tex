@@ -65,7 +65,7 @@ On a discrete scale, it may be possible to have regular or irregular time spacin
 \par\end{centering}
 
 \caption{\label{fig:Time-series-plots}Time series plots for regular time spacing
- (left) and irregular time spacing  (right).}
+ (left) and irregular time spacing  (right). Tick marks at bottom indicate the time sampling.}
 \end{figure}
 
 When many measurements are made more complications ensue. In climate records we may have temperature measurements taken at many different locations. In longitudinal data, we may have records for many patients. Making comparisons between many time series is a challenge. This work addresses this for a moderate number of series.
@@ -131,24 +131,20 @@ or decrease for more than 30\%.
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-linegraph}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-multilines}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-stacked}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-smallmultiples}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-themeriver}
+\begin{tabular}{cc}
+(a) & (b) \\
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-linegraph} &
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-multilines}\\
+(c) & (d) \\
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-stacked} &
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-smallmultiples}\\
+(e) & (f) \\
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-themeriver} &
 \includegraphics[width=0.48\textwidth]{graph/pipeline-02-horizon}
-\par\end{centering}
-
-\caption{\label{fig:horizontal-axis}Six variations of time plots for multivariate
-time series. (Row 1 left) profile plots. (Row 1 right) facetted profile plots.
-(Row 2 left) stacked graph. (Row 2 right) small multiples.
-(Row 3 left) themeriver. (Row 3 right) horzion graph.}
+\end{tabular}
+\end{centering}
+\caption{\label{fig:horizontal-axis} Six variations of horizontal axis time plots for multivariate
+time series: (From top left to bottom right) overlaid line plots, facetted line plots,  stacked graph, faceted area chart, themeriver, horizon graph. Plots in the right column are examples of small multiples. }
 \end{figure}
 \par\end{center}
 
