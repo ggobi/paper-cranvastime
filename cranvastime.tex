@@ -210,36 +210,66 @@ in polar coordinates for the same data in Figure
 
 \end{enumerate}
 
-\subsection{Types of interactions\label{sec:Types-of-interactions}}
+\subsection{Interactive graphics\label{sec:interactive-graphics}}
 
 Different from the dynamic graphics, which arranges the visible graphics
 change prior to the plotting step, and not allows the user to play
 with any further interaction, interactive graphics emphasize the user
 manipulation via the input device like the keyboard and mouse \citep{symanzik2012interactive}.
-\citet{swayne1999} also explained the idea of interactive graphics:
+\citet{swayne1999} explained the idea of interactive graphics:
 it may imply the direct manipulation of the graph itself, manipulation
 of the graph controls, or even the command-line interaction with graphs.
+
+There are a number of standalone software for interactive graphics, such as
+\texttt{\textbf{PRIM-9}}\citep{fisherkeller1988prim},
+\texttt{\textbf{Data Desk}}\citep{velleman1988datadesk},
+\texttt{\textbf{LISP-STAT}}\citep{tierney1990lisp},
+\texttt{\textbf{XGobi}}\citep{swayne1998xgobi} and
+\texttt{\textbf{GGobi}}\citep{cook2007ggobi},
+\texttt{\textbf{MANET}}\citep{unwin1996manet},
+\texttt{\textbf{Mondrian}}\citep{theus2002mondrian}.
+Later with the popularity of R language, the interactive graphics could
+cohere seamlessly and flexibly with more statistical analysis.
+Packages including \texttt{\textbf{rggobi}}\citep{rggobi},
+\texttt{\textbf{iplots}}\citep{iplots},
+\texttt{\textbf{rgl}}\citep{adler2003rgl},
+\texttt{\textbf{cranvas}}\citep{cranvas},
+\texttt{\textbf{ggvis}}\citep{ggvis},
+and \texttt{\textbf{animint}}\citep{animint},
+implement interactive graphics in R. In terms of
+time series and longitudinal data, the software like
+\texttt{\textbf{PRIM-9}},
+\texttt{\textbf{Diamond Fast}} \citep{unwin1988eyeballing},
+\texttt{\textbf{XQz}}\citep{McDougall1994},
+\texttt{\textbf{XGobi}}, \texttt{\textbf{GGobi}},
+\texttt{\textbf{Fortune}}\citep{kotterfortune},
+\texttt{\textbf{TraXplorer}}\citep{Javed2010},
+\texttt{\textbf{d3.js}}\citep{bostock2012data},
+\texttt{\textbf{cranvas}}, and \texttt{\textbf{ggvis}}
+provide interactive line graphs and profile plots.
+
 \citet{xie2014reactive} provided a classification to the interactions,
 which depends on where the interaction happens. Two types are mentioned
 in the article: single display interactions and the linking between
 different displays. Single display interactions include many different
 interactions, such as brushing, zooming, panning, querying, etc. Linking
 between different displays connects multiple graphic windows via brushing.
-The graphs could be either the same type, or different types, like
-the scatterplot, histogram, map, etc. The paper also refers a list
-of software for each type.
+The displays could be either in the same type, or different types, like
+the scatterplot, histogram, map, etc.
 
-From another angle, the interactions can be classified by complexity:
-\begin{itemize}
-\item Human command. This is a one-way, direct manipulation that the user
-asks the computer to execute immediately. For example, with a graphical
-user interface  (GUI), we can change the graph parameters simply by
-clicking a button. Another example is querying. \citet{theus2011interactive}
+From another angle, the interactions can be classified by complexity.
+In a simplest case, the interaction is a one-way, direct manipulation
+that the user asks the computer to execute directly from the original
+data and current settings. This type of interactions is usually
+attached to some action as a handler, which does not require
+any following command. So nothing needs to be saved from the result.
+For example, with a graphical user interface (GUI), we can change the
+graph parameters simply by clicking a button, then the plot will be
+updated. Another example is querying. \citet{theus2011interactive}
 gave a well description on how to query the information, where the
-``command'' is pausing the mouse icon on an object. This type of
-interactions does not require a following command, usually one single
-command can achieve the goal.
-\item Human-computer cooperation. Sometimes a single manipulation cannot
+``command'' is pausing the mouse icon on an object. 
+
+Under some complicated situations, a single manipulation cannot
 give a satisfactory result. For example, to explore the features of
 a set of variables conditional on another set of variables, brushing
 on a fixed area is not enough. We may need to move the brush from
@@ -247,19 +277,16 @@ one side to the other side of the conditional variables, to detect
 the trend of interest. And if needed, we may change the brush size,
 or select the union of some separate areas. It is usually a series
 of continual manipulations, based on the instant computer output.
-Hence we call this bidirectional type to be the human-computer cooperation.
-\end{itemize}
-The programming complexity for two types differs much. The unidirectional
-human command works as long as a function is attached to the action
-as a handler. The result need not to be saved since usually no following
-commands are executed on the result. In contrast, human-computer cooperation
+Hence this bidirectional complex type of interactions will
 requires the accessibility to the result at any time, to prepare for
-the next command. This feature of human-computer cooperation brings
+the next command.
+
+This characterisitic of the complex interactions brings
 at least two issues: rewritability of the result storage, and accessibility
 from different function environments to the result. \citet{xie2014reactive}
-answered the second question based on the design of \texttt{\textbf{cranvas}}\citep{cranvas}.
-This paper will discuss the first question in Section \ref{sec:Pipeline}
-and the second question from the aspect of linking in Section \ref{sec:Linking}.
+solved the second issue based on the design of \texttt{\textbf{cranvas}}.
+This paper will discuss the first issue in Section \ref{sec:Pipeline}
+and the second issue from the aspect of linking in Section \ref{sec:Linking}.
 Before that, we need to introduce the plot regions of interactions
 in Section \ref{sec:graph-layers} and the design of interactions
 in Section \ref{sec:Design-of-interactions}, because the instructions
@@ -422,8 +449,8 @@ Fast}} \citep{unwin1988eyeballing}, \texttt{\textbf{XQz}}\citep{McDougall1994},
 used some or all of the interactions.
 
 Within the realized interactions mentioned above, all but querying
-belong to the human-computer cooperation, based on the discussion
-in Section \ref{sec:Types-of-interactions}. For more explanation,
+belong to the complex type of interactions, based on the discussion
+in Section \ref{sec:interactive-graphics}. For more explanation,
 brushing requires the knowledge of the current brush location, and
 returns the corresponding brushed points. Selection hears from the
 selection methods, the current selected points, and the cursor location,
