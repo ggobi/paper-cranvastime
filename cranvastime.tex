@@ -9,6 +9,7 @@
 \usepackage{graphicx}
 \usepackage[numbers]{natbib}
 \usepackage{fullpage}
+\usepackage{hyperref}
 
 \makeatletter
 
@@ -468,9 +469,12 @@ we introduce the design of the interactions and discuss the the interactivity
 issues.
 
 
-\subsection{Design\label{sub:Special-interactions}}
+\subsection{A taxonomy of tasks\label{sub:Special-interactions}}
+
+\citet{Buja1996} describe a taxonomy of interactive tasks for multivariate data. This section describes a taxonomy of tasks with a focus on temporal data. Each of these different plot manipulations enables the exploration of different components of time seris, and longitudinal data.
+
 \begin{itemize}
-\item Switching between layers.
+\item Switching between layers: point, line, area.
 
 
 Starting from the basic demand, the interactive time plots should
@@ -511,7 +515,7 @@ Switching between the layers does not change the data  (just need to
 add the baselines), but the following interactions will require for
 some data modification.
 
-\item Faceting.
+\item Faceting: creating small multiples or organize and examine different aspexts of the data.
 
 
 Sometimes we care about some objects or time intervals more than others,
@@ -666,7 +670,7 @@ faceting by four categorical variables, two in the horizontal direction
 and two in the vertical direction.
 
 
-\item Slicing and wrapping.
+\item Slicing and wrapping: comparing elements of the data to examine seasonality, and dependence.
 
 
 Slicing and wrapping cut the series by a fixed-length interval in
@@ -755,7 +759,7 @@ variables, also a leading pattern between PROFIT and GILTS.}
 
 \par\end{center}
 
-\item Mirroring.
+\item Mirroring: comparing the magnitude of peaks and troughs.
 
 
 Mirroring is an interaction proposed by the horizon graphs that helps
@@ -805,7 +809,7 @@ mean.}
 \par\end{center}
 
 
-\item Shifting.
+\item Shifting: exploring dependence between series.
 
 
 When there are multiple series, we may consider to shift one or more
@@ -841,8 +845,9 @@ time with variable B.}
 
 \end{itemize}
 
-\subsection{Discussion}
+\subsection{Considerations}
 
+An interactive system needs to include careful consideration of a number of aspects of the operations, which include accuracy after multiple actions, response time for the human user, and reverse actions. This section discusses ways to address these issues.
 
 \subsubsection{Additivity\label{sub:Additivity}}
 
