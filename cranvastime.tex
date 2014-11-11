@@ -36,11 +36,26 @@
 
 \title{Enabling Interactivity on Temporal and Longitudinal Displays}
 \author{Xiaoyue Cheng, Dianne Cook, Heike Hofmann\\ Department of Statistics, Iowa State University}
-
 \maketitle
-\section*{Abstract}
 
-Exploring temporal data can be facilitated by interactive graphics. This paper describes structuring data and plots to make interactive exploration of temporal data possible. The methods are implemented in the software cranvas, for the qtime display.
+\begin{abstract}
+Exploring temporal data can be facilitated by interactive graphics.
+This paper describes structuring data and plots to make interactive
+exploration of temporal data possible. We first reviews the static
+graphics for the time series and longitudinal data, and introduced
+the interactive graphics with a discussion on the types of interactions.
+Then the display in the point, line, and area layers are introduced
+in a triangle structure of the relationship. Several special
+interactions are proposed for data exploration and pattern examination.
+These interactions requires a new conceptual framework to support
+the heavy load in data transformation, including the timely coordinates
+calculation procedure and the linking system that supports brushing
+under new coordinates. So we elaborated two procedures to transform
+data during the interactions, along with the linking between different
+forms of the dataset, or between the original data and additional data.
+The methods in this paper are implemented in the software cranvas, for
+the qtime display.
+\end{abstract}
 
 \section{Introduction}
 
@@ -334,7 +349,7 @@ type. Table \ref{tab:Layers} lists the layers for a few graph types
 as an example.
 
 To visualize time-dependent data, we should consider three basic layers:
-point layer, line layer, and area layer  (Figure \ref{fig:three-layers}).
+point layer, line layer, and area layer.
 Three painting functions will call three types of data input for the
 three layers. The coordinates of the points are initially adopted
 from the data, then the interactions may change the locations of the
@@ -345,19 +360,6 @@ area layer shades the area under the line by rendering a sequence
 of polygons. Note that the baseline of the area need to be calculated
 from the data. Figure \ref{fig:layer-system} shows the relationship
 among three layers. 
-
-\begin{center}
-\begin{figure}[h]
-\begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-11-point} \includegraphics[width=0.32\textwidth]{graph/pipeline-11-line}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-11-area}
-\par\end{centering}
-
-\caption{\label{fig:three-layers}From left to right: point, line, and area
-layers for the same data.}
-\end{figure}
-
-\par\end{center}
 
 \begin{center}
 \begin{figure}[h]
@@ -1359,16 +1361,26 @@ dots are created during the slicing.}
 \section{Conclusion}
 
 In this paper we reviewed the static and interactive graphics for
-the time series and longitudinal data and refined the types of interactions.
-For the time dependent data, several issues for the interactive design
- (three layers, four interactions, two pipeline procedures, and linking)
-are elaborated. However, some issues are still open to further discussion,
+the time series and longitudinal data and refined the framework of
+interactions. For the time dependent data, we elaborated the
+three-layer display and proposed five special interactions for data
+exploration and pattern examination. Facilitating these heavily
+data-transforming interactions requires a new conceptual framework,
+including the timely coordinates calculation procedure and
+the linking system that supports brushing under new coordinates.
+We introduced two procedures to transform data during the
+interactions, and the linking between different forms of the
+dataset, or between the original data and additional data.
+However, some issues are still open to further discussion,
 like the additivity, transfer speed, and the interaction direction.
-Also, more special interactions would be needed for the time dependent
-data in future, though they may bring new problems.
+
+In future, more special interactions would be needed for the time
+dependent data, for example, the transformation between euclidean
+and polar coordinates, and the transformation between time domain
+and frequency domain.
 
 This paper aims at the time series and longitudinal data, but the
-ideas on how to design and integrate good interactions can be applied
+ideas on how to assist data-transforming interactions can be applied
 to other interactive graphics too.
 
 \bibliographystyle{apa}
