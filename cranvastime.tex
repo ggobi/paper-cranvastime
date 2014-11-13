@@ -125,26 +125,6 @@ symmetric vertically (Figure \ref{fig:horizontal-axis} row 3 left). Streamgraph 
 It changed the algorithm to avoid the symmetry which increases the
 internal distortion.
 
-\item Horizon graphs. The horizon graph is inspired by two-tone pseudo coloring
-\citep{saito2005two} and formally developed at Panopticon Software
-\citep{reijner2008development}. Two-tone pseudo coloring is a technique
-to visualize the details of multiple time series precisely and effectively.
-However, the horizon graph became more popular after mirroring the
-lower part of the series and simplifying the color scheme (Figure \ref{fig:horizontal-axis} row 3 right). The horizon
-graphs were designed for visualizing the stock prices and economic/financial
-data, so the features fit the requirements very well:  (1) The data
-have a baseline, which is usually the value at the starting time point.
-Then the baseline can be used to mirror the negative part to the positive,
-in order to save the graph space, where `negative/positive' means
-smaller/greater than the baseline.  (2) The positive and negative performance
-should be distinguished, so the horizon graph provides two hues.  (3)
-The number of the color bands should be small, usually three color
-bands for the positive values and three for the negative. Finding
-the band height is easy for the stock prices since they can use 10\%
-of the initial value, and in most cases the price will not increase
-or decrease for more than 30\%.
-\end{itemize}
-
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
@@ -164,6 +144,26 @@ or decrease for more than 30\%.
 time series: (From top left to bottom right) overlaid line plots, facetted line plots,  stacked graph, faceted area chart, themeriver, horizon graph. Plots in the right column are examples of small multiples. }
 \end{figure}
 \par\end{center}
+
+\item Horizon graphs. The horizon graph is inspired by two-tone pseudo coloring
+\citep{saito2005two} and formally developed at Panopticon Software
+\citep{reijner2008development}. Two-tone pseudo coloring is a technique
+to visualize the details of multiple time series precisely and effectively.
+However, the horizon graph became more popular after mirroring the
+lower part of the series and simplifying the color scheme (Figure \ref{fig:horizontal-axis} row 3 right). The horizon
+graphs were designed for visualizing the stock prices and economic/financial
+data, so the features fit the requirements very well:  (1) The data
+have a baseline, which is usually the value at the starting time point.
+Then the baseline can be used to mirror the negative part to the positive,
+in order to save the graph space, where `negative/positive' means
+smaller/greater than the baseline.  (2) The positive and negative performance
+should be distinguished, so the horizon graph provides two hues.  (3)
+The number of the color bands should be small, usually three color
+bands for the positive values and three for the negative. Finding
+the band height is easy for the stock prices since they can use 10\%
+of the initial value, and in most cases the price will not increase
+or decrease for more than 30\%.
+\end{itemize}
 
 \item Time on both horizontal and vertical axes
 
@@ -261,6 +261,24 @@ time series and longitudinal data, the software like
 \texttt{\textbf{cranvas}}, and \texttt{\textbf{ggvis}}
 provide interactive line graphs and profile plots.
 
+Among these software, \texttt{\textbf{cranvas}} is very recently
+developed with much experience learned from \texttt{\textbf{GGobi}}.
+It builds a mature data pipeline system between data and plots,
+interfaces to \texttt{\textbf{Qt}} that enables flexible design
+on the canvas and fast painting for smooth interaction,
+and proposes plenty of interactions for types of statistical graphs.
+Compared to \texttt{\textbf{cranvas}}, the other R packages for
+interactive graphics have different purposes and strengths.
+\texttt{\textbf{rgl}} focuses more on 3-d plot rotation.
+\texttt{\textbf{ggvis}} interactivity is built on top of
+\texttt{\textbf{shiny}}\citep{shiny}, which means that ideally any
+plotting parameters can be consecutively changed by some GUI widget.
+\texttt{\textbf{animint}} is good at web-based display.
+\texttt{\textbf{iplots}} is the most similar package that interfaces
+to \texttt{\textbf{Java}}, but not provides as rich graph types
+and interactions as \texttt{\textbf{cranvas}}.
+
+Based on the design of \texttt{\textbf{cranvas}},
 \citet{xie2014reactive} provided a classification to the interactions,
 which depends on where the interaction happens. Two types are mentioned
 in the article: single display interactions and the linking between
@@ -318,6 +336,14 @@ layer. Based on the characteristics of the graph elements, different
 painting functions are used to make the plotting fast for layers.
 When one layer changes, the irrelevant layers will remain the same.
 
+Some layers are common for all plot types, such as the brush layer,
+since brushing is the basic requirement for interactive graphics.
+The background layers like the axis layer or grid layer are common
+too, but sometimes not necessary due to the properties of the graph.
+Different graph types will have their own special design of layers.
+Table \ref{tab:Layers} lists the layers for a few graph types
+as an example.
+
 \begin{center}
 \begin{table}[h]
 \begin{centering}
@@ -339,14 +365,11 @@ layers & map & polygon, googlemaps, path, point\tabularnewline
 \par\end{centering}
 
 \caption{\label{tab:Layers}Common layers for all graphs and special layers
-for four graph types in \texttt{\textbf{cranvas}}.}
+for four graph types in \texttt{\textbf{cranvas}}. In this package,
+about ten layers are used for each graph type.}
 \end{table}
 
 \par\end{center}
-
-In \texttt{\textbf{cranvas}}, about ten layers are used for each graph
-type. Table \ref{tab:Layers} lists the layers for a few graph types
-as an example.
 
 To visualize time-dependent data, we should consider three basic layers:
 point layer, line layer, and area layer.
@@ -441,11 +464,8 @@ to integrate them all.
 
 In reality, the interactions like brushing, selection, linking, zooming,
 panning, and querying, were already embedded in some interactive graphics
-software. \texttt{\textbf{Prim-9}}\citep{fisherkeller1988prim}, \texttt{\textbf{Diamond
-Fast}} \citep{unwin1988eyeballing}, \texttt{\textbf{XQz}}\citep{McDougall1994},
-\texttt{\textbf{XGobi}}\citep{swayne1998xgobi}, \texttt{\textbf{GGobi}}\citep{cook2007ggobi},
-\texttt{\textbf{Fortune}}\citep{kotterfortune}, \texttt{\textbf{TraXplorer}}\citep{Javed2010},
-\texttt{\textbf{d3.js}}\citep{bostock2012data}, and \texttt{\textbf{cranvas}}\citep{cranvas}
+software. The software mentioned in Section \ref{sec:interactive-graphics}
+for time series and longitudinal data
 used some or all of the interactions.
 
 Within the realized interactions mentioned above, all but querying
@@ -478,7 +498,6 @@ issues.
 \begin{itemize}
 \item Switching between layers: point, line, area.
 
-
 Starting from the basic demand, the interactive time plots should
 support the switch between the line and area layers, as the line and
 area plots have their own pluses and minuses. The line plots are concise
@@ -493,8 +512,11 @@ the line plot does not deliver the information as clearly as the area
 plot, on the overall high values of series B1 and low values of series
 A1.
 
+Switching between the layers does not change the data  (just need to
+add the baselines), but the following interactions will require for
+some data modification.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{centering}
 \begin{tabular}{cc}
 \multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
@@ -512,13 +534,7 @@ second row for the easier comparison among values in different lines.}
 \end{figure}
 
 
-
-Switching between the layers does not change the data  (just need to
-add the baselines), but the following interactions will require for
-some data modification.
-
 \item Faceting: creating small multiples to organize and examine different aspects of the data.
-
 
 Sometimes we care about some objects or time intervals more than others,
 for instance, the patients under a special treatment, or the climate
@@ -527,7 +543,6 @@ other cases with many variables, we may have questions like whether
 the variables share the same period? Do the peaks and valleys match
 with each other? To explore the data with these questions, we need
 to compare multiple time series.
-
 
 In a static graph, several aesthetic methods can be used to distinguish
 and compare multiple lines, like the color, size, or line type. However,
@@ -539,7 +554,6 @@ the number of lines displayed in the same plotting region. Users can compare
 within and between facet regions easily when the aspect ratio keeps
 well.
 
-
 There are three possible conditions to facet on: variable, individual
  (for the longitudinal data), or period. Figure \ref{fig:faceting-var-ind}
 gives an example for faceting on two variables and three individuals.
@@ -548,7 +562,6 @@ five panels done on-the-fly.
 Figure \ref{fig:faceting-period} explains why and shows how to
 facet on period. Those faceting methods change the coordinates
 of the points, and then the baselines of the area layer.
-
 
 \begin{center}
 \begin{figure}[H]
@@ -963,9 +976,7 @@ panel is a loop.}
 
 \section{Display Pipeline\label{sec:Pipeline}}
 
-\red{Add reference to ggplot2, and Wilkinson}
-
-Wilkinson conceptualized a grammar of graphics, that was extended and implemented into ggplot2 by Wickham, that carefully details a mapping of data to plots. The process involves parametrizing data into elements, and assigning these to graphical elements like points, lines, polygons. The ideas have been successfully implemented in an interactive setting in the system nVizn \red{ref}. \citet{wills2012visualizing} simplifies the extension of the ideas to interactive graphics ``\textit{allow
+\citet{wilkinson2006grammar} conceptualized a grammar of graphics, that was extended and implemented into ggplot2 by \citet{ggplot2}, that carefully details a mapping of data to plots. The process involves parametrizing data into elements, and assigning these to graphical elements like points, lines, polygons. The ideas have been successfully implemented in an interactive setting in the system nViZn \citep{wilkinson2000language, wilkinson2001nvizn}. \citet{wills2012visualizing} simplifies the extension of the ideas to interactive graphics ``\textit{allow
 the user to manipulate one of the two inputs, data or parameters,
 and show the changes in the chart}''.
 
@@ -980,61 +991,145 @@ Parameters generally describes a very broad class of characteristics: display ae
 
 \subsection{Notations}
 
-\red{This section should be laid out like the taxonomy section, spell out the transformations required for shifting, slicing, wrapping, mirroring in separate sections. Also use a single letter in the notation rather than two, e.g. m instead of mv, p instead of pa.}
-
-For each interaction, let $\mathbf{in}{}_{ij}^{T}=\left (in_{ij1},\, in_{ij2},\cdots\right)$
-denote the user's input. Let $\mathbf{pa}{}_{i}^{T}=\left (pa_{i1},\, pa_{i2},\, pa_{i3},\cdots\right)$
-be the corresponding parameter vector and $\mathbf{mv}{}_{ij}=\left (\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij}\right)$
+For each interaction, let 
+$\mathbf{u}{}_{ij}^{T}=\left(u_{ij1},\, u_{ij2},\cdots\right)$
+denote the user's input, and 
+$\mathbf{l}{}_{ij}^{T}=\left(l_{ij1},\, l_{ij2},\cdots\right)$
+be the line indicator, since the same input may bring different movements
+to different lines. Let 
+$\mathbf{p}{}_{i}^{T}=\left(p_{i1},\, p_{i2},\, p_{i3},\cdots\right)$
+be the corresponding parameter vector and 
+$\mathbf{m}{}_{ij}=\left(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij}\right)$
 denote the movements in x- and y- directions, where $i\in\mathcal{I}$
 is an interaction type, $\mathcal{I}$ gives the temporal stream of
-interaction types, such as $\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},\textrm{zooming},\cdots\}$,
+interaction types, such as 
+$\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},\textrm{zooming},\cdots\}$,
 and $j=1,2,\cdots,n_{i}$ is the times of interactions under type
 $i$.
-\begin{lyxlist}{00.00.0000}
-\item [{Example}] in Figure \ref{fig:smoothness}, the interaction type
-$i=$ faceting. The center panel is triggered by pressing key U for
+
+The new data coordinates are given by 
+\[
+\left (\mathbf{x},\mathbf{y}\right)_{s+interaction_{ij}}=\left (\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{m}{}_{ij},
+\]
+where $s$ is the previous status before the interaction.
+The movement $\mathbf{m}{}_{ij}$ depends on $\mathbf{p}{}_{i}$,
+$\mathbf{u}{}_{ij}$, $\mathbf{l}_{ij}$, $j$, and the inital
+coordinates $(\mathbf{x},\mathbf{y})_0$, which
+can be written as
+\[
+\mathbf{m}{}_{ij}=f_{i}\left (\mathbf{p}{}_{i},\:\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; \left (\mathbf{x},\mathbf{y}\right)_{0} \right).
+\]
+
+\subsection{Examples for the interactivity}
+
+The factors for the movement of interaction $ij$ will be explained
+in this section by the following examples.
+
+\begin{itemize}
+
+\item Faceting
+
+In Figure \ref{fig:smoothness}, the interaction type
+$i=$ faceting. The center panel is triggered by pressing some key for
 three times from the left panel, so for the center panel $j=3$. The
-right panel appears after hitting key U for at least 20 times from
+right panel appears after hitting the key for at least 20 times from
 the left panel, so $j\geq20$. The number 20 is got by the initial
-setting of the parameter $pa_{i1}=0.05$, which means that every hit
-on key U will lift the $k$th standardized line by $ (k-1)\times0.05$.
+setting of the parameter $p_{i1}=0.05$, which means that every hit
+on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
 Hence for $i=$ faceting and $j\in\mathcal{N}$,
 \begin{eqnarray*}
-\mathbf{mv}{}_{ij} & = & \begin{cases}
-\left (0,\;0.05\, (k-1)\, j\right) & 1\leq j<20,\\
-\left (0,\; k-1\right) & j\ge20.
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left (0,\;0.05\, (l-1)\, j\right) & 1\leq j<20,\\
+\left (0,\; l-1\right) & j\ge20.
 \end{cases}
 \end{eqnarray*}
 We can also generalize the equation above by
 \begin{eqnarray*}
-\mathbf{mv}{}_{ij} & = & \begin{cases}
-\left (0,\; pa_{i1}\, (k-1)\, j\right) & 1\leq j<\frac{1}{pa_{i1}},\\
-\left (0,\; k-1\right) & j\ge\frac{1}{pa_{i1}},
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left (0,\; p_{i1}\, (l-1)\, j\right) & 1\leq j<\frac{1}{p_{i1}},\\
+\left (0,\; l-1\right) & j\ge\frac{1}{p_{i1}},
 \end{cases}
 \end{eqnarray*}
-where $pa_{i1}\in (0,1)$.
-\end{lyxlist}
-The example shows that $\mathbf{mv}{}_{ij}$ is a function of $\mathbf{pa}{}_{i}$,
-$j$, and $\mathbf{k}_{ij}$, where $\mathbf{k}_{ij}=k$ in this example
-means the line group indicator for faceting. Different interactions
-may have different line group indicators, for example, wrapping chops
-the series into a few lines, and the times of wrapping $j$ will determine
-the line groups. Then the new data coordinates are given by 
-\[
-\left (\mathbf{x},\mathbf{y}\right)_{s+interaction_{ij}}=\left (\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{mv}{}_{ij},
-\]
-where $s$ is the previous status before the interaction.
+where $p_{i1}\in (0,1)$.
 
-In some occasions $\mathbf{mv}{}_{ij}$ not only depends on $\mathbf{pa}{}_{i}$,
-$j$, and $\mathbf{k}_{ij}$, but also the user input $\mathbf{in}{}_{ij}$.
-Like shifting in Section \ref{sub:Special-interactions}, the user
-can drag the series horizontally to any position. Then the direction
-$ (in_{ij1})$ and distance $ (in_{ij2})$ dragged is the input from
-the user. Hence we have
-\[
-\mathbf{mv}{}_{ij}=f_{i}\left (\mathbf{pa}{}_{i},\:\mathbf{in}{}_{ij},\;\mathbf{k}_{ij},\; j\right).
-\]
+The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
+$j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=l$ in this example
+means the line indicator for faceting.
 
+\item Slicing and wrapping
+
+Figure \ref{fig:x-wrapping} shows the x-wrapping interaction.
+With the regular setting of x-wrapping, by a keystroke,
+the point at the right end will be sliced and moved to the left end.
+With many keystrokes, the right part of the series will be
+gradually wrapped to the left. Except for the right bottom panel
+of Figure \ref{fig:x-wrapping}, only x-coordinates are changed,
+and y-coordinates remain the same.
+
+We have $i=$ x-wrapping and $j\in\mathcal{N}$, the first step is
+to check the new range for x-coordinates. Let $x_{(1)},\cdots,x_{(n)}$
+be the sorted x-coordinates of the $n$ points in the series. Then the
+x-range after $j$ knocks for x-wrapping is $(x_{(1)}, x_{(n-j)})$.
+Hence the new x-coordinate of $x$ is
+\begin{eqnarray*}
+x_{new} & = & \begin{cases}
+\left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)+x_{(1)} & 0\equiv \left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)\\
+x_{(n-j)} & 0\neq \left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)
+\end{cases} \\ & = & \begin{cases}
+\left(x-x_{(1)}\right)-\left\lfloor\frac{x-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rfloor\times\left(x_{(n-j)}-x_{(1)}\right)+x_{(1)} & 0\equiv \left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)\\
+x_{(n-j)} & 0\neq \left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)
+\end{cases} \\ & = &
+\left(x-x_{(1)}\right)-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-j)}-x_{(1)}\right)+x_{(1)} \\ & = &
+x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-j)}-x_{(1)}\right),
+\end{eqnarray*}
+which shows the movements are
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & 1\leq j \leq n-3 \\
+\left(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(3)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & j\ge n-2
+\end{cases} \\ & \equiv & \begin{cases}
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & 1\leq j \leq n-3 \\
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & j\ge n-2.
+\end{cases}
+\end{eqnarray*}
+
+In this case the line indicator $\mathbf{l}{}_{ij}$ is not a constant,
+it depends on the number of interactions $j$.
+
+\item Mirroring
+
+To realize the interaction shown in Figure \ref{fig:mirroring},
+firstly we need to point the divider -- mean in this example.
+Hence for $i=$ mirroring, the divider parameter
+$p = \frac{1}{n}\sum_{d=1}^{n}y_d$. Then by $j\in\mathcal{N}$
+hits on some triggering key, the movements are
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left(0, \; p+\max(p-\mathbf{y},\,\mathbf{y}-p)-\mathbf{y}\right) & j=1,3,5,\cdots \\
+(0,0) & j=2,4,6,\cdots
+\end{cases}\\ & = & \begin{cases}
+\left(0, \; \max(2p-2\mathbf{y},\,0)\right) & j=1,3,5,\cdots \\
+(0,0) & j=2,4,6,\cdots
+\end{cases}
+\end{eqnarray*}
+Note that if the mirroring is revisited after some other interactions,
+then the count of $j$ should not be reset.
+
+\item Shifting
+
+Shifting like Figure \ref{fig:x-shifting} is an example to use
+the user input $\mathbf{u}{}_{ij}$, since the user can drag the
+series horizontally to any position. The starting point
+$u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
+as well as the hooked series $u_{ij3}$ are the input from the user.
+The horizontally shifting will not change y-coordinates, so for
+$i=$ x-shifting and $j\in\mathcal{N}$, we have
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & 
+\left((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0\right),
+\end{eqnarray*}
+where $I$ is the indicator function.
+\end{itemize}
 
 
 \subsection{Two procedures\label{sub:Two-procedures}}
@@ -1046,16 +1141,15 @@ movement.
 \begin{enumerate}
 \item Let
 
-
 \begin{eqnarray*}
 s_{0} & = & \textrm{initial status},\\
-s_{t+1} & = & s_{t}+in_{i{\color{red}1}}.
+s_{t+1} & = & s_{t}+u_{i{\color{red}1}}.
 \end{eqnarray*}
  Note that every new status is only one interaction after the previous
 status. The coordinates are given by
 \begin{eqnarray*}
-\left (\mathbf{x},\mathbf{y}\right)_{s_{t+1}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{t}}+\mathbf{mv}{}_{i1}\\
-\mathbf{mv}{}_{i1} & = & f_{i}\left (\mathbf{pa}{}_{i},\;\mathbf{in}{}_{i1},\;\mathbf{k}_{i1}\right)
+\left (\mathbf{x},\mathbf{y}\right)_{s_{t+1}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{t}}+\mathbf{m}{}_{i1}\\
+\mathbf{m}{}_{i1} & = & f_{i}\left (\mathbf{p}{}_{i},\;\mathbf{u}{}_{i1},\;\mathbf{l}_{i1},(\mathbf{x},\mathbf{y})_{s_0}\right)
 \end{eqnarray*}
 
 
@@ -1078,19 +1172,19 @@ when there are many special interactions that could transform the
 data, we need to record both the initial and current data positions
 of each interaction type in the stream $\mathcal{I}$  (recall Section
 \ref{sub:Additivity}). Then for an interaction stream $\mathcal{I}$
-of length $l$, at least $l+1$ phases $\left (\left (\mathbf{x},\mathbf{y}\right)_{s_{0}},\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{1}}},\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{2}}}\cdots,\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{l}}}\right)$
-should be saved, where $t_{1},t_{2},\cdots,t_{l}$ are the time of
-the end of interaction types $1,2,\cdots,l$. When the data set is
+of length $k$, at least $k+1$ phases $\left (\left (\mathbf{x},\mathbf{y}\right)_{s_{0}},\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{1}}},\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{2}}}\cdots,\left (\mathbf{x},\mathbf{y}\right)_{s_{t_{k}}}\right)$
+should be saved, where $t_{1},t_{2},\cdots,t_{k}$ are the time of
+the end of interaction types $1,2,\cdots,k$. When the data set is
 large, those copies will occupy too much memory. Also, the storage
-and management of $\mathbf{in}{}_{i1}$'s and $\mathbf{k}_{i1}$'s
+and management of $\mathbf{u}{}_{i1}$'s and $\mathbf{l}_{i1}$'s
 is often in a mess. Hence we considered the second procedure as follows.
 
-\item In this method, to store the $l+1$ phases, we do not make $l+1$
+\item In this method, to store the $k+1$ phases, we do not make $k+1$
 copies of the data set, instead, the movement item is traceable. The
 coordinates of any status can be computed by 
 \begin{eqnarray*}
-\left (\mathbf{x},\mathbf{y}\right)_{s_{t}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}\mathbf{mv}{}_{ij}\\
- & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}f_{i}\left (\mathbf{pa}{}_{i},\;\mathbf{in}{}_{ij},\;\mathbf{k}_{ij},\; j\right).
+\left (\mathbf{x},\mathbf{y}\right)_{s_{t}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}\mathbf{m}{}_{ij}\\
+ & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}f_{i}\left (\mathbf{pa}{}_{i},\;\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; (\mathbf{x},\mathbf{y})_{s_0}\right).
 \end{eqnarray*}
 Note that when a new position is required, the calculation starts
 from the initial position instead of the previous status. The movements
@@ -1098,13 +1192,13 @@ from the original to the current position are computed instantly.
 
 
 Now the problem turns to: how to store the movements? The answer is,
-to save $\mathbf{k}_{ij}$ with the data. This is because $\mathbf{pa}{}_{i}$
-is fixed and $j$ is known, but $\mathbf{in}{}_{ij}$ and $\mathbf{k}_{ij}$
-are different by line, furthermore, $\mathbf{in}{}_{ij}$ would work
-on $\mathbf{k}_{ij}$. So we need to know how the points are assigned
+to save $\mathbf{l}_{ij}$ with the data. This is because $\mathbf{p}{}_{i}$
+is fixed and $j$ is known, but $\mathbf{u}{}_{ij}$ and $\mathbf{l}_{ij}$
+are different by line, furthermore, $\mathbf{u}{}_{ij}$ would work
+on $\mathbf{l}_{ij}$. So we need to know how the points are assigned
 to the lines before calculating the movements. So the data frame that
 we use to save the data includes not only the coordinates, point parameters
-like size and color, but also the line group indicators $\mathbf{k}_{ij}$.
+like size and color, but also the line indicators $\mathbf{l}_{ij}$.
 
 
 The advantage of this procedure is apparently that we do not have
@@ -1309,7 +1403,7 @@ created during the interactions, such as the follows.
 \item The polygon data from the area layer. 
 
 
-As shown in Figure \ref{fig:three-layers}, the area layer does not
+As shown in Figure \ref{fig:layer-system}, the area layer does not
 only need the values in the time series, but also the baseline to
 form many polygons. To draw the polygons, the data must be rearranged
 in an order of polygon vertexes. Each polygon is made of four vertexes:
