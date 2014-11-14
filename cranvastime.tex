@@ -976,15 +976,7 @@ panel is a loop.}
 
 \section{Display Pipeline\label{sec:Pipeline}}
 
-\citet{wilkinson2006grammar} conceptualized a grammar of graphics, that was extended and implemented into ggplot2 by \citet{ggplot2}, that carefully details a mapping of data to plots. The process involves parametrizing data into elements, and assigning these to graphical elements like points, lines, polygons. The ideas have been successfully implemented in an interactive setting in the system nViZn \citep{wilkinson2000language, wilkinson2001nvizn}. \citet{wills2012visualizing} simplifies the extension of the ideas to interactive graphics ``\textit{allow
-the user to manipulate one of the two inputs, data or parameters,
-and show the changes in the chart}''.
-
-\[
-data+parameters=graph
-\]
-
-Parameters generally describes a very broad class of characteristics: display aesthetics like color or linetype, positional coordinates, statistics such as bins, scales like limits or color ladders, facets, and transformations. Much of what is needed to realize the taxonomy of tasks for interacting with time series plots can be considered to be data transformations. This section describes the transformations required to perform shifting, faceting, slicing and wrapping and mirroring.
+\citet{wilkinson2000language, wilkinson2001nvizn, wilkinson2006grammar} conceptualized and implemented a grammar of graphics that carefully details a mapping of data to plots. It was extended and implemented in ggplot2 by \citet{ggplot2}. Data is parametrized into elements, and assigned to graphical elements, e.g. points, lines, polygons. \citet{wills2012visualizing} made a simple extension to interactive graphics \textit{``allow the user to manipulate one of the two inputs, data or parameters, and show the changes in the chart''}. Parameters, very generally, describe a very broad class of characteristics, e.g. display aesthetics like color or linetype, positional coordinates, statistics such as bins, scales like limits or color ladders, facets, and transformations. Much of what is needed to realize the taxonomy of tasks for interacting with time series plots can be considered to be data transformations. This section describes the transformations required to perform shifting, faceting, slicing and wrapping and mirroring.
 
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
@@ -992,12 +984,12 @@ Parameters generally describes a very broad class of characteristics: display ae
 \subsection{Notations}
 
 For each interaction, let 
-$\mathbf{u}{}_{ij}^{T}=\left(u_{ij1},\, u_{ij2},\cdots\right)$
+$\mathbf{u}{}_{ij}=\left(u_{ij1},\, u_{ij2},\cdots\right)^{T}$
 denote the user's input, and 
-$\mathbf{l}{}_{ij}^{T}=\left(l_{ij1},\, l_{ij2},\cdots\right)$
-be the line indicator, since the same input may bring different movements
+$\mathbf{l}{}_{ij}=\left(l_{ij1},\, l_{ij2},\cdots\right)^{T}$
+be a line indicator, since the same input may bring different movements
 to different lines. Let 
-$\mathbf{p}{}_{i}^{T}=\left(p_{i1},\, p_{i2},\, p_{i3},\cdots\right)$
+$\mathbf{p}{}_{i}=\left(p_{i1},\, p_{i2},\, p_{i3},\cdots\right)^{T}$
 be the corresponding parameter vector and 
 $\mathbf{m}{}_{ij}=\left(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij}\right)$
 denote the movements in x- and y- directions, where $i\in\mathcal{I}$
@@ -1009,10 +1001,10 @@ $i$.
 
 The new data coordinates are given by 
 \[
-\left (\mathbf{x},\mathbf{y}\right)_{s+interaction_{ij}}=\left (\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{m}{}_{ij},
+\left (\mathbf{x},\mathbf{y}\right)_{s+\mathcal{I}_{ij}}=\left (\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{m}{}_{ij},
 \]
-where $s$ is the previous status before the interaction.
-The movement $\mathbf{m}{}_{ij}$ depends on $\mathbf{p}{}_{i}$,
+where $s$ indicates the state before interaction.
+The movement $\mathbf{m}{}_{ij}$ cane be written as a function on $\mathbf{p}{}_{i}$,
 $\mathbf{u}{}_{ij}$, $\mathbf{l}_{ij}$, $j$, and the inital
 coordinates $(\mathbf{x},\mathbf{y})_0$, which
 can be written as
