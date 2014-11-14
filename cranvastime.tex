@@ -993,21 +993,19 @@ $\mathbf{p}{}_{i}=\left(p_{i1},\, p_{i2},\, p_{i3},\cdots\right)^{T}$
 be the corresponding parameter vector and 
 $\mathbf{m}{}_{ij}=\left(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij}\right)$
 denote the movements in x- and y- directions, where $i\in\mathcal{I}$
-is an interaction type, $\mathcal{I}$ gives the temporal stream of
-interaction types, such as 
-$\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},\textrm{zooming},\cdots\}$,
-and $j=1,2,\cdots,n_{i}$ is the times of interactions under type
-$i$.
+is an interaction type. $\mathcal{I}$=$\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},\textrm{zooming},\cdots\}$ gives the temporal stream of
+interactions,
+and $j=1,2,\cdots,n_{i}$ is the time of interactions of type $i$.
 
 The new data coordinates are given by 
 \[
 \left (\mathbf{x},\mathbf{y}\right)_{s+\mathcal{I}_{ij}}=\left (\mathbf{x},\mathbf{y}\right)_{s}+\mathbf{m}{}_{ij},
 \]
 where $s$ indicates the state before interaction.
-The movement $\mathbf{m}{}_{ij}$ cane be written as a function on $\mathbf{p}{}_{i}$,
+The movement $\mathbf{m}{}_{ij}$ can be written as a function on $\mathbf{p}{}_{i}$,
 $\mathbf{u}{}_{ij}$, $\mathbf{l}_{ij}$, $j$, and the inital
-coordinates $(\mathbf{x},\mathbf{y})_0$, which
-can be written as
+coordinates $(\mathbf{x},\mathbf{y})_0$, 
+
 \[
 \mathbf{m}{}_{ij}=f_{i}\left (\mathbf{p}{}_{i},\:\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; \left (\mathbf{x},\mathbf{y}\right)_{0} \right).
 \]
@@ -1016,15 +1014,30 @@ can be written as
 
 \noindent These are the specific functional definitions used to generate the movement for $\mathcal{I}_{ij}$. 
 
+\red{You need figures which easily match each of these operations, so you can explain the notation.}
+
 \begin{itemize}
+
+\item Shifting 
+
+Figure \ref{fig:x-shifting} illustrates shifting the series, which is used to compare one series against another. The user input uses $\mathbf{u}{}_{ij}$, since the user can drag the
+series horizontally to any position. The starting point
+$u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
+as well as the hooked \red{??} series $u_{ij3}$ are the input from the user.
+The horizontally shifting will not change y-coordinates, so for
+$i=$ x-shifting and $j\in\mathcal{N}$, we have
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & 
+\left((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0\right),
+\end{eqnarray*}
+where $I$ is the indicator function.
 
 \item Faceting
 
 In Figure \ref{fig:smoothness}, the interaction type
-$i=$ faceting. The center panel is triggered by pressing some key for
-three times from the left panel, so for the center panel $j=3$. The
-right panel appears after hitting the key for at least 20 times from
-the left panel, so $j\geq20$. The number 20 is got by the initial
+$i=$ faceting. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the 
+right panel appears after 20 more repeated user actions from
+the plot in the left panel, $j\geq20$.\red{Need exact numbers} The number 20 is got by the initial
 setting of the parameter $p_{i1}=0.05$, which means that every hit
 on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
 Hence for $i=$ faceting and $j\in\mathcal{N}$,
@@ -1047,7 +1060,7 @@ The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
 $j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=l$ in this example
 means the line indicator for faceting.
 
-\item Slicing and wrapping
+\item Slicing and wrapping \red{Split this into two pieces, the first one wrapping, and make it the first bullet item. Then make a separate item to illustrate the splitting.}
 
 Figure \ref{fig:x-wrapping} shows the x-wrapping interaction.
 With the regular setting of x-wrapping, by a keystroke,
@@ -1106,20 +1119,6 @@ hits on some triggering key, the movements are
 Note that if the mirroring is revisited after some other interactions,
 then the count of $j$ should not be reset.
 
-\item Shifting
-
-Shifting like Figure \ref{fig:x-shifting} is an example to use
-the user input $\mathbf{u}{}_{ij}$, since the user can drag the
-series horizontally to any position. The starting point
-$u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
-as well as the hooked series $u_{ij3}$ are the input from the user.
-The horizontally shifting will not change y-coordinates, so for
-$i=$ x-shifting and $j\in\mathcal{N}$, we have
-\begin{eqnarray*}
-\mathbf{m}{}_{ij} & = & 
-\left((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0\right),
-\end{eqnarray*}
-where $I$ is the indicator function.
 \end{itemize}
 
 
@@ -1175,7 +1174,7 @@ copies of the data set, instead, the movement item is traceable. The
 coordinates of any status can be computed by 
 \begin{eqnarray*}
 \left (\mathbf{x},\mathbf{y}\right)_{s_{t}} & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}\mathbf{m}{}_{ij}\\
- & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}f_{i}\left (\mathbf{pa}{}_{i},\;\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; (\mathbf{x},\mathbf{y})_{s_0}\right).
+ & = & \left (\mathbf{x},\mathbf{y}\right)_{s_{0}}+\sum_{i,j}f_{i}\left (\mathbf{p}{}_{i},\;\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; (\mathbf{x},\mathbf{y})_{s_0}\right).
 \end{eqnarray*}
 Note that when a new position is required, the calculation starts
 from the initial position instead of the previous status. The movements
