@@ -1023,7 +1023,7 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 Figure \ref{fig:x-shifting} illustrates shifting the series, which is used to compare one series against another. The user input uses $\mathbf{u}{}_{ij}$, since the user can drag the
 series horizontally to any position. The starting point
 $u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
-as well as the hooked \red{??} series $u_{ij3}$ are the input from the user.
+as well as the selected series $u_{ij3}$ are the input from the user.
 The horizontally shifting will not change y-coordinates, so for
 $i=$ x-shifting and $j\in\mathcal{N}$, we have
 \begin{eqnarray*}
@@ -1036,8 +1036,10 @@ where $I$ is the indicator function.
 
 In Figure \ref{fig:smoothness}, the interaction type
 $i=$ faceting. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the 
-right panel appears after 20 more repeated user actions from
-the plot in the left panel, $j\geq20$.\red{Need exact numbers} The number 20 is got by the initial
+right panel appears after 20 repeated user actions from
+the plot in the left panel, $j=20$. When $j>20$, the
+plot will remain the same, since the series are already
+fully split. The threshold 20 is got by the initial
 setting of the parameter $p_{i1}=0.05$, which means that every hit
 on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
 Hence for $i=$ faceting and $j\in\mathcal{N}$,
