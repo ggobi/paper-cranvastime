@@ -981,7 +981,7 @@ panel is a loop.}
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
 
-\subsection{Notations}
+\subsection{Generating interactions}
 
 For each interaction, let 
 $\mathbf{u}{}_{ij}=\left(u_{ij1},\, u_{ij2},\cdots\right)^{T}$
@@ -1012,10 +1012,9 @@ can be written as
 \mathbf{m}{}_{ij}=f_{i}\left (\mathbf{p}{}_{i},\:\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; \left (\mathbf{x},\mathbf{y}\right)_{0} \right).
 \]
 
-\subsection{Examples for the interactivity}
+%\subsection{Defining interactivity}
 
-The factors for the movement of interaction $ij$ will be explained
-in this section by the following examples.
+\noindent These are the specific functional definitions used to generate the movement for $\mathcal{I}_{ij}$. 
 
 \begin{itemize}
 
@@ -1124,7 +1123,7 @@ where $I$ is the indicator function.
 \end{itemize}
 
 
-\subsection{Two procedures\label{sub:Two-procedures}}
+\subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
 We will summarize two procedures to calculate the new data coordinates
 after the interactions. The two methods respectively use the storage
