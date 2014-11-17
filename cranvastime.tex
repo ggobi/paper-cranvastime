@@ -494,48 +494,105 @@ issues.
 
 \subsection{A taxonomy of tasks\label{sub:Special-interactions}}
 
-\citet{Buja1996} describe a taxonomy of interactive tasks for multivariate data. This section describes a taxonomy of tasks with a focus on temporal data. Each of these different plot manipulations enables the exploration of different components of time seris, and longitudinal data.
+\citet{Buja1996} describe a taxonomy of interactive tasks
+for multivariate data. This section describes a taxonomy
+of tasks with a focus on temporal data. Each of these
+different plot manipulations enables the exploration of
+different components of time series, and longitudinal data.
 
 \begin{itemize}
-\item Switching between layers: point, line, area.
 
-Starting from the basic demand, the interactive time plots should
-support the switch between the line and area layers, as the line and
-area plots have their own pluses and minuses. The line plots are concise
-when comparing the series in the same scales, in contrast the area
-plots make the space noisy with the overlapping area. As shown in
-Figure \ref{fig:switching-layers} (1), the area draws much attention
-but not necessary. In some other cases like the small multiples, the
-area plots are better because when the baselines are not of the same
-height, the area makes the understanding and comparison more accurate
-between values from different series. In Figure \ref{fig:switching-layers} (2),
-the line plot does not deliver the information as clearly as the area
-plot, on the overall high values of series B1 and low values of series
-A1.
+\item Slicing and wrapping: comparing elements of the
+data to examine seasonality, and dependence.
 
-Switching between the layers does not change the data  (just need to
-add the baselines), but the following interactions will require for
-some data modification.
+Wrapping/slicing cut the series by a fixed-length interval in
+the horizontal/vertical direction, and shift the right/top pieces
+to the left/bottom. It could change the x- / y- coordinates of the
+data.
 
+There are two reasons for slicing and wrapping. The first one
+is to compare the periods, or to find the period for the data
+that is potentially periodical. Also the periodic variation
+could be explored \citep{mcdonald1986periodic}. For this
+purpose we suggest to wrap the series horizontally. Figure
+\ref{fig:faceting-period} (left to center) gives an example
+of horizontal wrapping with a known period. Figure \ref{fig:x-wrapping}
+shows an example of wrapping process with an unknown period.
+
+The second reason is to cut the temporal and longitudinal data into
+parts for a better aspect ratio which will increase the effectiveness
+of data display \citep{cleveland1987graphical}, and then reveal more
+details. When the time series is long, to keep a proper aspect ratio
+is not always workable, due to the the limit of the screen width.
+Two possible solutions are  (1) if the series is periodical, then wrap
+it horizontally by the period, as Figure \ref{fig:faceting-period}
+and \ref{fig:x-wrapping}.  (2) Wrap the series vertically, especially
+when multiple series are faceted.
+
+
+\begin{center}
 \begin{figure}[H]
 \begin{centering}
-\begin{tabular}{cc}
-\multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
- & \tabularnewline
-\multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
-\end{tabular}
+\includegraphics[width=0.84\textwidth]{graph/pipeline-16-original}
 \par\end{centering}
 
-\caption{\label{fig:switching-layers}Switching between the line plot and the
-area plot. The line plot is preferred in the first row for the compact
-design without losing information. The area plot is preferred in the
-second row for the easier comparison among values in different lines.}
+\begin{centering}
+\includegraphics[width=0.42\textwidth]{graph/pipeline-16-1} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-2}
+\par\end{centering}
+
+\begin{centering}
+\includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap-facet}
+\par\end{centering}
+
+\caption{\label{fig:x-wrapping}Top: time series plot of annual numbers of
+lynx trappings for 1821\textendash{}1934 in the MacKenzie River District
+\citep{campbell1977survey}. Second row: during the horizontal wrapping
+movement, we try to match the late time period with the early time.
+Bottom left: a good match of patterns usually indicates the potential
+period. Bottom right: facet on the wrapped lines to view clearly.
+Similar but not exactly matched pattern is seen here.}
 \end{figure}
 
+\par\end{center}
 
-\item Faceting: creating small multiples to organize and examine different aspects of the data.
+
+Figure \ref{fig:y-wrapping} gives an example of the vertical wrapping
+for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}.
+The four variables are HERDSZ: actual breeding herd size, PRODUCTION:
+number of clean pig meat slaughtered, PROFIT: ratio of all-pig price
+to all fattener feed price, GILTS: number of sows in pig for the first
+time. In the top panel we see some overall pattern but it is hard
+to compare two values from the first quarter and last quarter of a
+line. In the bottom panel the series are wrapped in an area plot.
+The darkness of the colors indicates the magnitude of the series values,
+and the color bands make the comparison within or between the series
+much easier. 
+
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
+\par\end{centering}
+
+\begin{centering}
+\includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
+\par\end{centering}
+
+\caption{\label{fig:y-wrapping}Quarterly pig production for 1967-1978 in UK.
+Top: the original data faceted on variable. HERDSZ and PRODUCTION
+goes up slowly then down after the midway, and grows a little at the
+end. PROFIT and GILTS seems to show the seasonality with increasing
+variation. Bottom: wrapping in y-direction. We see the gradually change
+for the first two variables and seasonal change for the latter two
+variables, also a leading pattern between PROFIT and GILTS.}
+\end{figure}
+
+\par\end{center}
+
+
+\item Faceting: creating small multiples to organize and
+examine different aspects of the data.
 
 Sometimes we care about some objects or time intervals more than others,
 for instance, the patients under a special treatment, or the climate
@@ -591,21 +648,15 @@ are separated.  (e) disperses the variables for each individual in
 \par\end{center}
 
 
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-01-1} \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
-\par\end{centering}
-
-\caption{\label{fig:faceting-period}An example of faceting on period for a
-time series with a period of every 12 observations. The left panel
-is the original series, the center and right panels show the periods
-before and after faceting. From the left to center, the wrapping interaction
-is used.}
-\end{figure}
-
-\par\end{center}
+Faceting by individual sometimes extends to much more complex situations,
+because individuals can be grouped under different combinations of
+categorical variables, not only the individual IDs. Both horizontal
+and vertical directions will be needed to facet, and in each direction,
+more than one variable may be utilized to facet. For example, Figure
+\ref{fig:faceting-2ind} shows faceting on individual by two independent
+groups  (longitude and latitude). Figure \ref{fig:faceting-4ind} shows
+faceting by four categorical variables, two in the horizontal direction
+and two in the vertical direction.
 
 
 \begin{center}
@@ -626,7 +677,26 @@ than the east.  (Bottom left) Faceting by latitudinal grid.
 The north part is bumpier than the middle and south part.
  (Bottom right) Faceting by longitude and latitude.}
 \end{figure}
+\par\end{center}
 
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
+\par\end{centering}
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
+\par\end{centering}
+
+\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
+a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
+Sex and height are used in the horizontal direction, age and weight
+are used in the vertical direction.  (Top left) Original data without
+facetting.  (Top right) Facetted by height and weight.  (Bottom left)
+Facetted by sex and age.  (Bottom right) Facetted by sex and height
+horizontally, age and weight vertically.}
+\end{figure}
 \par\end{center}
 
 
@@ -653,127 +723,22 @@ from Figure \ref{fig:faceting-period} (right). A necessary step for
 faceting on period is to re-index the time points from the left panel
 to the right. So it can not be replaced by faceting on individual.
 
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
-\par\end{centering}
-
-\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
-a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
-Sex and height are used in the horizontal direction, age and weight
-are used in the vertical direction.  (Top left) Original data without
-facetting.  (Top right) Facetted by height and weight.  (Bottom left)
-Facetted by sex and age.  (Bottom right) Facetted by sex and height
-horizontally, age and weight vertically.}
-\end{figure}
-
-\par\end{center}
-
-
-Faceting by individual sometimes extends to much more complex situations,
-because individuals can be grouped under different combinations of
-categorical variables, not only the individual IDs. Both horizontal
-and vertical directions will be needed to facet, and in each direction,
-more than one variable may be utilized to facet. For example, Figure
-\ref{fig:faceting-2ind} shows faceting on individual by two independent
-groups  (longitude and latitude). Figure \ref{fig:faceting-4ind} shows
-faceting by four categorical variables, two in the horizontal direction
-and two in the vertical direction.
-
-
-\item Slicing and wrapping: comparing elements of the data to examine seasonality, and dependence.
-
-
-Slicing and wrapping cut the series by a fixed-length interval in
-the horizontal/vertical direction, and shift the right/top pieces
-to the left/bottom. It could change the x- / y- coordinates of the
-data.
-
-
-There are two reasons for slicing and wrapping. The first one is to
-compare the periods, or to find the period for the data that is potentially
-periodical. Also the periodic variation could be explored \citep{mcdonald1986periodic}.
-For this purpose we suggest to wrap the series horizontally. Figure
-\ref{fig:faceting-period} (left to center) gives an example of horizontal
-wrapping with a known period. Figure \ref{fig:x-wrapping} shows an
-example of wrapping process with an unknown period.
-
 
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.84\textwidth]{graph/pipeline-16-original}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-01-1} \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
 \par\end{centering}
 
-\begin{centering}
-\includegraphics[width=0.42\textwidth]{graph/pipeline-16-1} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-2}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap-facet}
-\par\end{centering}
-
-\caption{\label{fig:x-wrapping}Top: time series plot of annual numbers of
-lynx trappings for 1821\textendash{}1934 in the MacKenzie River District
-\citep{campbell1977survey}. Second row: during the horizontal wrapping
-movement, we try to match the late time period with the early time.
-Bottom left: a good match of patterns usually indicates the potential
-period. Bottom right: facet on the wrapped lines to view clearly.
-Similar but not exactly matched pattern is seen here.}
+\caption{\label{fig:faceting-period}An example of faceting on period for a
+time series with a period of every 12 observations. The left panel
+is the original series, the center and right panels show the periods
+before and after faceting. From the left to center, the wrapping interaction
+is used.}
 \end{figure}
-
 \par\end{center}
 
-
-The second reason is to cut the temporal and longitudinal data into
-parts for a better aspect ratio which will increase the effectiveness
-of data display \citep{cleveland1987graphical}, and then reveal more
-details. When the time series is long, to keep a proper aspect ratio
-is not always workable, due to the the limit of the screen width.
-Two possible solutions are  (1) if the series is periodical, then wrap
-it horizontally by the period, as Figure \ref{fig:faceting-period}
-and \ref{fig:x-wrapping}.  (2) Wrap the series vertically, especially
-when multiple series are faceted.
-
-
-Figure \ref{fig:y-wrapping} gives an example of the vertical wrapping
-for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}.
-The four variables are HERDSZ: actual breeding herd size, PRODUCTION:
-number of clean pig meat slaughtered, PROFIT: ratio of all-pig price
-to all fattener feed price, GILTS: number of sows in pig for the first
-time. In the top panel we see some overall pattern but it is hard
-to compare two values from the first quarter and last quarter of a
-line. In the bottom panel the series are wrapped in an area plot.
-The darkness of the colors indicates the magnitude of the series values,
-and the color bands make the comparison within or between the series
-much easier. 
-
-
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
-\par\end{centering}
-
-\caption{\label{fig:y-wrapping}Quarterly pig production for 1967-1978 in UK.
-Top: the original data faceted on variable. HERDSZ and PRODUCTION
-goes up slowly then down after the midway, and grows a little at the
-end. PROFIT and GILTS seems to show the seasonality with increasing
-variation. Bottom: wrapping in y-direction. We see the gradually change
-for the first two variables and seasonal change for the latter two
-variables, also a leading pattern between PROFIT and GILTS.}
-\end{figure}
-
-\par\end{center}
 
 \item Mirroring: comparing the magnitude of peaks and troughs.
 
@@ -858,6 +823,44 @@ time with variable B.}
 \end{figure}
 
 \par\end{center}
+
+
+\item Switching between layers: point, line, area.
+
+Starting from the basic demand, the interactive time plots should
+support the switch between the line and area layers, as the line and
+area plots have their own pluses and minuses. The line plots are concise
+when comparing the series in the same scales, in contrast the area
+plots make the space noisy with the overlapping area. As shown in
+Figure \ref{fig:switching-layers} (1), the area draws much attention
+but not necessary. In some other cases like the small multiples, the
+area plots are better because when the baselines are not of the same
+height, the area makes the understanding and comparison more accurate
+between values from different series. In Figure \ref{fig:switching-layers} (2),
+the line plot does not deliver the information as clearly as the area
+plot, on the overall high values of series B1 and low values of series
+A1.
+
+Switching between the layers does not change the data  (just need to
+add the baselines), but the following interactions will require for
+some data modification.
+
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
+\includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
+ & \tabularnewline
+\multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
+\includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
+\end{tabular}
+\par\end{centering}
+
+\caption{\label{fig:switching-layers}Switching between the line plot and the
+area plot. The line plot is preferred in the first row for the compact
+design without losing information. The area plot is preferred in the
+second row for the easier comparison among values in different lines.}
+\end{figure}
 
 \end{itemize}
 
