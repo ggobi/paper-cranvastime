@@ -36,6 +36,7 @@
 
 \title{Enabling Interactivity on Temporal and Longitudinal Displays}
 \author{Xiaoyue Cheng, Dianne Cook, Heike Hofmann\\ Department of Statistics, Iowa State University}
+\date{}
 \maketitle
 
 \begin{abstract}
@@ -976,7 +977,23 @@ panel is a loop.}
 
 \section{Display Pipeline\label{sec:Pipeline}}
 
-\citet{wilkinson2000language, wilkinson2001nvizn, wilkinson2006grammar} conceptualized and implemented a grammar of graphics that carefully details a mapping of data to plots. It was extended and implemented in ggplot2 by \citet{ggplot2}. Data is parametrized into elements, and assigned to graphical elements, e.g. points, lines, polygons. \citet{wills2012visualizing} made a simple extension to interactive graphics \textit{``allow the user to manipulate one of the two inputs, data or parameters, and show the changes in the chart''}. Parameters, very generally, describe a very broad class of characteristics, e.g. display aesthetics like color or linetype, positional coordinates, statistics such as bins, scales like limits or color ladders, facets, and transformations. Much of what is needed to realize the taxonomy of tasks for interacting with time series plots can be considered to be data transformations. This section describes the transformations required to perform shifting, faceting, slicing and wrapping and mirroring.
+\citet{wilkinson2000language, wilkinson2001nvizn, wilkinson2006grammar}
+conceptualized and implemented a grammar of graphics that
+carefully details a mapping of data to plots. It was extended
+and implemented in ggplot2 by \citet{ggplot2}. Data is
+parametrized into elements, and assigned to graphical elements,
+e.g. points, lines, polygons. \citet{wills2012visualizing}
+made a simple extension to interactive graphics \textit{``allow
+the user to manipulate one of the two inputs, data or parameters,
+and show the changes in the chart''}. Parameters, very generally,
+describe a very broad class of characteristics, e.g. display
+aesthetics like color or linetype, positional coordinates,
+statistics such as bins, scales like limits or color ladders,
+facets, and transformations. Much of what is needed to realize
+the taxonomy of tasks for interacting with time series plots
+can be considered to be data transformations. This section
+describes the transformations required to perform shifting,
+faceting, wrapping, and mirroring.
 
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
@@ -1062,7 +1079,7 @@ The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
 $j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=l$ in this example
 means the line indicator for faceting.
 
-\item Slicing and wrapping \red{Split this into two pieces, the first one wrapping, and make it the first bullet item. Then make a separate item to illustrate the splitting.}
+\item Wrapping
 
 Figure \ref{fig:x-wrapping} shows the x-wrapping interaction.
 With the regular setting of x-wrapping, by a keystroke,
@@ -1101,6 +1118,32 @@ which shows the movements are
 
 In this case the line indicator $\mathbf{l}{}_{ij}$ is not a constant,
 it depends on the number of interactions $j$.
+
+Sometimes the user wants to wrap the series faster.
+For example, wrapping the series by its period will compare
+the recent periods with the earlier periods quickly.
+In some more complex cases when the period is not fixed,
+or the length of the time series is not a multiplication
+product of the period, the user will need to change the
+wrapping speed on-the-fly. That means every keystroke
+will send a different number of points from the right to
+the left. The number of points wrapped by the $j$th hit,
+can be represented by the user input parameter $u_{ij}$.
+Then the x-range after $j$ knocks is
+$(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$. Consequently,
+we have
+\[
+x_{new} = x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right),
+\] and
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right), \; 0\right) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right), \; 0\right) & \sum_{a=1}^j u_{ia}\ge n-2.
+\end{cases}
+\end{eqnarray*}
+
+Slicing, also indicated by y-wrapping, could use similar
+formulas to get the movements in the y-direction.
 
 \item Mirroring
 
