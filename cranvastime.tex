@@ -505,8 +505,8 @@ different components of time series, and longitudinal data.
 \item Slicing and wrapping: comparing elements of the
 data to examine seasonality, and dependence.
 
-Wrapping/slicing cut the series by a fixed-length interval in
-the horizontal/vertical direction, and shift the right/top pieces
+Wrapping/slicing cuts the series by a fixed-length interval in
+the horizontal/vertical direction, and shifts the right/top pieces
 to the left/bottom. It could change the x- / y- coordinates of the
 data.
 
@@ -1112,10 +1112,10 @@ which shows the movements are
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
 \left(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & 1\leq j \leq n-3 \\
-\left(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(3)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & j\ge n-2
+\left(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(3)}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(3)}-x_{(1)}\right), \; 0\right) & j\ge n-2
 \end{cases} \\ & \equiv & \begin{cases}
 \left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & 1\leq j \leq n-3 \\
-\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-j)}-x_{(1)}\right), \; 0\right) & j\ge n-2.
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(3)}-x_{(1)}\right), \; 0\right) & j\ge n-2.
 \end{cases}
 \end{eqnarray*}
 
@@ -1135,14 +1135,23 @@ can be represented by the user input parameter $u_{ij}$.
 Then the x-range after $j$ knocks is
 $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$. Consequently,
 we have
-\[
-x_{new} = x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right),
-\] and
 \begin{eqnarray*}
+x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right), \\
 \mathbf{m}{}_{ij} & = & \begin{cases}
 \left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right), \; 0\right) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
-\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}\right), \; 0\right) & \sum_{a=1}^j u_{ia}\ge n-2.
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(3)}-x_{(1)}\right), \; 0\right) & \sum_{a=1}^j u_{ia}\ge n-2.
 \end{cases}
+\end{eqnarray*}
+
+If the user wants to skip all intermediate positions and use
+only one jump to the fully wrapped position, as shown in Figure
+\ref{fig:faceting-period} from the left to center panel,
+then the new x-range will be $(x_{(1)}, x_{(p_{i1})})$, where
+the parameter $p_{i1}$ is the length of period. Hence for $j\ge 1$,
+\begin{eqnarray*}
+x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(p_{i1})}-x_{(1)}}\right\rceil -1\right)\times\left(x_{(p_{i1})}-x_{(1)}\right), \\
+\mathbf{m}{}_{ij} & = &
+\left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(p_{i1})}-x_{(1)}\right), \; 0\right).
 \end{eqnarray*}
 
 Slicing, also indicated by y-wrapping, could use similar
