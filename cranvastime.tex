@@ -505,8 +505,8 @@ different components of time series, and longitudinal data.
 \item Slicing and wrapping: comparing elements of the
 data to examine seasonality, and dependence.
 
-Wrapping/slicing cuts the series by a fixed-length interval in
-the horizontal/vertical direction, and shifts the right/top pieces
+Slicing and wrapping cut the series by a fixed-length interval in
+the horizontal/vertical direction, and shift the right/top pieces
 to the left/bottom. It could change the x- / y- coordinates of the
 data.
 
@@ -1084,8 +1084,8 @@ means the line indicator for faceting.
 
 \item Wrapping
 
-Figure \ref{fig:x-wrapping} shows the x-wrapping interaction.
-With the regular setting of x-wrapping, by a keystroke,
+Figure \ref{fig:x-wrapping} shows the horizontal wrapping interaction.
+With the regular setting of horizontal wrapping, by a keystroke,
 the point at the right end will be sliced and moved to the left end.
 With many keystrokes, the right part of the series will be
 gradually wrapped to the left. Except for the right bottom panel
@@ -1093,10 +1093,10 @@ of Figure \ref{fig:x-wrapping}, only x-coordinates are changed,
 and y-coordinates remain the same.
 
 We have $i=$ x-wrapping and $j\in\mathcal{N}$, the first step is
-to check the new range for x-coordinates. Let $x_{(1)},\cdots,x_{(n)}$
-be the sorted x-coordinates of the $n$ points in the series. Then the
-x-range after $j$ knocks for x-wrapping is $(x_{(1)}, x_{(n-j)})$.
-Hence the new x-coordinate of $x$ is
+to check the new range after slicing for x-coordinates. Let 
+$x_{(1)},\cdots,x_{(n)}$ be the sorted x-coordinates of the $n$ points
+in the series. Then the x-range after $j$ knocks for x-wrapping
+is $(x_{(1)}, x_{(n-j)})$. Hence the new x-coordinate of $x$ is
 \begin{eqnarray*}
 x_{new} & = & \begin{cases}
 \left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)+x_{(1)} & 0\equiv \left(x-x_{(1)}\right)\mod\left(x_{(n-j)}-x_{(1)}\right)\\
@@ -1154,8 +1154,8 @@ x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(p_{i1})}-x_{(1)}}\right\r
 \left(-\left(\mathbf{l}{}_{ij} -1\right)\times\left(x_{(p_{i1})}-x_{(1)}\right), \; 0\right).
 \end{eqnarray*}
 
-Slicing, also indicated by y-wrapping, could use similar
-formulas to get the movements in the y-direction.
+Movements from the vertical wrapping on the y-direction, could
+be obtained by similar formulas.
 
 \item Mirroring
 
