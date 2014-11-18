@@ -1001,7 +1001,7 @@ faceting, wrapping, and mirroring.
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
 
-\subsection{Generating interactions}
+\subsection{Generating interactions\label{interaction-formulas}}
 
 For each interaction, let 
 $\mathbf{u}{}_{ij}=\left(u_{ij1},\, u_{ij2},\cdots\right)^{T}$
@@ -1199,19 +1199,16 @@ status. The coordinates are given by
 \mathbf{m}{}_{i1} & = & f_{i}\left (\mathbf{p}{}_{i},\;\mathbf{u}{}_{i1},\;\mathbf{l}_{i1},(\mathbf{x},\mathbf{y})_{s_0}\right)
 \end{eqnarray*}
 
-
-
 This procedure always computes the next position directly from the
 current position. The change only depends on the corresponding interaction
 parameters and the input. The current status is stored in the memory
 and ready to use for getting the next status. This method is an intuitive
 design and widely used in the interactive graphs with few special
-interaction types. For example, rotations by GGobi  (\citealt{STLBC03})
-could be either auto-oriented or user-oriented. Only the current position
-of the data is stored and the next movement can be got easily from
-the parameter setting and the user's input. The old positions are
-not of interest during the rotation.
-
+interaction types. %For example, rotations by GGobi  (\citealt{STLBC03})
+%could be either auto-oriented or user-oriented. Only the current position
+%of the data is stored and the next movement can be got easily from
+%the parameter setting and the user's input. The old positions are
+%not of interest during the rotation.
 
 The advantage of this procedure includes the straightforward design,
 and the convenience of moving to the previous or next status. However,
@@ -1237,7 +1234,6 @@ Note that when a new position is required, the calculation starts
 from the initial position instead of the previous status. The movements
 from the original to the current position are computed instantly.
 
-
 Now the problem turns to: how to store the movements? The answer is,
 to save $\mathbf{l}_{ij}$ with the data. This is because $\mathbf{p}{}_{i}$
 is fixed and $j$ is known, but $\mathbf{u}{}_{ij}$ and $\mathbf{l}_{ij}$
@@ -1247,6 +1243,19 @@ to the lines before calculating the movements. So the data frame that
 we use to save the data includes not only the coordinates, point parameters
 like size and color, but also the line indicators $\mathbf{l}_{ij}$.
 
+The idea of baseline operation is not new. In the tour movement
+of \texttt{\textbf{XGobi}} and \texttt{\textbf{GGobi}}, the target
+position is calculated by the starting position and the projection
+parameters that come from the auto-oriented settings or
+user-oriented interactions \citep{cook1995grand, cook1997manual}.
+However, the interactivities that we discussed in this paper is
+more complex, because we need to consider the interaction stream
+$\mathcal{I}$. In \texttt{\textbf{XGobi}} and \texttt{\textbf{GGobi}},
+data projection is the only reason for data coordinate modification.
+When there is only one type of modification, the formulas in
+Section \ref{interaction-formulas} will provide the target
+position easily. But when different types of modifications
+are mixed, the baseline method makes the computation structured.
 
 The advantage of this procedure is apparently that we do not have
 to save multiple copies of data, and it is a better way to manage
