@@ -1204,7 +1204,12 @@ current position. The change only depends on the corresponding interaction
 parameters and the input. The current status is stored in the memory
 and ready to use for getting the next status. This method is an intuitive
 design and widely used in the interactive graphs with few special
-interaction types. %For example, rotations by GGobi  (\citealt{STLBC03})
+interaction types. For example, scatterplots in \texttt{\textbf{cranvas}}
+can record the brush history, i.e., the history of selected data.
+If the user wants to undo or redo the brushing, the historical index
+will be obtained from the current index and the keystroke,
+then the brush is replaced by the history.
+%For example, rotations by GGobi  (\citealt{STLBC03})
 %could be either auto-oriented or user-oriented. Only the current position
 %of the data is stored and the next movement can be got easily from
 %the parameter setting and the user's input. The old positions are
@@ -1234,6 +1239,21 @@ Note that when a new position is required, the calculation starts
 from the initial position instead of the previous status. The movements
 from the original to the current position are computed instantly.
 
+The idea of baseline operation is not new. In the tour movement
+of \texttt{\textbf{XGobi}} and \texttt{\textbf{GGobi}}, the target
+position is calculated by the initial position and the projection
+parameters that come from the auto-oriented settings or
+user-oriented interactions \citep{cook1995grand, cook1997manual}.
+However, the interactivities that we discussed in this paper is
+more complex, because we need to consider the interaction stream
+$\mathcal{I}$, but the tour movement does not need to.
+When there is only one type of modification, the formulas in
+Section \ref{interaction-formulas} will provide the target
+position easily. But when different types of modifications
+are mixed, the baseline method structures the computation well.
+
+With this procedure we do not need to save the intermediate
+positions of the data, but we have to save the movements.
 Now the problem turns to: how to store the movements? The answer is,
 to save $\mathbf{l}_{ij}$ with the data. This is because $\mathbf{p}{}_{i}$
 is fixed and $j$ is known, but $\mathbf{u}{}_{ij}$ and $\mathbf{l}_{ij}$
@@ -1241,21 +1261,8 @@ are different by line, furthermore, $\mathbf{u}{}_{ij}$ would work
 on $\mathbf{l}_{ij}$. So we need to know how the points are assigned
 to the lines before calculating the movements. So the data frame that
 we use to save the data includes not only the coordinates, point parameters
-like size and color, but also the line indicators $\mathbf{l}_{ij}$.
-
-The idea of baseline operation is not new. In the tour movement
-of \texttt{\textbf{XGobi}} and \texttt{\textbf{GGobi}}, the target
-position is calculated by the starting position and the projection
-parameters that come from the auto-oriented settings or
-user-oriented interactions \citep{cook1995grand, cook1997manual}.
-However, the interactivities that we discussed in this paper is
-more complex, because we need to consider the interaction stream
-$\mathcal{I}$. In \texttt{\textbf{XGobi}} and \texttt{\textbf{GGobi}},
-data projection is the only reason for data coordinate modification.
-When there is only one type of modification, the formulas in
-Section \ref{interaction-formulas} will provide the target
-position easily. But when different types of modifications
-are mixed, the baseline method makes the computation structured.
+like size and color, but also the line indicators $\mathbf{l}_{ij}$
+for every $i \in \mathcal{I}$.
 
 The advantage of this procedure is apparently that we do not have
 to save multiple copies of data, and it is a better way to manage
