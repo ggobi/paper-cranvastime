@@ -226,15 +226,9 @@ in polar coordinates for the same data in Figure
 
 \subsection{Interactive graphics\label{sec:interactive-graphics}}
 
-Different from the dynamic graphics, which arranges the visible graphics
-change prior to the plotting step, and not allows the user to play
-with any further interaction, interactive graphics emphasize the user
-manipulation via the input device like the keyboard and mouse \citep{symanzik2012interactive}.
-\citet{swayne1999} explained the idea of interactive graphics:
-it may imply the direct manipulation of the graph itself, manipulation
-of the graph controls, or even the command-line interaction with graphs.
+Interactive graphics emphasize the user manipulation of plot elements via input devices like the keyboard and mouse \citep{symanzik2012interactive}. \citet{swayne1999} conducted a survey of the terminology, ``interactive graphics'', which revealed some differences in what people mean when they use the term. They found that most commonly people perceived interactive graphics to mean that a new plot can be recreated quickly from the command line, like base R plots. They suggested using a different term, direct manipulation, to mean directly changing elements of the plot using input devices. However, this term did not gain traction in the community, and we still use interactive graphics. To be clear, we use it here to indicate direct manipulation of plot elements through input actions of mouse or key strokes. 
 
-There are a number of standalone software for interactive graphics, such as
+The work described here builds from many statistics software systems that support interactive graphics, 
 \texttt{\textbf{PRIM-9}}\citep{fisherkeller1988prim},
 \texttt{\textbf{Data Desk}}\citep{velleman1988datadesk},
 \texttt{\textbf{LISP-STAT}}\citep{tierney1990lisp},
@@ -242,17 +236,15 @@ There are a number of standalone software for interactive graphics, such as
 \texttt{\textbf{GGobi}}\citep{cook2007ggobi},
 \texttt{\textbf{MANET}}\citep{unwin1996manet},
 \texttt{\textbf{Mondrian}}\citep{theus2002mondrian}.
-Later with the popularity of R language, the interactive graphics could
-cohere seamlessly and flexibly with more statistical analysis.
-Packages including \texttt{\textbf{rggobi}}\citep{rggobi},
+With the popularity of R language \red{\cite{****}}, the goal is that interactive graphics can
+integrate closely and flexibly with statistical modeling.
+Packages that support this are \texttt{\textbf{rggobi}}\citep{rggobi},
 \texttt{\textbf{iplots}}\citep{iplots},
 \texttt{\textbf{rgl}}\citep{adler2003rgl},
 \texttt{\textbf{cranvas}}\citep{cranvas},
 \texttt{\textbf{ggvis}}\citep{ggvis},
-and \texttt{\textbf{animint}}\citep{animint},
-implement interactive graphics in R. In terms of
+and \texttt{\textbf{animint}}\citep{animint}. In terms of
 time series and longitudinal data, the software like
-\texttt{\textbf{PRIM-9}},
 \texttt{\textbf{Diamond Fast}} \citep{unwin1988eyeballing},
 \texttt{\textbf{XQz}}\citep{McDougall1994},
 \texttt{\textbf{XGobi}}, \texttt{\textbf{GGobi}},
@@ -260,95 +252,47 @@ time series and longitudinal data, the software like
 \texttt{\textbf{TraXplorer}}\citep{Javed2010},
 \texttt{\textbf{d3.js}}\citep{bostock2012data},
 \texttt{\textbf{cranvas}}, and \texttt{\textbf{ggvis}}
-provide interactive line graphs and profile plots.
+have in the past, or currently provide some interactive graphics.
 
-Among these software, \texttt{\textbf{cranvas}} is very recently
-developed with much experience learned from \texttt{\textbf{GGobi}}.
-It builds a mature data pipeline system between data and plots,
-interfaces to \texttt{\textbf{Qt}} that enables flexible design
-on the canvas and fast painting for smooth interaction,
-and proposes plenty of interactions for types of statistical graphs.
+Of these software, \texttt{\textbf{cranvas}}, which evolved substantially from  \texttt{\textbf{GGobi}}, is the vehicle for the ideas conducted in this paper.
+Its foundation is a data pipeline system channeling data to plots, and interactions. The
+interface uses \texttt{\textbf{Qt}}\red{\cite{****}} that enables flexible design
+on the canvas and fast painting for smooth interaction. It has
+many different types of plots and possible interactions.
 Compared to \texttt{\textbf{cranvas}}, the other R packages for
-interactive graphics have different purposes and strengths.
-\texttt{\textbf{rgl}} focuses more on 3-d plot rotation.
+interactive graphics have different purposes and strengths:
+\texttt{\textbf{rgl}} focuses more on 3-d plot rotation;
 \texttt{\textbf{ggvis}} interactivity is built on top of
 \texttt{\textbf{shiny}}\citep{shiny}, which means that ideally any
-plotting parameters can be consecutively changed by some GUI widget.
-\texttt{\textbf{animint}} is good at web-based display.
+plotting parameters can be consecutively changed by some GUI widget;
+\texttt{\textbf{animint}} is good at web-based display;
 \texttt{\textbf{iplots}} is the most similar package that interfaces
-to \texttt{\textbf{Java}}, but not provides as rich graph types
-and interactions as \texttt{\textbf{cranvas}}.
+to \texttt{\textbf{Java}}, requires a special GUI, JGR to operate, and provides a smaller set of graph types and interactions.
 
-Based on the design of \texttt{\textbf{cranvas}},
-\citet{xie2014reactive} provided a classification to the interactions,
-which depends on where the interaction happens. Two types are mentioned
-in the article: single display interactions and the linking between
-different displays. Single display interactions include many different
-interactions, such as brushing, zooming, panning, querying, etc. Linking
-between different displays connects multiple graphic windows via brushing.
-The displays could be either in the same type, or different types, like
-the scatterplot, histogram, map, etc.
+The design of \texttt{\textbf{cranvas}}, \citet{xie2014reactive} provides a dichotomy of interactions: single display interactions and the linking between different displays. Single display interactions include many different interactions, such as brushing, zooming, panning, querying, etc. Linking between different displays connects multiple graphic windows via brushing.  The displays could be either in the same type, or different types, like the scatterplot, histogram, map, etc. These both need to be considered when making interactions on plots for temporal data.
 
-From another angle, the interactions can be classified by complexity.
-In a simplest case, the interaction is a one-way, direct manipulation
-that the user asks the computer to execute directly from the original
-data and current settings. This type of interactions is usually
-attached to some action as a handler, which does not require
-any following command. So nothing needs to be saved from the result.
-For example, with a graphical user interface (GUI), we can change the
-graph parameters simply by clicking a button, then the plot will be
-updated. Another example is querying. \citet{theus2011interactive}
-gave a well description on how to query the information, where the
-``command'' is pausing the mouse icon on an object. 
+%\red{Shelve these next two paragraphs for now, From another angle, the interactions can be classified by complexity. In a simplest case, the interaction is a one-way, direct manipulation that the user asks the computer to execute directly from the original data and current settings. This type of interactions is usually attached to some action as a handler, which does not require any following command. So nothing needs to be saved from the result. For example, with a graphical user interface (GUI), we can change the graph parameters simply by clicking a button, then the plot will be updated. Another example is querying. \citet{theus2011interactive} gave a well description on how to query the information, where the ``command'' is pausing the mouse icon on an object. 
 
-Under some complicated situations, a single manipulation cannot
-give a satisfactory result. For example, to explore the features of
-a set of variables conditional on another set of variables, brushing
-on a fixed area is not enough. We may need to move the brush from
-one side to the other side of the conditional variables, to detect
-the trend of interest. And if needed, we may change the brush size,
-or select the union of some separate areas. It is usually a series
-of continual manipulations, based on the instant computer output.
-Hence this bidirectional complex type of interactions will
-requires the accessibility to the result at any time, to prepare for
-the next command.
+%Under some complicated situations, a single manipulation cannot give a satisfactory result. For example, to explore the features of a set of variables conditional on another set of variables, brushing on a fixed area is not enough. We may need to move the brush from one side to the other side of the conditional variables, to detect the trend of interest. And if needed, we may change the brush size, or select the union of some separate areas. It is usually a series of continual manipulations, based on the instant computer output. Hence this bidirectional complex type of interactions will requires the accessibility to the result at any time, to prepare for the next command.
 
-This characterisitic of the complex interactions brings
-at least two issues: rewritability of the result storage, and accessibility
-from different function environments to the result. \citet{xie2014reactive}
-solved the second issue based on the design of \texttt{\textbf{cranvas}}.
-This paper will discuss the first issue in Section \ref{sec:Pipeline}
-and the second issue from the aspect of linking in Section \ref{sec:Linking}.
-Before that, we need to introduce the plot regions of interactions
-in Section \ref{sec:graph-layers} and the design of interactions
-in Section \ref{sec:Design-of-interactions}, because the instructions
-will make the following discussion clear.
+%This characterisitic of the complex interactions brings at least two issues: rewritability of the result storage, and accessibility from different function environments to the result. \citet{xie2014reactive} solved the second issue based on the design of \texttt{\textbf{cranvas}}. 
+
+This paper is organized in the following way. The next section describes the building blocks for temporal displays, which is followed by a taxonomy of interactive tasks that is desirable to use for exploration (Section \ref{sec:Design-of-interactions}). How to realize the interactions is described in Section \ref{sec:Pipeline}. Linking between temporal data displays and other plots is described in Section \ref{sec:Linking}. 
 
 
 \section{Graph layers\label{sec:graph-layers}}
 
-A well-defined plot region is the base of any visualization. For the
-interactive graphics, different layers are desired as the plot regions
-by different interactions. Usually there are many layers for an interactive
-graph, because a complex interaction can be then decomposed into small
-simple tasks on different layers. One layer is often designed for
-only one graph element, like the title layer, x-axis layer, or brush
-layer. Based on the characteristics of the graph elements, different
-painting functions are used to make the plotting fast for layers.
-When one layer changes, the irrelevant layers will remain the same.
+A well-defined structure forms the foundation of a good data plot. For 
+interactive graphics, layering up the plot to enable different interactions can be useful, and efficient for large data. The base layer may be the plot of all of the data. An overlay of a brush layer, where only elements actively being colored are displayed, can mean that just the relevant subset needs to be displayed, and thus provides faster rendering. 
 
-Some layers are common for all plot types, such as the brush layer,
-since brushing is the basic requirement for interactive graphics.
-The background layers like the axis layer or grid layer are common
-too, but sometimes not necessary due to the properties of the graph.
-Different graph types will have their own special design of layers.
-Table \ref{tab:Layers} lists the layers for a few graph types
-as an example.
+%we can different layers are desired as the plot regions by different interactions. Usually there are many layers for an interactive graph, because a complex interaction can be then decomposed into small simple tasks on different layers. One layer is often designed for only one graph element, like the title layer, x-axis layer, or brush layer. Based on the characteristics of the graph elements, different painting functions are used to make the plotting fast for layers. When one layer changes, the irrelevant layers will remain the same.
+
+Some layers are common to all types of displays, e.g. a brush layer, since brushing is a basic function for interactive graphics. Background layers like an axis layer or grid layer are common too, but sometimes not necessary due to the properties of the graph. Different graph types will have their own special design of layers. Table \ref{tab:Layers} lists the layers for a few common plot types in cranvas.
 
 \begin{center}
 \begin{table}[h]
 \begin{centering}
-\begin{tabular}{c|c|c}
+\begin{tabular}{c|l|l}
 \hline 
 common & required & brush, identify, keys\tabularnewline
 \cline{2-3} 
@@ -365,25 +309,33 @@ layers & map & polygon, googlemaps, path, point\tabularnewline
 \end{tabular}
 \par\end{centering}
 
-\caption{\label{tab:Layers}Common layers for all graphs and special layers
-for four graph types in \texttt{\textbf{cranvas}}. In this package,
-about ten layers are used for each graph type.}
+\caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}} of layers used in constructing plots. Some are common to all plots, and each plot has some layers that are unique. The ``keys'' layer listens for key strokes that change interaction modes. The ``cue'' layer on the histogram contains listeners and handles for dragging to change to binwidth interactively.}
 \end{table}
 
 \par\end{center}
 
-To visualize time-dependent data, we should consider three basic layers:
-point layer, line layer, and area layer.
-Three painting functions will call three types of data input for the
-three layers. The coordinates of the points are initially adopted
-from the data, then the interactions may change the locations of the
-dots. Then, the line layer connect the current positions of the points,
-so it requires the order, or say, path information, which means that
-for each point, the previous and next points are known. At last, the
-area layer shades the area under the line by rendering a sequence
-of polygons. Note that the baseline of the area need to be calculated
-from the data. Figure \ref{fig:layer-system} shows the relationship
-among three layers. 
+For temporal data displays, we use three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a base line which enables closing the series to create a set of polygons.  Figure \ref{fig:layer-system} shows the relationship among three layers. Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers:
+
+\begin{enumerate}
+\item Transmission of the brushing information. The brush features like color, size, or visibility, are generated for each observation when creating the mutaframe\citep{plumbr2014,xie2014reactive}.
+The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe, essentially, points are brushed. However, translating this to edges is not simply defined because one edge connects two points, $\# points=\# edges+1$, and for a multivariate time plot with $n$ series, 
+$\# points=\#edges+n.$
+In the area layer, each polygon is defined by a number of edges, \red{i.e., 
+$\#polygons=\#edges.$ I don't think this is right}
+The color of lines follows from the color of the first point of the line segment. For polygons, \red{the color is mapped ***}
+
+
+% brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
+%\begin{figure}[h]
+%\begin{centering}
+%\includegraphics[width=0.9\textwidth]{graph/pipeline-13-layer-features}
+%\par\end{centering}
+
+%\caption{\label{fig:features}The colors of points are different, so the colors of the edges and polygons follow the points ahead in this case.}
+%\end{figure}
+
+\item The area layer can sometimes need additional construction points. The point layer only needs the x-y coordinates, while the line layer needs the x-y coordinates in order and in groups. But the area layer incorporates a baseline, which is generated by calculating the mean of the values on the variable. When the y-coordinates of the variable change, like the shifting in Section \ref{sub:Special-interactions}, the baseline need to be updated instantly. The additional information challenges the linking system, and some details are discussed in Section \ref{sub:Linking-of-the-addition}.
+\end{enumerate}
 
 \begin{center}
 \begin{figure}[h]
@@ -391,67 +343,13 @@ among three layers.
 \includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
 \par\end{centering}
 
-\caption{\label{fig:layer-system}The point layer is the center of the system
-that receives the data and interactions at first. Then the line and
-area layers adopt the current position from the point layer.}
+\caption{\label{fig:layer-system}The point layer is the center of the system that receives the data and interactions at first. Then the line and area layers adopt the current position from the point layer.}
 \end{figure}
 
 \par\end{center}
 
-There are two remarks in the layer system for interactive time plots. 
-\begin{enumerate}
-\item Transmission of the painting features. Based on the setting of \texttt{\textbf{cranvas}},
-the painting features like color, size, or visibility, are generated
-for each observation when creating the mutaframe\citep{plumbr2014,xie2014reactive}.
-As discussed above, the initial input in the time plots, are the points,
-which means \texttt{\textbf{cranvas}} produces the painting features
-for each point. \\
-However, the number of points are not the same as the number of edges%
-\footnote{One edge connects two points.%
-}, because for each line, 
-\[
-\#\, of\, points=\#\, of\, edges+1;
-\]
-and for a time plot with $n$ series, 
-\begin{equation}
-\#\, of\, points=\#\, of\, edges+n.\label{eq:points_edges}
-\end{equation}
-Similarly, in an area layer, each polygon is defined by two adjacent
-points, or, one edge, i.e., 
-\[
-\#\, of\, polygons=\#\, of\, edges.
-\]
-Now the problem is, how to get the painting features for each edge
-and polygon? It is easy to answer the question when the features of
-points are identical. But when they are varied, we have to skip the
-features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}).
-Then how to choose the $n$ points? One possible but not perfect solution
-is the first or last point of a line, like shown in Figure \ref{fig:features}.
-A smoother method should be considered for the edges and polygons
-that connect two points with different features. To make it convenient
-for the interactions, the method should be simple and avoid involving
-new coordinates.\\
-\begin{figure}[h]
-\begin{centering}
-\includegraphics[width=0.9\textwidth]{graph/pipeline-13-layer-features}
-\par\end{centering}
 
-\caption{\label{fig:features}The colors of points are different, so the colors
-of the edges and polygons follow the points ahead in this case.}
-\end{figure}
-
-\item Additional coordinates for the area layer. The point layer only needs
-the x-y coordinates, while the line layer needs the x-y coordinates
-in order and in group for lining up. But the area layer needs more
--- the baseline, which should be generated by variable%
-\footnote{A variable or series may consist of several lines.%
-}. When the y-coordinates of the variable change, like the shifting
-in section \ref{sub:Special-interactions}, the baseline need to be
-updated instantly. The additional information challenges the linking
-system, and some details are discussed in Section \ref{sub:Linking-of-the-addition}.
-\end{enumerate}
-
-\section{Interactivity\label{sec:Design-of-interactions}}
+\section{Interactivity for temporal data plots\label{sec:Design-of-interactions}}
 
 For the time-dependent plots, \citet{wills2012visualizing} summarized
 the interactivity from two aspects: parameters and data. On one hand,
@@ -502,10 +400,10 @@ different components of time series, and longitudinal data.
 
 \begin{itemize}
 
-\item Slicing and wrapping: comparing elements of the
+\item Wrapping: comparing sequential elements of the
 data to examine seasonality, and dependence.
 
-Slicing and wrapping cut the series by a fixed-length interval in
+Wrapping cut the series by a fixed-length interval in
 the horizontal/vertical direction, and shift the right/top pieces
 to the left/bottom. It could change the x- / y- coordinates of the
 data.
@@ -1038,50 +936,6 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 
 \begin{itemize}
 
-\item Shifting 
-
-Figure \ref{fig:x-shifting} illustrates shifting the series, which is used to compare one series against another. The user input uses $\mathbf{u}{}_{ij}$, since the user can drag the
-series horizontally to any position. The starting point
-$u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
-as well as the selected series $u_{ij3}$ are the input from the user.
-The horizontally shifting will not change y-coordinates, so for
-$i=$ x-shifting and $j\in\mathcal{N}$, we have
-\begin{eqnarray*}
-\mathbf{m}{}_{ij} & = & 
-\left((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0\right),
-\end{eqnarray*}
-where $I$ is the indicator function.
-
-\item Faceting
-
-In Figure \ref{fig:smoothness}, the interaction type
-$i=$ faceting. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the 
-right panel appears after 20 repeated user actions from
-the plot in the left panel, $j=20$. When $j>20$, the
-plot will remain the same, since the series are already
-fully split. The threshold 20 is got by the initial
-setting of the parameter $p_{i1}=0.05$, which means that every hit
-on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
-Hence for $i=$ faceting and $j\in\mathcal{N}$,
-\begin{eqnarray*}
-\mathbf{m}{}_{ij} & = & \begin{cases}
-\left (0,\;0.05\, (l-1)\, j\right) & 1\leq j<20,\\
-\left (0,\; l-1\right) & j\ge20.
-\end{cases}
-\end{eqnarray*}
-We can also generalize the equation above by
-\begin{eqnarray*}
-\mathbf{m}{}_{ij} & = & \begin{cases}
-\left (0,\; p_{i1}\, (l-1)\, j\right) & 1\leq j<\frac{1}{p_{i1}},\\
-\left (0,\; l-1\right) & j\ge\frac{1}{p_{i1}},
-\end{cases}
-\end{eqnarray*}
-where $p_{i1}\in (0,1)$.
-
-The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
-$j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=l$ in this example
-means the line indicator for faceting.
-
 \item Wrapping
 
 Figure \ref{fig:x-wrapping} shows the horizontal wrapping interaction.
@@ -1157,6 +1011,36 @@ x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(p_{i1})}-x_{(1)}}\right\r
 Movements from the vertical wrapping on the y-direction, could
 be obtained by similar formulas.
 
+\item Faceting
+
+In Figure \ref{fig:smoothness}, the interaction type
+$i=$ faceting. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the 
+right panel appears after 20 repeated user actions from
+the plot in the left panel, $j=20$. When $j>20$, the
+plot will remain the same, since the series are already
+fully split. The threshold 20 is got by the initial
+setting of the parameter $p_{i1}=0.05$, which means that every hit
+on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
+Hence for $i=$ faceting and $j\in\mathcal{N}$,
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left (0,\;0.05\, (l-1)\, j\right) & 1\leq j<20,\\
+\left (0,\; l-1\right) & j\ge20.
+\end{cases}
+\end{eqnarray*}
+We can also generalize the equation above by
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+\left (0,\; p_{i1}\, (l-1)\, j\right) & 1\leq j<\frac{1}{p_{i1}},\\
+\left (0,\; l-1\right) & j\ge\frac{1}{p_{i1}},
+\end{cases}
+\end{eqnarray*}
+where $p_{i1}\in (0,1)$.
+
+The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
+$j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=l$ in this example
+means the line indicator for faceting.
+
 \item Mirroring
 
 To realize the interaction shown in Figure \ref{fig:mirroring},
@@ -1175,6 +1059,20 @@ hits on some triggering key, the movements are
 \end{eqnarray*}
 Note that if the mirroring is revisited after some other interactions,
 then the count of $j$ should not be reset.
+
+\item Shifting 
+
+Figure \ref{fig:x-shifting} illustrates shifting the series, which is used to compare one series against another. The user input uses $\mathbf{u}{}_{ij}$, since the user can drag the
+series horizontally to any position. The starting point
+$u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
+as well as the selected series $u_{ij3}$ are the input from the user.
+The horizontally shifting will not change y-coordinates, so for
+$i=$ x-shifting and $j\in\mathcal{N}$, we have
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & 
+\left((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0\right),
+\end{eqnarray*}
+where $I$ is the indicator function.
 
 \end{itemize}
 
