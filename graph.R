@@ -1,5 +1,7 @@
-########## Figure 1 ############################################################
 devtools::load_all('~/Software/cranvas')
+
+
+########## Figure 1 ############################################################
 library(ggplot2)
 nasa2221 = subset(nasa, Gridx == 22 & Gridy == 21)
 nasa2221$ts = (nasa2221$ts-min(nasa2221$ts))/(diff(range(nasa2221$ts)))
@@ -22,6 +24,7 @@ qplot(Time, conc, data=Rem, geom='line',ylab='Value') +
   #theme(axis.title = element_text(size = rel(1.5)),
   #      axis.text = element_text(size = rel(1.2)))
 dev.off()
+
 
 ########## Figure 2 ############################################################
 #Remi <- Remifentanil[complete.cases(Remifentanil) & Remifentanil$Time<=41,]
@@ -124,6 +127,7 @@ pdf("pipeline-02-themeriver.pdf",width=5,height=3)
 ggplot(pig, aes(x=Time,group=variable,fill=variable))+geom_ribbon(aes(ymin=value, ymax=value2))+theme(legend.position='none')+ylab("Value")
 dev.off()
 
+
 ########## Figure 3 ############################################################
 pdf("pipeline-03-polarline.pdf",width=5,height=5)
 qplot(TimeIndx, ts, data=nasa2221, geom=c('line','point'), ylim=c(-0.1,1), xlab='',ylab='') +
@@ -148,7 +152,18 @@ qplot(Month, TimeIndx, data=nasa2221, geom='rect', fill=ts, group=Year,
         legend.position='none')
 dev.off()
 
-########## Figure 6,7,12 #######################################################
+
+########## Figure 6, 12 ########################################################
+qlynx <- qdata(data.frame(Time=1:114, lynx))
+qtime(Time, lynx, qlynx, shift=1:13, series.stats=FALSE)
+
+
+########## Figure 7 ############################################################
+qpig <- qdata(pigs)
+qtime(TIME, c("GILTS","PROFIT","PRODUCTION","HERDSZ"), qpig, shift=c(1,4))
+
+
+########## Figure 8, 13, 14 ####################################################
 nasa21 = subset(nasa, Gridx %in% 19:21 & Gridy == 21)
 nasa21$Year = factor(nasa21$Year)
 nasa21$Gridx = factor(as.integer(factor(nasa21$Gridx)))
@@ -157,7 +172,26 @@ qnasa = qdata(nasa21)
 qtime(Time,c(A,B),qnasa,vdiv=Individual,shift=c(1,12))
 
 
-########## Figure 1,8 ##########################################################
+########## Figure 9 ############################################################
+nasa$Gridx = factor(nasa$Gridx)
+nasa$Gridy = factor(25-nasa$Gridy)
+nasa$Year = factor(nasa$Year)
+qnasa = qdata(nasa)
+qtime(TimeIndx,ts,qnasa,hdiv=Gridx,vdiv=Gridy,shift=c(1,12),asp=1)
+
+
+########## Figure 10 ###########################################################
+library(nlme)
+Remi = Remifentanil[complete.cases(Remifentanil),]
+Remi$age = cut(Remi$Age,c(18,40,65,90))
+Remi$ht = cut(Remi$Ht,c(153,163,173,183,193))
+Remi$wt = cut(Remi$Wt,c(40,70,80,110))
+Remi$ID = factor(Remi$ID)
+qRemi = qdata(Remi)
+qtime(Time, conc, qRemi, vdiv=c(age,wt,ID), hdiv=c(Sex,ht), infolab=c('Sex','Age','Ht','Wt'),asp=1.8)
+
+
+########## Figure 11 ###########################################################
 nasa2221 = subset(nasa, Gridx==22 & Gridy == 21)
 nasa2221$Year = factor(as.integer(factor(nasa2221$Year)))
 colnames(nasa2221)[c(6,7,9)]=c('Time','Period','Value')
@@ -167,12 +201,7 @@ qtime(Time,Value,qnasa2221,shift=c(1,12),series.stats=FALSE)
 qtime(Time,Value,qnasa2221,shift=c(1,12),vdiv=Period)
 
 
-########## Figure 9 ############################################################
-qlynx <- qdata(data.frame(Time=1:114, lynx))
-qtime(Time, lynx, qlynx, shift=1:13, series.stats=FALSE)
-
-
-########## Figure 14 ###########################################################
+########## Figure 16 ###########################################################
 flu.data <- read.table("http://www.google.org/flutrends/us/data.txt", skip=11, sep=",", header=TRUE)
 flu.data <- flu.data[, c(1, 3:53)]
 library(reshape)
@@ -187,7 +216,7 @@ flu2014$State <- factor(flu2014$State,levels=ord)
 qflu <- qdata(flu2014)
 qtime(days, FluSearches, data=qflu, vdiv="State",shift=c(1,7,28,35,91))
 
-########## Figure 15 ###########################################################
+########## Figure 18 ###########################################################
 
 dat = data.frame(x=1:8,y=c(21,24,30,0,12,8,8,11))
 
