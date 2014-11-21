@@ -182,13 +182,14 @@ qtime(TimeIndx,ts,qnasa,hdiv=Gridx,vdiv=Gridy,shift=c(1,12),asp=1)
 
 ########## Figure 10 ###########################################################
 library(nlme)
-Remi = Remifentanil[complete.cases(Remifentanil),]
+Remi = Remifentanil[complete.cases(Remifentanil) & Remifentanil$Time<=41,]
 Remi$age = cut(Remi$Age,c(18,40,65,90))
-Remi$ht = cut(Remi$Ht,c(153,163,173,183,193))
-Remi$wt = cut(Remi$Wt,c(40,70,80,110))
+Remi$Height = cut(Remi$Ht,c(153,163,173,183,193))
+Remi$Weight = cut(Remi$Wt,c(40,70,80,110))
 Remi$ID = factor(Remi$ID)
+names(Remi)[c(4,7,13)] = c('Concentration','age','Age')
 qRemi = qdata(Remi)
-qtime(Time, conc, qRemi, vdiv=c(age,wt,ID), hdiv=c(Sex,ht), infolab=c('Sex','Age','Ht','Wt'),asp=1.8)
+qtime(Time, Concentration, qRemi, vdiv=c(Age,Weight,ID), hdiv=c(Sex,Height), infolab=c('Sex','age','Ht','Wt'),asp=1.8)
 
 
 ########## Figure 11 ###########################################################
@@ -214,7 +215,7 @@ flu2014 <- subset(flu.melt, days>3980 & days<4100)
 ord <- names(sort(tapply(flu2014$FluSearches,flu2014$State,function(x)which(x>(max(x)/5*3))[1])))
 flu2014$State <- factor(flu2014$State,levels=ord)
 qflu <- qdata(flu2014)
-qtime(days, FluSearches, data=qflu, vdiv="State",shift=c(1,7,28,35,91))
+qtime(days, FluSearches, data=qflu, vdiv="State",shift=c(1,7,28,35,91),infolab='Date')
 
 ########## Figure 18 ###########################################################
 
