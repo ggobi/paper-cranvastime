@@ -351,3 +351,18 @@ points(dat$x,dat$y-10)
 points(dat$x,dat$y-20)
 abline(a=0,b=0,lty=3)
 abline(a=10,b=0,lty=3)
+
+
+########## Figure ? ############################################################
+dat = data.frame(x=1:6+15, y=c(3,5,1,2.6,4.8,1.6))
+plot(dat,type='b',xlab='time',ylab='value',xlim=c(min(dat$x),max(dat$x)))
+
+for (cutx in max(dat$x)-1:3){
+  Sys.sleep(1)
+  abline(v=cutx+0.5,lty=2,col=2)
+  Sys.sleep(1)
+  tmpdat = dat
+  tmpdat$x[dat$x>cutx] = dat$x[dat$x>cutx] - (ceiling((dat$x[dat$x>cutx]-min(dat$x)+1)/(cutx-min(dat$x)+1))-1)*(cutx-min(dat$x)+1)
+  tmpdat=rbind(tmpdat[dat$x<=cutx,],c(NA,NA),tmpdat[dat$x>cutx,])
+  plot(tmpdat,type='b',xlab='time',ylab='value',xlim=c(min(dat$x),max(dat$x)))
+}
