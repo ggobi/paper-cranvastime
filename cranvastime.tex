@@ -994,7 +994,7 @@ or equivalently in terms of line group indicators as well as points as
 
 The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of interactions $j$. The wrapping can be defined as an algorithm also:
 
-\begin{enumerate}
+\begin{enumerate} \itemsep 0in
 \item Shift the data values up, usually by 1
 \item Check the new x-limits, if a point has value large than upper limit, crop it using modulus arithmetic
 \item Points that are cropped, have their line group indicator incremented
@@ -1003,7 +1003,6 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 
 \begin{center}
 \begin{figure}[H]
-\begin{centering}
 %\begin{tabular}{cccc}
 %\includegraphics[width=0.24\textwidth]{graph/pipeline-26-1} &
 %\includegraphics[width=0.24\textwidth]{graph/pipeline-26-2} &
@@ -1013,9 +1012,8 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 %\includegraphics[width=0.24\textwidth]{graph/pipeline-26-6} &
 %\includegraphics[width=0.24\textwidth]{graph/pipeline-26-7} & \\
 %\end{tabular}
-\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}
-\end{centering}
-\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating x-wrapping.}
+\centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
+\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating x-wrapping. There are three consecutive wrapping steps. At step $j=1$ the $x$ value of the last point changes from 21 to 16, and the line group indicator increments to 2. At step $j=2$ the $x$ values of the last two points are changed, and both have line group indicators equal to 2.  The wrapping stop parameter was set to $p_{ij}=3, \forall i,j$ which means that after one more step the wrapping would stop because each series has only 3 points. In the actual implementation the scale of the horizontal axis is changed at each step so that the full plot width is used.}
 \end{figure}
 \par\end{center}
 
