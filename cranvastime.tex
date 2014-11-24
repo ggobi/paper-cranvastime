@@ -40,22 +40,9 @@
 \maketitle
 
 \begin{abstract}
-Exploring temporal data can be facilitated by interactive graphics.
-This paper describes structuring data and plots to make interactive
-exploration of temporal data possible. We first reviews the static
-graphics for the time series and longitudinal data, and introduced
-the interactive graphics with a discussion on the types of interactions.
-Then the display in the point, line, and area layers are introduced
-in a triangle structure of the relationship. Several special
-interactions are proposed for data exploration and pattern examination.
-These interactions requires a new conceptual framework to support
-the heavy load in data transformation, including the timely coordinates
-calculation procedure and the linking system that supports brushing
-under new coordinates. So we elaborated two procedures to transform
-data during the interactions, along with the linking between different
-forms of the dataset, or between the original data and additional data.
-The methods in this paper are implemented in the software cranvas, for
-the qtime display.
+Exploring temporal data can be facilitated by interactive graphics. We describe structuring data objects to support different types of temporal displays. A taxonomy of interactions is given that can be useful for examining different components of multivariate time series and longitudinal data: seasonality, temporal dependence, cross-correlation, within and between subject variation. The conceptual data pipeline framework for realizing the interactions using primarily data transformations is explained. The ideas are implemented in the R package cranvas, which is a system for exploring data using multiple linked windows. The way the temporal displays are linked to displays of other variables as part of a general interactive graphics system is explained.
+
+% This paper describes structuring data and plots to make interactive exploration of temporal data possible. We first reviews the static graphics for the time series and longitudinal data, and introduced the interactive graphics with a discussion on the types of interactions. Then the display in the point, line, and area layers are introduced in a triangle structure of the relationship. Several special interactions are proposed for data exploration and pattern examination. These interactions requires a new conceptual framework to support the heavy load in data transformation, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. So we elaborated two procedures to transform data during the interactions, along with the linking between different forms of the dataset, or between the original data and additional data. The methods in this paper are implemented in the software cranvas, for the qtime display.
 \end{abstract}
 
 \section{Introduction}
