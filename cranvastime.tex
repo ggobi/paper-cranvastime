@@ -926,21 +926,19 @@ about horizontal and vertical positions and adjustments to these
 position. Because, many sequential interactions can be made, and
 different types of interactions applied after each other, it is
 useful to incorporate notation specifying these into the equations.
-Let $\mathcal{I}$ be the temporal stream of interactions,
-like $\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},
-\textrm{zooming},\cdots\}$, and $j\in\mathcal{J}=\{1,2,\cdots,
+Let $\mathcal{I}$ be the temporal sequence of interactions,
+e.g. $\{\textrm{facet},\textrm{wrap},\textrm{facet},
+\textrm{zoom},\cdots\}$, and $j\in\mathcal{J}=\{1,2,\cdots,
 J_{i}\}$ indicate the number of interactions made of type $i\in
-\mathcal{I}$. Let $\mathbf{u}{}_{ij}=(u_{ij1},\, u_{ij2},\cdots)^{T}$
-denote the user's input, e.g. key strokes, and 
-$\mathbf{l}{}_{ij}=(l_{ij1},\, l_{ij2},\cdots)^{T}$
-be a line indicator, since the same input may bring different movements
-to different lines \red{line indicator is not used anywhere else. is it really needed?}, 
-$\mathbf{p}{}_{i}=(p_{i1},\, p_{i2},\, p_{i3},\cdots)^{T}$
-be the corresponding parameter vector, \red{e.g.} wrapping stops
-when there are only $p_{i1}=3$ points in a series, and 
+\mathcal{I}$. Let $\mathbf{u}{}_{ij}=(u_{ij1},\, u_{ij2},\cdots)$
+denote the user's input, e.g. key strokes, 
+$\mathbf{l}{}_{ij}=(l_{ij1},\, l_{ij2},\cdots, l_{ijn})$
+be a line group indicator for each point, since some interactions might force new sets of lines, 
+$\mathbf{p}{}_{i}=(p_{i1},\, p_{i2},\, p_{i3},\cdots)$
+be a parameter vector, e.g. a wrapping stop value of 3 points in series, and 
 $\mathbf{m}{}_{ij}=(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij})$
 denote the movements in x- and y- directions, where $i\in\mathcal{I}$
-is an interaction type. 
+is an interaction type, and $j$ is the number conducted. 
 The new data coordinates are given by 
 \[
 (\mathbf{x},\mathbf{y})_{s+\mathcal{I}_{ij}}=(\mathbf{x},\mathbf{y})_{s}+\mathbf{m}{}_{ij},
@@ -956,7 +954,7 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 
 %\subsection{Defining interactivity}
 
-\noindent These are the specific functional definitions used to generate the movement for $\mathcal{I}_{ij}$. 
+\noindent These are the specific functional definitions used to generate the movement for the interactions available in cranvas. 
 
 \begin{itemize}
 
@@ -964,62 +962,59 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 
 Figure \ref{fig:x-wrapping} (except bottom right plot) illustrates the horizontal wrapping of the lynx trapping data.  The default wrapping interaction, by clicking a keystroke, induces the point at the end of the series, $x_{(n)}$, to be cropped and moved to the very left side of the plot, at the same x-position as $x_{(1)}$. With repeated keystrokes, the most recent elements of the series will be cropped and gradually wrapped onto the earliest elements. Only the x-coordinates are changed -- the y-coordinates remain unchanged.
 
-After cropping points, the first step is to check the new x-limits. Let  $x_{(1)},\cdots,x_{(n)}$ be the sorted x-coordinates of the $n$ points in the series, that is the points in time order. Then the x-limits after $j$ keystrokes for x-wrapping is $(x_{(1)}, x_{(n-j)})$. Hence the new x-coordinate, $x_{new}$ of $x$ is
+For simplicity, we assume that the difference between consecutive time values is 1. Let  $x_{(1)},\cdots,x_{(n)}$ be the sorted x-coordinates of the $n$ points in the series, that is the points in time order. The x-limits after $j$ keystrokes for x-wrapping will be reset to $(x_{(1)}, x_{(n-j)})$, so the plot is rescaled accordingly. Let $\Delta_{n-j}=x_{(n-1)}-x_{(1)}+1$, then the new x-coordinate, $x^*$ of $x$ is
 \begin{eqnarray*}
-x_{new} & = & \begin{cases}
-(x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 & \mbox{if~} 0\neq (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)\\
-x_{(n-j)} &  \mbox{if~} 0\equiv (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)
-\end{cases} \\ & = & \begin{cases}
-(x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rfloor\times(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 & 0\neq (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)\\
-x_{(n-j)} & 0\equiv (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)
-\end{cases} \\ & = &
+x^* & = & \begin{cases}
+x_{(n-j)}  & \mbox{if~} x-x_{(1)}+1 \mbox{~mod}\Delta_{n-j} = 0\\
+(x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} ~~+x_{(1)}-1 &  \mbox{o.w.}
+\end{cases} \\ 
+& = & \begin{cases}
+x_{(n-j)}  & \mbox{if~} (x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} = 0\\
+(x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rfloor\times(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 &\mbox{o.w.}
+\end{cases} \\
+ & = &
 (x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 \\ & = &
 x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1),
 \end{eqnarray*}
-which shows the movements are
+enabling the movements to be described as
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1), \; 0) & 1\leq j \leq n-3 \\
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{x_{(3)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(3)}-x_{(1)}+1), \; 0) & j\ge n-2
-\end{cases} \\ & \equiv & \begin{cases}
+\end{cases} \\ 
+\end{eqnarray*}
+or equivalently in terms of line group indicators as well as points as
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
 (-(\mathbf{l}{}_{ij} -1)\times(x_{(n-j)}-x_{(1)}+1), \; 0) & 1\leq j \leq n-3 \\
 (-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}+1), \; 0) & j\ge n-2.
 \end{cases}
 \end{eqnarray*}
 
-In this case the line indicator $\mathbf{l}{}_{ij}$ is not a constant,
-it depends on the number of interactions $j$.
+The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of interactions $j$. The wrapping can be defined as an algorithm also:
 
-\red{Put an algorithm in here too: (1) Shift x values up 1, (2) Check limits, (3) Modulus of values moves points above limits to left. what happens to lines. Also will add small example with numbers and figure.} 
-
-\begin{quotation}
-Algorithm for wrapping:
-
-1. Confirm the number of points to be shifted, usually 1;
-
-2. Check the new x-limits;
-
-3. Find the new line indicator;
-
-4. Move the points above limits to the left, to modulus of values;
-
-5. Connect the points by line indicator.
-\end{quotation}
+\begin{enumerate}
+\item Shift the data values up, usually by 1
+\item Check the new x-limits, if a point has value large than upper limit, crop it using modulus arithmetic
+\item Points that are cropped, have their line group indicator incremented up
+\item Connect the points that have the same line group indicator, in time order.
+\end{enumerate}
 
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
-\begin{tabular}{cccc}
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-1} &
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-2} &
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-3} &
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-4}\\
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-5} &
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-6} &
-\includegraphics[width=0.24\textwidth]{graph/pipeline-26-7} & \\
-\end{tabular}
+%\begin{tabular}{cccc}
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-1} &
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-2} &
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-3} &
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-4}\\
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-5} &
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-6} &
+%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-7} & \\
+%\end{tabular}
+\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}
 \end{centering}
-\caption{\label{fig:x-wrapping-algorithm} Wrapping horizontally.}
+\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating x-wrapping.}
 \end{figure}
 \par\end{center}
 
@@ -1037,7 +1032,7 @@ Then the x-range after $j$ knocks is
 $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$. Consequently,
 we have
 \begin{eqnarray*}
-x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \\
+x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \\
 \mathbf{m}{}_{ij} & = & \begin{cases}
 (-(\mathbf{l}{}_{ij} -1)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
 (-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}+1), \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
@@ -1050,7 +1045,7 @@ only one jump to the fully wrapped position, as shown in Figure
 then the new x-range will be $(x_{(1)}, x_{(p_{i1})})$, where
 the parameter $p_{i1}$ is the length of period. Hence for $j\ge 1$,
 \begin{eqnarray*}
-x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(p_{i1})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(p_{i1})}-x_{(1)}+1), \\
+x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(p_{i1})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(p_{i1})}-x_{(1)}+1), \\
 \mathbf{m}{}_{ij} & = &
 (-(\mathbf{l}{}_{ij} -1)\times(x_{(p_{i1})}-x_{(1)}+1), \; 0).
 \end{eqnarray*}
