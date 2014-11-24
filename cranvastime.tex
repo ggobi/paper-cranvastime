@@ -1013,23 +1013,11 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 %\includegraphics[width=0.24\textwidth]{graph/pipeline-26-7} & \\
 %\end{tabular}
 \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
-\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating x-wrapping. There are three consecutive wrapping steps. At step $j=1$ the $x$ value of the last point changes from 21 to 16, and the line group indicator increments to 2. At step $j=2$ the $x$ values of the last two points are changed, and both have line group indicators equal to 2.  The wrapping stop parameter was set to $p_{ij}=3, \forall i,j$ which means that after one more step the wrapping would stop because each series has only 3 points. In the actual implementation the scale of the horizontal axis is changed at each step so that the full plot width is used.}
+\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating x-wrapping. There are three consecutive wrapping steps. At step $j=1$ the $x$ value of the last point changes from 21 to 16, and the line group indicator increments to 2. At step $j=2$ the $x$ values of the last two points are changed, and both have line group indicators equal to 2.  The wrapping stop parameter was set to $p_{ij}=3, \forall i,j$, which means that after one more step, $j=3$, the wrapping would stop because each series has only 3 points. In the actual implementation the scale of the horizontal axis is changed at each step so that the full plot width is used.}
 \end{figure}
 \par\end{center}
 
-Sometimes the user wants to wrap the series faster.
-For example, wrapping the series by its period will compare
-the recent periods with the earlier periods quickly.
-In some more complex cases when the period is not fixed,
-or the length of the time series is not a multiplication
-product of the period, the user will need to change the
-wrapping speed on-the-fly. That means every keystroke
-will send a different number of points from the right to
-the left. The number of points wrapped by the $j$th hit,
-can be represented by the user input parameter $u_{ij}$.
-Then the x-range after $j$ knocks is
-$(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$. Consequently,
-we have
+Sometimes it is useful to wrap the series faster. If you have along time series, it might be useful to make full year jumps. This can be achieved with the above equations by setting the sequence of $j$ to respect this period. In other instances it may be useful to have a multiplicative wrapping so that it looks like the series wraps faster and faster with each step. That means every keystroke will send a different number of points from the right to the left. The number of points wrapped by the $j$th step, can be represented by the user input parameter $u_{ij}$. Then the x-range after $j$ steps is $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$, yielding
 \begin{eqnarray*}
 x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \\
 \mathbf{m}{}_{ij} & = & \begin{cases}
