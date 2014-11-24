@@ -356,7 +356,6 @@ abline(a=10,b=0,lty=3)
 ########## Figure ? ############################################################
 dat = data.frame(x=1:6+15, y=c(3,5,1,2.6,4.8,1.6))
 plot(dat,type='b',xlab='time',ylab='value',xlim=c(min(dat$x),max(dat$x)))
-
 for (cutx in max(dat$x)-1:3){
   Sys.sleep(1)
   abline(v=cutx+0.5,lty=2,col=2)
@@ -366,3 +365,61 @@ for (cutx in max(dat$x)-1:3){
   tmpdat=rbind(tmpdat[dat$x<=cutx,],c(NA,NA),tmpdat[dat$x>cutx,])
   plot(tmpdat,type='b',xlab='time',ylab='value',xlim=c(min(dat$x),max(dat$x)))
 }
+
+pdf("pipeline-26-1.pdf",width=4,height=3)
+qplot(x,y,data=dat,geom=c('line','point'),xlab='time',ylab='value')+geom_point(size=I(2))
+dev.off()
+
+pdf("pipeline-26-2.pdf",width=4,height=3)
+qplot(x,y,data=dat,geom=c('line','point'),xlab='time',ylab='value')+
+  geom_point(size=I(2))+geom_vline(xintercept=20.5,color='red',linetype = "longdash")
+dev.off()
+
+pdf("pipeline-26-3.pdf",width=4,height=3)
+tmpdat = dat
+cutx = 20
+tmpdat$x[dat$x>cutx] = dat$x[dat$x>cutx] - (ceiling((dat$x[dat$x>cutx]-min(dat$x)+1)/(cutx-min(dat$x)+1))-1)*(cutx-min(dat$x)+1)
+tmpdat=rbind(dat,tmpdat[dat$x>cutx,])
+qplot(x,y,data=tmpdat[-6,],geom='point',xlab='time',ylab='value',size=I(2))+
+  geom_line(data=tmpdat[1:5,]) +  xlim(16,21) +
+  geom_line(data=tmpdat[5:6,],linetype= "longdash",alpha=I(0.2)) +
+  geom_point(data=tmpdat[6,,drop=FALSE],alpha=I(0.2))
+dev.off()
+
+pdf("pipeline-26-4.pdf",width=4,height=3)
+qplot(x,y,data=tmpdat[-6,],geom='point',xlab='time',ylab='value',size=I(2))+
+  geom_line(data=tmpdat[1:5,]) +  xlim(16,21) +
+  geom_line(data=tmpdat[5:6,],linetype= "longdash",alpha=I(0.2)) +
+  geom_point(data=tmpdat[6,,drop=FALSE],alpha=I(0.2)) +
+  geom_vline(xintercept=19.5,color='red',linetype = "longdash")
+dev.off()
+
+pdf("pipeline-26-5.pdf",width=4,height=3)
+tmpdat = dat
+cutx = 19
+tmpdat$x[dat$x>cutx] = dat$x[dat$x>cutx] - (ceiling((dat$x[dat$x>cutx]-min(dat$x)+1)/(cutx-min(dat$x)+1))-1)*(cutx-min(dat$x)+1)
+tmpdat=rbind(dat,tmpdat[dat$x>cutx,])
+qplot(x,y,data=tmpdat[-(5:6),],geom='point',xlab='time',ylab='value',size=I(2))+
+  geom_line(data=tmpdat[1:4,]) + geom_line(data=tmpdat[7:8,]) + xlim(16,21) +
+  geom_line(data=tmpdat[4:6,],linetype= "longdash",alpha=I(0.2)) +
+  geom_point(data=tmpdat[5:6,],alpha=I(0.2))
+dev.off()
+
+pdf("pipeline-26-6.pdf",width=4,height=3)
+qplot(x,y,data=tmpdat[-(5:6),],geom='point',xlab='time',ylab='value',size=I(2))+
+  geom_line(data=tmpdat[1:4,]) + geom_line(data=tmpdat[7:8,]) + xlim(16,21) +
+  geom_line(data=tmpdat[4:6,],linetype= "longdash",alpha=I(0.2)) +
+  geom_point(data=tmpdat[5:6,],alpha=I(0.2)) +
+  geom_vline(xintercept=18.5,color='red',linetype = "longdash")
+dev.off()
+
+pdf("pipeline-26-7.pdf",width=4,height=3)
+tmpdat = dat
+cutx = 18
+tmpdat$x[dat$x>cutx] = dat$x[dat$x>cutx] - (ceiling((dat$x[dat$x>cutx]-min(dat$x)+1)/(cutx-min(dat$x)+1))-1)*(cutx-min(dat$x)+1)
+tmpdat=rbind(dat,tmpdat[dat$x>cutx,])
+qplot(x,y,data=tmpdat[-(4:6),],geom='point',xlab='time',ylab='value',size=I(2))+
+  geom_line(data=tmpdat[1:3,]) + geom_line(data=tmpdat[7:9,]) + xlim(16,21) +
+  geom_line(data=tmpdat[3:6,],linetype= "longdash",alpha=I(0.2)) +
+  geom_point(data=tmpdat[4:6,],alpha=I(0.2))
+dev.off()

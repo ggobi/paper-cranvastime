@@ -992,6 +992,37 @@ it depends on the number of interactions $j$.
 
 \red{Put an algorithm in here too: (1) Shift x values up 1, (2) Check limits, (3) Modulus of values moves points above limits to left. what happens to lines. Also will add small example with numbers and figure.} 
 
+\begin{quotation}
+Algorithm for wrapping:
+
+1. Confirm the number of points to be shifted, usually 1;
+
+2. Check the new x-limits;
+
+3. Find the new line indicator;
+
+4. Move the points above limits to the left, to modulus of values;
+
+5. Connect the points by line indicator.
+\end{quotation}
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{cccc}
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-1} &
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-2} &
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-3} &
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-4}\\
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-5} &
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-6} &
+\includegraphics[width=0.24\textwidth]{graph/pipeline-26-7} & \\
+\end{tabular}
+\end{centering}
+\caption{\label{fig:x-wrapping-algorithm} Wrapping horizontally.}
+\end{figure}
+\par\end{center}
+
 Sometimes the user wants to wrap the series faster.
 For example, wrapping the series by its period will compare
 the recent periods with the earlier periods quickly.
@@ -1038,32 +1069,32 @@ plot will remain the same, since the series are already
 fully split. The threshold 20 is got by the initial
 setting of the parameter $p_{i1}=0.05$, which means that every hit
 on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
-Hence for $i=$ faceting and $j\in\mathcal{N}$,
+Hence for $i=$ faceting and $j\in\mathcal{J}$,
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
- (0,\;0.05\, (l-1)\, j) & 1\leq j<20,\\
- (0,\; l-1) & j\ge20.
+ (0,\;0.05\, (\mathbf{l}{}_i-1)\, j) & 1\leq j<20,\\
+ (0,\; \mathbf{l}{}_i-1) & j\ge20.
 \end{cases}
 \end{eqnarray*}
 We can also generalize the equation above by
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
- (0,\; p_{i1}\, (l-1)\, j) & 1\leq j<\frac{1}{p_{i1}},\\
- (0,\; l-1) & j\ge\frac{1}{p_{i1}},
+ (0,\; p_{i1}\, (\mathbf{l}{}_i-1)\, j) & 1\leq j<\frac{1}{p_{i1}},\\
+ (0,\; \mathbf{l}{}_i-1) & j\ge\frac{1}{p_{i1}},
 \end{cases}
 \end{eqnarray*}
 where $p_{i1}\in (0,1)$.
 
 The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
-$j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=l$ in this example
-means the line indicator for faceting.
+$j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=\mathbf{l}{}_i$ in this example
+means that the line indicator for faceting is free from $j$.
 
 \item Mirroring
 
 To realize the interaction shown in Figure \ref{fig:mirroring},
 firstly we need to point the divider -- mean in this example.
 Hence for $i=$ mirroring, the divider parameter
-$p = \frac{1}{n}\sum_{d=1}^{n}y_d$. Then by $j\in\mathcal{N}$
+$p = \frac{1}{n}\sum_{d=1}^{n}y_d$. Then by $j\in\mathcal{J}$
 hits on some triggering key, the movements are
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
@@ -1084,7 +1115,7 @@ series horizontally to any position. The starting point
 $u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
 as well as the selected series $u_{ij3}$ are the input from the user.
 The horizontally shifting will not change y-coordinates, so for
-$i=$ x-shifting and $j\in\mathcal{N}$, we have
+$i=$ x-shifting and $j\in\mathcal{J}$, we have
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & 
 ((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0),
