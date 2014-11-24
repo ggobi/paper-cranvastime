@@ -917,15 +917,27 @@ faceting, wrapping, and mirroring.
 
 \subsection{Generating interactions\label{interaction-formulas}}
 
-Let $(\mathbf{x},\mathbf{y})$ denote the positional coordinates for a temporal data set, where both are $n$-dimensional vectors \red{$n$ observations, right? but $n_i$ indicates number of interactions, which may be a bit confusing for the reader}. This notation is unconventional for time series, which typically uses $x_t$ to represent the value records at time $t$, but it is necessary for the graphical display because it allows us to think about horizontal and vertical positions and adjustments to these position. Because, many sequential interactions can be made, and different types of interactions applied after each other, it is useful to incorporate notation specifying these into the equations. Let $i\in\mathcal{I}$=$\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},\textrm{zooming},\cdots\}$ gives the temporal stream of
-interactions, and $j\in\mathcal{N}(=1,2,\cdots,n_{i})$ indicates the number of interactions made of type $i$. Let  
-$\mathbf{u}{}_{ij}=(u_{ij1},\, u_{ij2},\cdots)^{T}$ \red{do you need the $^T$?}
+Let $(\mathbf{x},\mathbf{y})$ denote the positional coordinates
+for a temporal data set, where both are $n$-dimensional vectors
+This notation is unconventional for time series, which typically
+uses $x_t$ to represent the value records at time $t$, but it is
+necessary for the graphical display because it allows us to think
+about horizontal and vertical positions and adjustments to these
+position. Because, many sequential interactions can be made, and
+different types of interactions applied after each other, it is
+useful to incorporate notation specifying these into the equations.
+Let $\mathcal{I}$ be the temporal stream of interactions,
+like $\{\textrm{faceting},\textrm{wrapping},\textrm{faceting},
+\textrm{zooming},\cdots\}$, and $j\in\mathcal{J}=\{1,2,\cdots,
+J_{i}\}$ indicate the number of interactions made of type $i\in
+\mathcal{I}$. Let $\mathbf{u}{}_{ij}=(u_{ij1},\, u_{ij2},\cdots)^{T}$
 denote the user's input, e.g. key strokes, and 
 $\mathbf{l}{}_{ij}=(l_{ij1},\, l_{ij2},\cdots)^{T}$
 be a line indicator, since the same input may bring different movements
 to different lines \red{line indicator is not used anywhere else. is it really needed?}, 
 $\mathbf{p}{}_{i}=(p_{i1},\, p_{i2},\, p_{i3},\cdots)^{T}$
-be the corresponding parameter vector \red{e.g.....} and 
+be the corresponding parameter vector, \red{e.g.} wrapping stops
+when there are only $p_{i1}=3$ points in a series, and 
 $\mathbf{m}{}_{ij}=(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij})$
 denote the movements in x- and y- directions, where $i\in\mathcal{I}$
 is an interaction type. 
@@ -1012,8 +1024,9 @@ x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(p_{i1})}-x_{(1)}+1}\rig
 (-(\mathbf{l}{}_{ij} -1)\times(x_{(p_{i1})}-x_{(1)}+1), \; 0).
 \end{eqnarray*}
 
-Movements from the vertical wrapping on the y-direction, could
-be obtained by similar formulas. \red{Is vertical wrapping really the same? Need to point to a figure with vertical wrapping.}
+Movements from the vertical wrapping on the y-direction, as
+shown in Figure \ref{fig:y-wrapping}, could be obtained by
+similar formulas. \red{Is vertical wrapping really the same? Yes and no.}
 
 \item Faceting
 
