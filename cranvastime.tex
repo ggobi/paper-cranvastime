@@ -308,16 +308,37 @@ layers & map & polygon, googlemaps, path, point\tabularnewline
 
 \par\end{center}
 
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
+\par\end{centering}
+
+\caption{\label{fig:layer-system}The point layer is the center of the system that receives the data and interactions at first. Then the line and area layers adopt the current position from the point layer.}
+\end{figure}
+
+\par\end{center}
+
+
 For temporal data displays, we use three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a base line which enables closing the series to create a set of polygons.  Figure \ref{fig:layer-system} shows the relationship among three layers. Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers:
 
 \begin{enumerate}
 \item Transmission of the brushing information. The brush features like color, size, or visibility, are generated for each observation when creating the mutaframe\citep{plumbr2014,xie2014reactive}.
 The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe, essentially, points are brushed. However, translating this to edges is not simply defined because one edge connects two points, $\# points=\# edges+1$, and for a multivariate time plot with $n$ series, 
 $\# points=\#edges+n.$
-In the area layer, each polygon is defined by a number of edges, \red{i.e., 
-$\#polygons=\#edges.$ I don't think this is right}
-The color of lines follows from the color of the first point of the line segment. For polygons, \red{the color is mapped ***}
+In the area layer, each polygon is defined by a number of edges,
+i.e., $\#polygons=\#edges$.
+As shown in Figure \ref{fig:features}, the color of lines follows from the color of the first point of the line segment.The color of polygons is mapped from the lines.
 
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-13-layer-features}
+\par\end{centering}
+\caption{\label{fig:features}The colors of points are different, so the colors of the edges and polygons follow the points ahead in this case.}
+\end{figure}
+\par\end{center}
 
 % brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
 %\begin{figure}[h]
@@ -332,24 +353,72 @@ The color of lines follows from the color of the first point of the line segment
 points. The point layer only needs the x-y coordinates, while
 the line layer needs the x-y coordinates in order and in groups.
 But the area layer incorporates a baseline, which is generated
-by calculating the minimum of the values on the variable. When
+by calculating the minimum of the values on the variable.
+Table \ref{tab:coordinates-for-layers} shows how data are
+augmented with the line and area layers. When
 the y-coordinates of the variable change, like the shifting in
 Section \ref{sub:Special-interactions}, the baseline need to be
 updated instantly. The additional information challenges the
 linking system, and some details are discussed in Section
 \ref{sub:Linking-of-the-addition}.
-\end{enumerate}
 
 \begin{center}
-\begin{figure}[h]
+\begin{table}[H]
 \begin{centering}
-\includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
-\par\end{centering}
+{\tiny{}}%
+\begin{tabular}{ccc}
+{point layer} & {line layer} & {area layer}\tabularnewline
+{\tiny{}}%
+\begin{tabular}{|c|c|c|}
+\hline 
+{\tiny{x}} & {\tiny{y}} & {\tiny{color}}\tabularnewline
+\hline 
+{\tiny{1}} & {\tiny{3}} & {\tiny{peach}}\tabularnewline
+{\tiny{2}} & {\tiny{5}} & {\tiny{olive}}\tabularnewline
+{\tiny{3}} & {\tiny{2}} & {\tiny{cyan}}\tabularnewline
+{\tiny{4}} & {\tiny{4}} & {\tiny{purple}}\tabularnewline
+{\tiny{5}} & {\tiny{3}} & {\tiny{peach}}\tabularnewline
+\hline 
+\end{tabular} & {\tiny{}}%
+\begin{tabular}{|cc|cc|c|}
+\hline 
+{\tiny{x-start}} & {\tiny{x-end}} & {\tiny{y-start}} & {\tiny{y-end}} & {\tiny{color}}\tabularnewline
+\hline 
+{\tiny{1}} & {\tiny{2}} & {\tiny{3}} & {\tiny{5}} & {\tiny{peach}}\tabularnewline
+{\tiny{2}} & {\tiny{3}} & {\tiny{5}} & {\tiny{2}} & {\tiny{olive}}\tabularnewline
+{\tiny{3}} & {\tiny{4}} & {\tiny{2}} & {\tiny{4}} & {\tiny{cyan}}\tabularnewline
+{\tiny{4}} & {\tiny{5}} & {\tiny{4}} & {\tiny{3}} & {\tiny{purple}}\tabularnewline
+\hline 
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{} &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
+\end{tabular} & {\tiny{}}%
+\begin{tabular}{|cccc|cccc|c|}
+\hline 
+{\tiny{x1}} & {\tiny{x2}} & {\tiny{x3}} & {\tiny{x4}} & {\tiny{y1}} & {\tiny{y2}} & {\tiny{y3}} & {\tiny{y4}} & {\tiny{color}}\tabularnewline
+\hline 
+{\tiny{1}} & {\tiny{2}} & {\tiny{2}} & {\tiny{1}} & {\tiny{3}} & {\tiny{5}} & {\tiny{1}} & {\tiny{1}} & {\tiny{peach}}\tabularnewline
+{\tiny{2}} & {\tiny{3}} & {\tiny{3}} & {\tiny{2}} & {\tiny{5}} & {\tiny{2}} & {\tiny{1}} & {\tiny{1}} & {\tiny{olive}}\tabularnewline
+{\tiny{3}} & {\tiny{4}} & {\tiny{4}} & {\tiny{3}} & {\tiny{2}} & {\tiny{4}} & {\tiny{1}} & {\tiny{1}} & {\tiny{cyan}}\tabularnewline
+{\tiny{4}} & {\tiny{5}} & {\tiny{5}} & {\tiny{4}} & {\tiny{4}} & {\tiny{3}} & {\tiny{1}} & {\tiny{1}} & {\tiny{purple}}\tabularnewline
+\hline 
+\multicolumn{1}{c}{} &  &  & \multicolumn{1}{c}{} &  &  &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
+\end{tabular}\tabularnewline
+\end{tabular}
+\par\end{centering}{\tiny \par}
 
-\caption{\label{fig:layer-system}The point layer is the center of the system that receives the data and interactions at first. Then the line and area layers adopt the current position from the point layer.}
-\end{figure}
+\caption{\label{tab:coordinates-for-layers}Data to generate
+three layers for Figure \ref{fig:features}. The data for
+point layer is in the same structure as the original
+time series. In the line layer, coordinates for both
+sides of four edges are generated from the point data.
+More information is needed for the area layer -- 1 is
+chosen as the baseline. The x/y coordinates for four
+vertexes in each polygon are given, in which the first two
+columns for both x and y are adopted from the line layer.}
+\end{table}
 
 \par\end{center}
+
+\end{enumerate}
 
 
 \section{Interactivity for temporal data plots\label{sec:Design-of-interactions}}

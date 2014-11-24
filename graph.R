@@ -153,6 +153,21 @@ qplot(Month, TimeIndx, data=nasa2221, geom='rect', fill=ts, group=Year,
 dev.off()
 
 
+########## Figure 4 ############################################################
+dat = data.frame(x=1:5,y=c(3,5,2,4,3),col=factor(c(1:4,1)))
+datpoly = data.frame(x=c(1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5),
+                     y=c(3,1,1,5,5,1,1,2,2,1,1,4,4,1,1,3),
+                     col=factor(rep(1:4,each=4)),
+                     id=c(rep(1:4,each=4)))
+datline = data.frame(x1=1:4,x2=2:5,y1=c(3,5,2,4),y2=c(5,2,4,3),col=factor(1:4))
+pdf("pipeline-13-layer-features.pdf",width=5,height=3)
+qplot(x=x,y=y,data=dat,xlab='Time',ylab='Value')+
+  geom_polygon(data=datpoly,aes(x=x,y=y,fill=col,group=id,alpha=0.5)) +
+  geom_segment(data=datline,aes(x=x1,xend=x2,y=y1,yend=y2,colour=col),size=I(2))+
+  geom_point(dat=dat,aes(x=x,y=y,colour=col),size=I(4))+
+  ylim(1,5)+theme(legend.position='none')
+dev.off()
+
 ########## Figure 6, 12 ########################################################
 qlynx <- qdata(data.frame(Time=1:114, lynx))
 qtime(Time, lynx, qlynx, shift=1:13, series.stats=FALSE)
