@@ -939,23 +939,23 @@ Figure \ref{fig:x-wrapping} (except bottom right plot) illustrates the horizonta
 After cropping points, the first step is to check the new x-limits. Let  $x_{(1)},\cdots,x_{(n)}$ be the sorted x-coordinates of the $n$ points in the series, that is the points in time order. Then the x-limits after $j$ keystrokes for x-wrapping is $(x_{(1)}, x_{(n-j)})$. Hence the new x-coordinate, $x_{new}$ of $x$ is
 \begin{eqnarray*}
 x_{new} & = & \begin{cases}
-(x-x_{(1)})\mod(x_{(n-j)}-x_{(1)})+x_{(1)} & \mbox{if~} 0\equiv (x-x_{(1)})\mod(x_{(n-j)}-x_{(1)})\\
-x_{(n-j)} &  \mbox{if~} 0\neq (x-x_{(1)})\mod(x_{(n-j)}-x_{(1)})
+(x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 & \mbox{if~} 0\neq (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)\\
+x_{(n-j)} &  \mbox{if~} 0\equiv (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)
 \end{cases} \\ & = & \begin{cases}
-(x-x_{(1)})-\left\lfloor\frac{x-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rfloor\times(x_{(n-j)}-x_{(1)})+x_{(1)} & 0\equiv (x-x_{(1)})\mod(x_{(n-j)}-x_{(1)})\\
-x_{(n-j)} & 0\neq (x-x_{(1)})\mod(x_{(n-j)}-x_{(1)})
+(x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rfloor\times(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 & 0\neq (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)\\
+x_{(n-j)} & 0\equiv (x-x_{(1)}+1)\mod(x_{(n-j)}-x_{(1)}+1)
 \end{cases} \\ & = &
-(x-x_{(1)})-\left(\left\lceil\frac{x-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)})+x_{(1)} \\ & = &
-x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}),
+(x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 \\ & = &
+x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1),
 \end{eqnarray*}
 which shows the movements are
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
-(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(n-j)}-x_{(1)}}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}), \; 0) & 1\leq j \leq n-3 \\
-(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}}{x_{(3)}-x_{(1)}}\right\rceil -1\right)\times(x_{(3)}-x_{(1)}), \; 0) & j\ge n-2
+(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1), \; 0) & 1\leq j \leq n-3 \\
+(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{x_{(3)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(3)}-x_{(1)}+1), \; 0) & j\ge n-2
 \end{cases} \\ & \equiv & \begin{cases}
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(n-j)}-x_{(1)}), \; 0) & 1\leq j \leq n-3 \\
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}), \; 0) & j\ge n-2.
+(-(\mathbf{l}{}_{ij} -1)\times(x_{(n-j)}-x_{(1)}+1), \; 0) & 1\leq j \leq n-3 \\
+(-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}+1), \; 0) & j\ge n-2.
 \end{cases}
 \end{eqnarray*}
 
@@ -976,10 +976,10 @@ Then the x-range after $j$ knocks is
 $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$. Consequently,
 we have
 \begin{eqnarray*}
-x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}}\right\rceil -1\right)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}), \\
+x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \\
 \mathbf{m}{}_{ij} & = & \begin{cases}
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}), \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}), \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
+(-(\mathbf{l}{}_{ij} -1)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
+(-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}+1), \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
 \end{cases}
 \end{eqnarray*}
 
@@ -989,9 +989,9 @@ only one jump to the fully wrapped position, as shown in Figure
 then the new x-range will be $(x_{(1)}, x_{(p_{i1})})$, where
 the parameter $p_{i1}$ is the length of period. Hence for $j\ge 1$,
 \begin{eqnarray*}
-x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}}{x_{(p_{i1})}-x_{(1)}}\right\rceil -1\right)\times(x_{(p_{i1})}-x_{(1)}), \\
+x_{new} & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(p_{i1})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(p_{i1})}-x_{(1)}+1), \\
 \mathbf{m}{}_{ij} & = &
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(p_{i1})}-x_{(1)}), \; 0).
+(-(\mathbf{l}{}_{ij} -1)\times(x_{(p_{i1})}-x_{(1)}+1), \; 0).
 \end{eqnarray*}
 
 Movements from the vertical wrapping on the y-direction, could
