@@ -1095,6 +1095,8 @@ x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(p_{i1})}-x_{(1)}+1}\right\r
 
 Movements from the vertical wrapping on the y-direction, as shown in Figure \ref{fig:y-wrapping}, could be obtained by similar formulas. It is messier to realize because the y-values are typically not in a sequential order which means that more structural components need to be added to the data to actually draw the wrapped series. Some of the issues are discussed later in this paper.
 
+\red{Write a couple of sentences on these formula used for irregular time series}
+
 \item Faceting
 
 In Figure \ref{fig:smoothness}, the interaction type
@@ -1160,19 +1162,19 @@ where $I$ is the indicator function.
 
 \end{itemize}
 
+\red{\subsection{Additive interactions\label{interaction-addition}}}
+
+\red{Write a couple of sentences about adding interactions, eg Figure \ref{fig:x-wrapping} where you have X wrapping steps, and then a facetting. Can you show the formula for this? This would tie the previous subsection back to the initial notation definition and to Figure \ref{fig:additive-interactions}. }
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
-We will summarize two procedures to calculate the new data coordinates
-after the interactions. The two methods respectively use the storage
-on multiple copies of data, and a binding storage of the data and
-movement.
+Calculations can be made incrementally or with respect to a stable state (baseline), which, respectively, stores multiple copies of data, or a single storage of the data with storage of movement.
 \begin{enumerate}
-\item Let
+\item Incremental: Let
 
 \begin{eqnarray*}
 s_{0} & = & \textrm{initial status},\\
-s_{t+1} & = & s_{t}+u_{i{\color{red}1}}.
+s_{t+1} & = & s_{t}+u_{i1}.
 \end{eqnarray*}
  Note that every new status is only one interaction after the previous
 status. The coordinates are given by
@@ -1184,13 +1186,13 @@ status. The coordinates are given by
 This procedure always computes the next position directly from the
 current position. The change only depends on the corresponding interaction
 parameters and the input. The current status is stored in the memory
-and ready to use for getting the next status. This method is an intuitive
-design and widely used in the interactive graphs with few special
+and ready to use for the next step. This method is an intuitive
+design and \red{widely used (if it is widely used you need to say where with actual citations. I don't think it is widely used. Maybe places like photoshop?)} in the interactive graphs with few special
 interaction types. For example, scatterplots in \texttt{\textbf{cranvas}}
-can record the brush history, i.e., the history of selected data.
-If the user wants to undo or redo the brushing, the historical index
+can record the brush history, the history of selected data.
+If the user wants to undo or redo the brushing, or combine selected sets, the historical index
 will be obtained from the current index and the keystroke,
-then the brush is replaced by the history.
+then the brush is replaced by the history. \red{I don't understand this. How many sets are stored, and what does index mean? Does the whole column of .brushed get stored??? How does the keystroke get saved?}
 %For example, rotations by GGobi  (\citealt{STLBC03})
 %could be either auto-oriented or user-oriented. Only the current position
 %of the data is stored and the next movement can be got easily from
@@ -1198,7 +1200,7 @@ then the brush is replaced by the history.
 %not of interest during the rotation.
 
 The advantage of this procedure includes the straightforward design,
-and the convenience of moving to the previous or next status. However,
+and the convenience of moving to the previous or next status. \red{isn't is also computational efficiency so you don't have to recompute?} However,
 when there are many special interactions that could transform the
 data, we need to record both the initial and current data positions
 of each interaction type in the stream $\mathcal{I}$  (recall Section
@@ -1208,9 +1210,9 @@ should be saved, where $t_{1},t_{2},\cdots,t_{k}$ are the time of
 the end of interaction types $1,2,\cdots,k$. When the data set is
 large, those copies will occupy too much memory. Also, the storage
 and management of $\mathbf{u}{}_{i1}$'s and $\mathbf{l}_{i1}$'s
-is often in a mess. Hence we considered the second procedure as follows.
+is messy. \red{I think another drawback is numerical errors could be introduced?}
 
-\item In this method, to store the $k+1$ phases, we do not make $k+1$
+\item Baseline: To store the $k+1$ phases, we do not make $k+1$
 copies of the data set, instead, the movement item is traceable. The
 coordinates of any status can be computed by 
 \begin{eqnarray*}
@@ -1234,7 +1236,7 @@ Section \ref{interaction-formulas} will provide the target
 position easily. But when different types of modifications
 are mixed, the baseline method structures the computation well.
 
-With this procedure we do not need to save the intermediate
+\red{I don't understand this paragraph} With this procedure we do not need to save the intermediate
 positions of the data, but we have to save the movements.
 Now the problem turns to: how to store the movements? The answer is,
 to save $\mathbf{l}_{ij}$ with the data. This is because $\mathbf{p}{}_{i}$
@@ -1246,14 +1248,10 @@ we use to save the data includes not only the coordinates, point parameters
 like size and color, but also the line indicators $\mathbf{l}_{ij}$
 for every $i \in \mathcal{I}$.
 
-The advantage of this procedure is apparently that we do not have
+The advantage of this procedure is apparent: we do not have
 to save multiple copies of data, and it is a better way to manage
-the data and parameters during the interactions. However, we have
-some concerns too. First, we assumed that the movements are additive.
-This may not be always true, especially when the movement depends
-on some midway data locations. Second, a fixed design of interactions
-is preferred -- complex mixed movements will make it difficult to
-get the overall change.
+the data and parameters during the interactions. However, it is not a comprehensive solution. We assumed that the movements are additive, but this is not always desirable. When changes in type of interaction make calculations better performed on a mid-way state, then it is better to stop, use this state as the baseline and then continue adding movements to this state.
+
 
 \end{enumerate}
 
