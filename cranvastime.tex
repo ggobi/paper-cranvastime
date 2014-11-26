@@ -336,7 +336,7 @@ As shown in Figure \ref{fig:features}, the color of lines follows from the color
 \begin{centering}
 \includegraphics[width=0.4\textwidth]{graph/pipeline-13-layer-features}
 \par\end{centering}
-\caption{\label{fig:features}The colors of points are different, so the colors of the edges and polygons follow the points ahead in this case.}
+\caption{\label{fig:features}Illustration of the coloring logic for the different layers -- everything is driven by the point layer. Each point here has a different color. The color of the lines is determined by the color of the first point in the pair defining the line segment. The color of the polygon is driven by the color of the line segment.}
 \end{figure}
 \par\end{center}
 
@@ -350,7 +350,7 @@ As shown in Figure \ref{fig:features}, the color of lines follows from the color
 %\end{figure}
 
 \item The area layer can sometimes need additional construction
-points. The point layer only needs the x-y coordinates, while
+points. The point layer only needs the \red{$x/y$, check that all of the x,y uses math italics} coordinates, while
 the line layer needs the x-y coordinates in order and in groups.
 But the area layer incorporates a baseline, which is generated
 by calculating the minimum of the values on the variable.
@@ -365,55 +365,47 @@ linking system, and some details are discussed in Section
 \begin{center}
 \begin{table}[H]
 \begin{centering}
-{\tiny{}}%
+{\small{}}%
 \begin{tabular}{ccc}
-{point layer} & {line layer} & {area layer}\tabularnewline
-{\tiny{}}%
-\begin{tabular}{|c|c|c|}
+{Point layer} & {Line layer} & {Area layer}\tabularnewline\tabularnewline
+{\small{}}%
+\begin{tabular}{|c|c|l|}
 \hline 
-{\tiny{x}} & {\tiny{y}} & {\tiny{color}}\tabularnewline
+{\small{$x$}} & {\small{$y$}} & {\small{color}}\tabularnewline
 \hline 
-{\tiny{1}} & {\tiny{3}} & {\tiny{peach}}\tabularnewline
-{\tiny{2}} & {\tiny{5}} & {\tiny{olive}}\tabularnewline
-{\tiny{3}} & {\tiny{2}} & {\tiny{cyan}}\tabularnewline
-{\tiny{4}} & {\tiny{4}} & {\tiny{purple}}\tabularnewline
-{\tiny{5}} & {\tiny{3}} & {\tiny{peach}}\tabularnewline
+{\small{1}} & {\small{3}} & {\small{peach}}\tabularnewline
+{\small{2}} & {\small{5}} & {\small{olive}}\tabularnewline
+{\small{3}} & {\small{2}} & {\small{cyan}}\tabularnewline
+{\small{4}} & {\small{4}} & {\small{purple}}\tabularnewline
+{\small{5}} & {\small{3}} & {\small{peach}}\tabularnewline
 \hline 
-\end{tabular} & {\tiny{}}%
-\begin{tabular}{|cc|cc|c|}
+\end{tabular} & {\small{}}%
+\begin{tabular}{|cc|cc|l|}
 \hline 
-{\tiny{x-start}} & {\tiny{x-end}} & {\tiny{y-start}} & {\tiny{y-end}} & {\tiny{color}}\tabularnewline
+{\small{$x_1$}} & {\small{$x_2$}} & {\small{$y_1$}} & {\small{$y_2$}} & {\small{color}}\tabularnewline
 \hline 
-{\tiny{1}} & {\tiny{2}} & {\tiny{3}} & {\tiny{5}} & {\tiny{peach}}\tabularnewline
-{\tiny{2}} & {\tiny{3}} & {\tiny{5}} & {\tiny{2}} & {\tiny{olive}}\tabularnewline
-{\tiny{3}} & {\tiny{4}} & {\tiny{2}} & {\tiny{4}} & {\tiny{cyan}}\tabularnewline
-{\tiny{4}} & {\tiny{5}} & {\tiny{4}} & {\tiny{3}} & {\tiny{purple}}\tabularnewline
+{\small{1}} & {\small{2}} & {\small{3}} & {\small{5}} & {\small{peach}}\tabularnewline
+{\small{2}} & {\small{3}} & {\small{5}} & {\small{2}} & {\small{olive}}\tabularnewline
+{\small{3}} & {\small{4}} & {\small{2}} & {\small{4}} & {\small{cyan}}\tabularnewline
+{\small{4}} & {\small{5}} & {\small{4}} & {\small{3}} & {\small{purple}}\tabularnewline
 \hline 
 \multicolumn{1}{c}{} & \multicolumn{1}{c}{} &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
-\end{tabular} & {\tiny{}}%
-\begin{tabular}{|cccc|cccc|c|}
+\end{tabular} & {\small{}}%
+\begin{tabular}{|cccc|cccc|l|}
 \hline 
-{\tiny{x1}} & {\tiny{x2}} & {\tiny{x3}} & {\tiny{x4}} & {\tiny{y1}} & {\tiny{y2}} & {\tiny{y3}} & {\tiny{y4}} & {\tiny{color}}\tabularnewline
+{\small{$x_1$}} & {\small{$x_2$}} & {\small{$x_3$}} & {\small{$x_4$}} & {\small{$y_1$}} & {\small{$y_2$}} & {\small{$y_3$}} & {\small{$y_4$}} & {\small{color}}\tabularnewline
 \hline 
-{\tiny{1}} & {\tiny{2}} & {\tiny{2}} & {\tiny{1}} & {\tiny{3}} & {\tiny{5}} & {\tiny{1}} & {\tiny{1}} & {\tiny{peach}}\tabularnewline
-{\tiny{2}} & {\tiny{3}} & {\tiny{3}} & {\tiny{2}} & {\tiny{5}} & {\tiny{2}} & {\tiny{1}} & {\tiny{1}} & {\tiny{olive}}\tabularnewline
-{\tiny{3}} & {\tiny{4}} & {\tiny{4}} & {\tiny{3}} & {\tiny{2}} & {\tiny{4}} & {\tiny{1}} & {\tiny{1}} & {\tiny{cyan}}\tabularnewline
-{\tiny{4}} & {\tiny{5}} & {\tiny{5}} & {\tiny{4}} & {\tiny{4}} & {\tiny{3}} & {\tiny{1}} & {\tiny{1}} & {\tiny{purple}}\tabularnewline
+{\small{1}} & {\small{2}} & {\small{2}} & {\small{1}} & {\small{3}} & {\small{5}} & {\small{1}} & {\small{1}} & {\small{peach}}\tabularnewline
+{\small{2}} & {\small{3}} & {\small{3}} & {\small{2}} & {\small{5}} & {\small{2}} & {\small{1}} & {\small{1}} & {\small{olive}}\tabularnewline
+{\small{3}} & {\small{4}} & {\small{4}} & {\small{3}} & {\small{2}} & {\small{4}} & {\small{1}} & {\small{1}} & {\small{cyan}}\tabularnewline
+{\small{4}} & {\small{5}} & {\small{5}} & {\small{4}} & {\small{4}} & {\small{3}} & {\small{1}} & {\small{1}} & {\small{purple}}\tabularnewline
 \hline 
 \multicolumn{1}{c}{} &  &  & \multicolumn{1}{c}{} &  &  &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
 \end{tabular}\tabularnewline
 \end{tabular}
-\par\end{centering}{\tiny \par}
+\par\end{centering}{\small \par}
 
-\caption{\label{tab:coordinates-for-layers}Data to generate
-three layers for Figure \ref{fig:features}. The data for
-point layer is in the same structure as the original
-time series. In the line layer, coordinates for both
-sides of four edges are generated from the point data.
-More information is needed for the area layer -- 1 is
-chosen as the baseline. The x/y coordinates for four
-vertexes in each polygon are given, in which the first two
-columns for both x and y are adopted from the line layer.}
+\caption{\label{tab:coordinates-for-layers}Data to generate three layers for Figure \ref{fig:features}. The data for point layer is in the same structure as the original time series. In the line layer, coordinates for both sides of four edges are generated from the point data. More structural points are needed for the area layer to form the baseline -- here a $y$-value of 1 is chosen as the baseline. The $x$/$y$ coordinates for four vertexes in each polygon are given, in which the first two columns for both $x$ and $y$ are adopted from the line layer.}
 \end{table}
 
 \par\end{center}
@@ -1257,21 +1249,22 @@ the data and parameters during the interactions. However, it is not a comprehens
 
 \section{Linking\label{sec:Linking}}
 
-Linking plays an important role in interactive graphics, since it
-enhances the visualization of high dimensional data by highlighting
-the same observations on different graphs. \citet{xie2014reactive}
-introduced the mechanism and types of linking, and elaborated self-linking
-and linking on different sources or aggregation levels. However, their
-paper is limited to linking between the existing datasets. For the
-temporal and longitudinal data, linking becomes more complicated when
-there is the need for different forms of the dataset or additional
-data. The two situations are discussed as follows.
+Linking between plots is a critical component of using multiple linked
+windows \citet{XXX} to explore data. \citet{xie2014reactive} describes
+types of linking and how it is realized in cranvas. It is possible to
+both self-link, which is important for temporal data, and link on
+different data sources or aggregation levels, using categorical
+variables.  For the temporal and longitudinal data, linking
+is complicated when there is the need for different forms of
+the dataset or additional data. Two situations are discussed in the following sections.
 
+\red{Need three additional figures here illustrating linking. Multiple series where one time point is brushed. One where the brush picks one point in a series and the whole series highlights. The other where you have a different plot linked to the time series, would suggest map of the USA and google flu trends.}
 
-\subsection{Linking between the time plot and other graphs}
+\subsection{Self-Linking}
 
+Self-linking is primarily used to highlight all of the points in a time series when any one is selected. It is the most common behavior that a user would use. When there are multiple time series, it may also be useful to link to all points representing values recorded at a particular time. 
 
-\subsubsection{``wide data'' and ``long data'' }
+%\subsubsection{``wide data'' and ``long data'' }
 
 The time series and longitudinal data are usually ``wide'', as for
 each time point, there are inputs from multiple variables. To explore
@@ -1298,19 +1291,13 @@ is the corresponding long data of Table \ref{tab:wide-data}.
 Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
 \hline 
 1 & 3.1 & 27 & 11.9 & FALSE & red & 4\tabularnewline
-2 & 3.4 & 23 & 12.5 & TRUE & blue & 3\tabularnewline
+\red{2} & \red{3.4} & \red{23} & \red{12.5} & \red{TRUE} & \red{yellow} & \red{3}\tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
 
-\caption{\label{tab:wide-data}An example of the ``wide data.'' For each
-time point, the aesthetic parameters are shared by all the three variables.
-When plotting the time series, the three dots at the same time point
-will look exactly the same. If any value is brushed in another plot,
-say if V1 at time 2 is brushed in a scatterplot, then \texttt{.brushed}
-of time 2 turns TRUE, which will make V2 and V3 at time 2 brushed
-too.}
+\caption{\label{tab:wide-data}Basic tabular form of data underlying plot, think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight just the points for a particular time (Figure \ref{XXX}). It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series. This is achieved by a data re-structuring.}
 \end{table}
 
 \par\end{center}
@@ -1324,7 +1311,7 @@ too.}
 \hline 
 Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
 \hline 
-1 & V1 & 3.1 & FALSE & red & 4\tabularnewline
+\red{1} & \red{V1} & \red{3.1} & \red{TRUE} & \red{yellow} & \red{4}\tabularnewline
 \textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{yellow} & \textcolor{red}{5}\tabularnewline
 1 & V2 & 27 & FALSE & red & 4\tabularnewline
 2 & V2 & 23 & FALSE & blue & 3\tabularnewline
@@ -1335,9 +1322,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
 \end{tabular}
 \par\end{centering}
 
-\caption{\label{tab:long-data}The corresponding ``long data'' of Table \ref{tab:wide-data}.
-In this format we can change the parameters of one single dot, for
-example, V1 at time 2. }
+\caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{Wickham-rehsape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
 
 \par\end{center}
@@ -1347,8 +1332,9 @@ the wide data for the other plots, and want to link the time plot
 with other plots. Hence the linking between two formats has to be
 constructed.
 
+\subsection{Linking between plots}
 
-\subsubsection{Linking between the ``wide data'' and ``long data''}
+%\subsubsection{Linking between the ``wide data'' and ``long data''}
 
 \citet{xie2014reactive} delineated how linking works for two data
 objects. First a linking variable must be pointed out, then two listeners
@@ -1438,7 +1424,7 @@ As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
 will be cut off.
 
 
-\subsection{Linking of the additional data\label{sub:Linking-of-the-addition}}
+\subsection{Linking of the additional layers\label{sub:Linking-of-the-addition}}
 
 Besides the issue of wide data and long data, there are other datasets
 created during the interactions, such as the follows.
