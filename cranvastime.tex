@@ -1121,14 +1121,6 @@ x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{p_{i2}}}\right\rceil -1
 (-(\mathbf{l}{}_{ij} -1)\times\Delta_{p_{i2}}, \; 0).
 \end{eqnarray*}
 
-Movements from the vertical wrapping on the $y$-direction,
-as shown in Figure \ref{fig:y-wrapping}, could be obtained
-by similar formulas. It is messier to realize because the
-$y$-values are typically not in a sequential order which
-means that more structural components need to be added to
-the data to actually draw the wrapped series. Some of the
-issues are discussed later in this paper.
-
 To generalize our case to the irregular time series, we
 should specify a wrapping speed parameter $p_{i3}$, i.e.,
 with every key stroke, the $x$-range is shortened by at
@@ -1142,6 +1134,14 @@ shifted is a function of $p_{i3}$ and $\mathbf{x}_0$.
 Denote the function as $g_j$, so the new $x$-range is
 $(x_{(1)},x_{(n-g_j(p_{i3},\mathbf{x}_0)})$, and the
 movements can be calculated then.
+
+Movements from the vertical wrapping on the $y$-direction,
+as shown in Figure \ref{fig:y-wrapping}, could be obtained
+by similar formulas. It is messier to realize because the
+$y$-values are typically not in a sequential order which
+means that more structural components need to be added to
+the data to actually draw the wrapped series. Some of the
+issues are discussed later in this paper.
 
 \item Faceting
 
