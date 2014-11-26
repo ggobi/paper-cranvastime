@@ -40,7 +40,18 @@
 \maketitle
 
 \begin{abstract}
-Exploring temporal data can be facilitated by interactive graphics. We describe structuring data objects to support different types of temporal displays. A taxonomy of interactions is given that can be useful for examining different components of multivariate time series and longitudinal data: seasonality, temporal dependence, cross-correlation, within and between subject variation. The conceptual data pipeline framework for realizing the interactions using primarily data transformations is explained. The ideas are implemented in the R package cranvas, which is a system for exploring data using multiple linked windows. The way the temporal displays are linked to displays of other variables as part of a general interactive graphics system is explained.
+Exploring temporal data can be facilitated by interactive graphics.
+We describe structuring data objects to support different types of
+temporal displays. A taxonomy of interactions is given that can be
+useful for examining different components of multivariate time
+series and longitudinal data: seasonality, temporal dependence,
+cross-correlation, within and between subject variation. The
+conceptual data pipeline framework for realizing the interactions
+using primarily data transformations is explained. The ideas are
+implemented in the R package \texttt{\textbf{cranvas}}, which is
+a system for exploring data using multiple linked windows. The way
+the temporal displays are linked to displays of other variables as
+part of a general interactive graphics system is explained.
 
 % This paper describes structuring data and plots to make interactive exploration of temporal data possible. We first reviews the static graphics for the time series and longitudinal data, and introduced the interactive graphics with a discussion on the types of interactions. Then the display in the point, line, and area layers are introduced in a triangle structure of the relationship. Several special interactions are proposed for data exploration and pattern examination. These interactions requires a new conceptual framework to support the heavy load in data transformation, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. So we elaborated two procedures to transform data during the interactions, along with the linking between different forms of the dataset, or between the original data and additional data. The methods in this paper are implemented in the software cranvas, for the qtime display.
 \end{abstract}
@@ -341,13 +352,6 @@ As shown in Figure \ref{fig:features}, the color of lines follows from the color
 \par\end{center}
 
 % brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
-%\begin{figure}[h]
-%\begin{centering}
-%\includegraphics[width=0.9\textwidth]{graph/pipeline-13-layer-features}
-%\par\end{centering}
-
-%\caption{\label{fig:features}The colors of points are different, so the colors of the edges and polygons follow the points ahead in this case.}
-%\end{figure}
 
 \item The area layer can sometimes need additional construction
 points. The point layer only needs the \red{$x/y$, check that all of the x,y uses math italics} coordinates, while
@@ -1000,9 +1004,7 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 \mathbf{m}{}_{ij}=f_{i}(\mathbf{p}{}_{i},\:\mathbf{u}{}_{ij},\;\mathbf{l}_{ij},\; j,\; (\mathbf{x},\mathbf{y})_{0} ).
 \]
 
-%\subsection{Defining interactivity}
-
-\noindent These are the specific functional definitions used to generate the movement for the interactions available in cranvas. 
+\noindent These are the specific functional definitions used to generate the movement for the interactions available in \texttt{\textbf{cranvas}}. 
 
 \begin{itemize}
 
@@ -1018,25 +1020,24 @@ x_{(n-j)}  & \mbox{if~} x-x_{(1)}+1 \mbox{~mod}\Delta_{n-j} = 0\\
 \end{cases} \\ 
 & = & \begin{cases}
 x_{(n-j)}  & \mbox{if~} (x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} = 0\\
-(x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rfloor\times &\mbox{o.w.}\\
-  ~~~~(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 & \\
+(x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rfloor\times\Delta_{n-j}+x_{(1)}-1 &\mbox{o.w.}\\
 \end{cases} \\
  & = &
-(x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1)+x_{(1)}-1 \\ & = &
-x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1),
+(x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times \Delta_{n-j} +x_{(1)}-1 \\ & = &
+x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j},
 \end{eqnarray*}
 enabling the movements to be described as
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
-(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{x_{(n-j)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-j)}-x_{(1)}+1), \; 0) & 1\leq j \leq n-3 \\
-(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{x_{(3)}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(3)}-x_{(1)}+1), \; 0) & j\ge n-2
+(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
+(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_3}\right\rceil -1\right)\times\Delta_3, \; 0) & j\ge n-2
 \end{cases} \\ 
 \end{eqnarray*}
 or equivalently in terms of line group indicators as well as points as
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(n-j)}-x_{(1)}+1), \; 0) & 1\leq j \leq n-3 \\
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}+1), \; 0) & j\ge n-2.
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_3, \; 0) & j\ge n-2.
 \end{cases}
 \end{eqnarray*}
 
@@ -1051,38 +1052,50 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 
 \begin{center}
 \begin{figure}[H]
-%\begin{tabular}{cccc}
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-1} &
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-2} &
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-3} &
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-4}\\
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-5} &
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-6} &
-%\includegraphics[width=0.24\textwidth]{graph/pipeline-26-7} & \\
-%\end{tabular}
 \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
-\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating x-wrapping. There are three consecutive wrapping steps. At step $j=1$ the $x$ value of the last point changes from 21 to 16, and the line group indicator increments to 2. At step $j=2$ the $x$ values of the last two points are changed, and both have line group indicators equal to 2.  The wrapping stop parameter was set to $p_{ij}=3, \forall i,j$, which means that after one more step, $j=3$, the wrapping would stop because each series has only 3 points. In the actual implementation the scale of the horizontal axis is changed at each step so that the full plot width is used.}
+\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
+the horizontal wrapping. There are three consecutive wrapping
+steps. At step $j=1$ the $x$ value of the last point changes
+from 21 to 16, and the line group indicator increments to 2.
+At step $j=2$ the $x$ values of the last two points are changed,
+and both have line group indicators equal to 2.  The wrapping
+stop parameter was set to $p_{i1}=3$, which means that after
+one more step, $n-j=3$, the wrapping would stop because each
+series has only 3 points. In the actual implementation the
+scale of the horizontal axis is changed at each step so that
+the full plot width is used.}
 \end{figure}
 \par\end{center}
 
-Sometimes it is useful to wrap the series faster. If you have along time series, it might be useful to make full year jumps. This can be achieved with the above equations by setting the sequence of $j$ to respect this period. In other instances it may be useful to have a multiplicative wrapping so that it looks like the series wraps faster and faster with each step. That means every keystroke will send a different number of points from the right to the left. The number of points wrapped by the $j$th step, can be represented by the user input parameter $u_{ij}$. Then the x-range after $j$ steps is $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$, yielding
+Sometimes it is useful to wrap the series faster. If you have
+a long time series, it might be useful to make full year jumps.
+This can be achieved with the above equations by setting the
+sequence of $j$ to respect this period. In other instances it
+may be useful to have a multiplicative wrapping so that it
+looks like the series wraps faster and faster with each step.
+That means every keystroke will send a different number of
+points from the right to the left. The number of points
+wrapped by the $j$th step, can be represented by the user
+input parameter $u_{ij}$. Then the x-range after $j$ steps
+is $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$, yielding
+$\Delta_{n-\sum_{a=1}^j u_{ia}}=x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1$, and
 \begin{eqnarray*}
-x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \\
+x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-\sum_{a=1}^j u_{ia}}}\right\rceil -1\right)\times\Delta_{n-\sum_{a=1}^j u_{ia}}, \\
 \mathbf{m}{}_{ij} & = & \begin{cases}
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1), \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(3)}-x_{(1)}+1), \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_{n-\sum_{a=1}^j u_{ia}}, \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_3, \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
 \end{cases}
 \end{eqnarray*}
 
 If the user wants to skip all intermediate positions and use
 only one jump to the fully wrapped position, as shown in Figure
 \ref{fig:faceting-period} from the left to center panel,
-then the new x-range will be $(x_{(1)}, x_{(p_{i1})})$, where
-the parameter $p_{i1}$ is the length of period. Hence for $j\ge 1$,
+then the new x-range will be $(x_{(1)}, x_{(p_{i2})})$, where
+the parameter $p_{i2}$ is the length of period. Hence for $j\ge 1$,
 \begin{eqnarray*}
-x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{x_{(p_{i1})}-x_{(1)}+1}\right\rceil -1\right)\times(x_{(p_{i1})}-x_{(1)}+1), \\
+x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{p_{i2}}}\right\rceil -1\right)\times\Delta_{p_{i2}}, \\
 \mathbf{m}{}_{ij} & = &
-(-(\mathbf{l}{}_{ij} -1)\times(x_{(p_{i1})}-x_{(1)}+1), \; 0).
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_{p_{i2}}, \; 0).
 \end{eqnarray*}
 
 Movements from the vertical wrapping on the y-direction, as shown in Figure \ref{fig:y-wrapping}, could be obtained by similar formulas. It is messier to realize because the y-values are typically not in a sequential order which means that more structural components need to be added to the data to actually draw the wrapped series. Some of the issues are discussed later in this paper.
