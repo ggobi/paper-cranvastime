@@ -1129,7 +1129,19 @@ means that more structural components need to be added to
 the data to actually draw the wrapped series. Some of the
 issues are discussed later in this paper.
 
-\red{Write a couple of sentences on these formula used for irregular time series}
+To generalize our case to the irregular time series, we
+should specify a wrapping speed parameter $p_{i3}$, i.e.,
+with every key stroke, the $x$-range is shortened by at
+least $p_{i3}$. The wrapping speed parameter will determine
+how many points are shifted every time, because if the
+difference between largest two points is greater than
+$p_{i3}$, then only one point is shifted; if the difference
+is smaller than $p_{i3}$, then more than one points are
+shifted. After $j$ steps, the total number of points
+shifted is a function of $p_{i3}$ and $\mathbf{x}_0$.
+Denote the function as $g_j$, so the new $x$-range is
+$(x_{(1)},x_{(n-g_j(p_{i3},\mathbf{x}_0)})$, and the
+movements can be calculated then.
 
 \item Faceting
 
