@@ -301,7 +301,7 @@ a few common plot types in \texttt{\textbf{cranvas}}.
 \hline 
 common & required & brush, identify, keys\tabularnewline
 \cline{2-3} 
-layers & optional & grid, x-axis, y-axis, x-label, y-label, title \tabularnewline
+layers & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
 \hline 
  & scatterplot & point\tabularnewline
 \cline{2-3} 
@@ -354,13 +354,13 @@ As shown in Figure \ref{fig:features}, the color of lines follows from the color
 % brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
 
 \item The area layer can sometimes need additional construction
-points. The point layer only needs the \red{$x/y$, check that all of the x,y uses math italics} coordinates, while
-the line layer needs the x-y coordinates in order and in groups.
+points. The point layer only needs the $x/y$ coordinates, while
+the line layer needs the $x/y$ coordinates in order and in groups.
 But the area layer incorporates a baseline, which is generated
 by calculating the minimum of the values on the variable.
 Table \ref{tab:coordinates-for-layers} shows how data are
 augmented with the line and area layers. When
-the y-coordinates of the variable change, like the shifting in
+the $y$-coordinates of the variable change, like the shifting in
 Section \ref{sub:Special-interactions}, the baseline need to be
 updated instantly. The additional information challenges the
 linking system, and some details are discussed in Section
@@ -409,7 +409,16 @@ linking system, and some details are discussed in Section
 \end{tabular}
 \par\end{centering}{\small \par}
 
-\caption{\label{tab:coordinates-for-layers}Data to generate three layers for Figure \ref{fig:features}. The data for point layer is in the same structure as the original time series. In the line layer, coordinates for both sides of four edges are generated from the point data. More structural points are needed for the area layer to form the baseline -- here a $y$-value of 1 is chosen as the baseline. The $x$/$y$ coordinates for four vertexes in each polygon are given, in which the first two columns for both $x$ and $y$ are adopted from the line layer.}
+\caption{\label{tab:coordinates-for-layers}Data to generate
+three layers for Figure \ref{fig:features}. The data for
+point layer is in the same structure as the original time
+series. In the line layer, coordinates for both sides of
+four edges are generated from the point data. More structural
+points are needed for the area layer to form the baseline --
+here a $y$-value of 1 is chosen as the baseline. The $x$/$y$
+coordinates for four vertexes in each polygon are given, in
+which the first two columns for both $x$ and $y$ are adopted
+from the line layer.}
 \end{table}
 
 \par\end{center}
@@ -473,7 +482,7 @@ data to examine seasonality, and dependence.
 
 Wrapping cut the series by a fixed-length interval in
 the horizontal/vertical direction, and shift the right/top pieces
-to the left/bottom. It could change the x- / y- coordinates of the
+to the left/bottom. It could change the $x$- / $y$- coordinates of the
 data.
 
 There are two reasons for wrapping. The first one
@@ -549,7 +558,7 @@ much easier.
 Top: the original data faceted on variable. HERDSZ and PRODUCTION
 goes up slowly then down after the midway, and grows a little at the
 end. PROFIT and GILTS seems to show the seasonality with increasing
-variation. Bottom: wrapping in y-direction. We see the gradually change
+variation. Bottom: wrapping in $y$-direction. We see the gradually change
 for the first two variables and seasonal change for the latter two
 variables, also a leading pattern between PROFIT and GILTS.}
 \end{figure}
@@ -669,7 +678,7 @@ horizontally, age and weight vertically.}
 It is apparent that faceting by either variable, individual or both
 helps to find the similar or unusual temporal pattern among variables
 and individuals. To realize this functionality we use the variables
-as the y input, and specify the variable name that indicates the individuals
+as the $y$ input, and specify the variable name that indicates the individuals
 or groups. Faceting on period is similar as faceting on individual
 -- in both ways the observations are grouped by a variable indicator
 and the points within group are connected. One idea is that if the
@@ -714,7 +723,7 @@ to compare the extreme values of the two sides, save more room for
 the main body, and provide a better display for the series with binary
 features like loss and earning. It dichotomizes the series by a horizontal
 divider and reflects the bottom area up to the divider with a change
-of the color scheme. The y-coordinates of the data are modified by
+of the color scheme. The $y$-coordinates of the data are modified by
 this interaction.
 
 
@@ -762,7 +771,7 @@ mean.}
 When there are multiple series, we may consider to shift one or more
 series horizontally to match with others for some reason, like the
 starting time of the series is not the same, or one variable is leading
-another. This interaction will modify the x-coordinates for the selected
+another. This interaction will modify the $x$-coordinates for the selected
 series.
 
 
@@ -872,7 +881,7 @@ individuals may lead to two positions by process A and B. Process
 A takes the plot back to the end of the first faceting and the beginning
 of the second faceting. Process B does not stop when the individuals
 are mixed, but keeps working until all the lines are mixed, since
-mixing is just the change of y-coordinates towards the initial location.
+mixing is just the change of $y$-coordinates towards the initial location.
 To avoid process B, the status of faceting by variable should be marked
 and saved.}
 \end{figure}
@@ -989,7 +998,7 @@ be a line group indicator for each point, since some interactions might force ne
 $\mathbf{p}{}_{i}=(p_{i1},\, p_{i2},\, p_{i3},\cdots)$
 be a parameter vector, e.g. a wrapping stop value of 3 points in series, and 
 $\mathbf{m}{}_{ij}=(\Delta\mathbf{x}{}_{ij},\,\Delta\mathbf{y}_{ij})$
-denote the movements in x- and y- directions, where $i\in\mathcal{I}$
+denote the movements in $x$- and $y$- directions, where $i\in\mathcal{I}$
 is an interaction type, and $j$ is the number conducted. 
 The new data coordinates are given by 
 \[
@@ -1010,9 +1019,23 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 
 \item Wrapping
 
-Figure \ref{fig:x-wrapping} (except bottom right plot) illustrates the horizontal wrapping of the lynx trapping data.  The default wrapping interaction, by clicking a keystroke, induces the point at the end of the series, $x_{(n)}$, to be cropped and moved to the very left side of the plot, at the same x-position as $x_{(1)}$. With repeated keystrokes, the most recent elements of the series will be cropped and gradually wrapped onto the earliest elements. Only the x-coordinates are changed -- the y-coordinates remain unchanged.
+Figure \ref{fig:x-wrapping} (except bottom right plot)
+illustrates the horizontal wrapping of the lynx trapping data.
+The default wrapping interaction, by clicking a keystroke,
+induces the point at the end of the series, $x_{(n)}$, to be
+cropped and moved to the very left side of the plot, at the
+same $x$-position as $x_{(1)}$. With repeated keystrokes, the
+most recent elements of the series will be cropped and gradually
+wrapped onto the earliest elements. Only the $x$-coordinates
+are changed -- the $y$-coordinates remain unchanged.
 
-For simplicity, we assume that the difference between consecutive time values is 1. Let  $x_{(1)},\cdots,x_{(n)}$ be the sorted x-coordinates of the $n$ points in the series, that is the points in time order. The x-limits after $j$ keystrokes for x-wrapping will be reset to $(x_{(1)}, x_{(n-j)})$, so the plot is rescaled accordingly. Let $\Delta_{n-j}=x_{(n-j)}-x_{(1)}+1$, then the new x-coordinate, $x^*$ of $x$ is
+For simplicity, we assume that the difference between consecutive
+time values is 1. Let  $x_{(1)},\cdots,x_{(n)}$ be the sorted
+$x$-coordinates of the $n$ points in the series, that is the
+points in time order. The $x$-limits after $j$ keystrokes for
+$x$-wrapping will be reset to $(x_{(1)}, x_{(n-j)})$, so the
+plot is rescaled accordingly. Let $\Delta_{n-j}=x_{(n-j)}-x_{(1)}+1$,
+then the new $x$-coordinate, $x^*$ of $x$ is
 \begin{eqnarray*}
 x^* & = & \begin{cases}
 x_{(n-j)}  & \mbox{if~} x-x_{(1)}+1 \mbox{~mod}\Delta_{n-j} = 0\\
@@ -1045,7 +1068,7 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 
 \begin{enumerate} \itemsep 0in
 \item Shift the data values up, usually by 1
-\item Check the new x-limits, if a point has value large than upper limit, crop it using modulus arithmetic
+\item Check the new $x$-limits, if a point has value large than upper limit, crop it using modulus arithmetic
 \item Points that are cropped, have their line group indicator incremented
 \item Connect the points that have the same line group indicator, in time order.
 \end{enumerate}
@@ -1076,7 +1099,7 @@ looks like the series wraps faster and faster with each step.
 That means every keystroke will send a different number of
 points from the right to the left. The number of points
 wrapped by the $j$th step, can be represented by the user
-input parameter $u_{ij}$. Then the x-range after $j$ steps
+input parameter $u_{ij}$. Then the $x$-range after $j$ steps
 is $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$, yielding
 $\Delta_{n-\sum_{a=1}^j u_{ia}}=x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1$, and
 \begin{eqnarray*}
@@ -1090,7 +1113,7 @@ x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-\sum_{a=1}^j u_{ia}}}
 If the user wants to skip all intermediate positions and use
 only one jump to the fully wrapped position, as shown in Figure
 \ref{fig:faceting-period} from the left to center panel,
-then the new x-range will be $(x_{(1)}, x_{(p_{i2})})$, where
+then the new $x$-range will be $(x_{(1)}, x_{(p_{i2})})$, where
 the parameter $p_{i2}$ is the length of period. Hence for $j\ge 1$,
 \begin{eqnarray*}
 x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{p_{i2}}}\right\rceil -1\right)\times\Delta_{p_{i2}}, \\
@@ -1098,7 +1121,13 @@ x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{p_{i2}}}\right\rceil -1
 (-(\mathbf{l}{}_{ij} -1)\times\Delta_{p_{i2}}, \; 0).
 \end{eqnarray*}
 
-Movements from the vertical wrapping on the y-direction, as shown in Figure \ref{fig:y-wrapping}, could be obtained by similar formulas. It is messier to realize because the y-values are typically not in a sequential order which means that more structural components need to be added to the data to actually draw the wrapped series. Some of the issues are discussed later in this paper.
+Movements from the vertical wrapping on the $y$-direction,
+as shown in Figure \ref{fig:y-wrapping}, could be obtained
+by similar formulas. It is messier to realize because the
+$y$-values are typically not in a sequential order which
+means that more structural components need to be added to
+the data to actually draw the wrapped series. Some of the
+issues are discussed later in this paper.
 
 \red{Write a couple of sentences on these formula used for irregular time series}
 
@@ -1155,10 +1184,10 @@ then the count of $j$ should not be reset.
 
 Figure \ref{fig:x-shifting} illustrates shifting the series, which is used to compare one series against another. The user input uses $\mathbf{u}{}_{ij}$, since the user can drag the
 series horizontally to any position. The starting point
-$u_{ij1}$ and end point $u_{ij2}$ of dragging on the x-axis,
+$u_{ij1}$ and end point $u_{ij2}$ of dragging on the $x$-axis,
 as well as the selected series $u_{ij3}$ are the input from the user.
-The horizontally shifting will not change y-coordinates, so for
-$i=$ x-shifting and $j\in\mathcal{J}$, we have
+The horizontally shifting will not change $y$-coordinates, so for
+$i=$ $x$-shifting and $j\in\mathcal{J}$, we have
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & 
 ((u_{ij2}-u_{ij1})\times I\left\{ \mathbf{l}{}_{ij}=u_{ij3}\right\}, \; 0),
