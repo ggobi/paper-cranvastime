@@ -1049,7 +1049,7 @@ x_{(n-j)}  & \mbox{if~} (x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} = 0\\
 (x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times \Delta_{n-j} +x_{(1)}-1 \\ & = &
 x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j},
 \end{eqnarray*}
-enabling the movements to be described as
+enabling the movements for $i=$ wrap to be described as
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
@@ -1146,14 +1146,16 @@ issues are discussed later in this paper.
 \item Faceting
 
 In Figure \ref{fig:smoothness}, the interaction type
-$i=$ faceting. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the 
+$i=$ facet by individual. The plot in the center
+panel is obtained from the plot in the left panel by
+three repeated user actions, $j=3$. The plot in the 
 right panel appears after 20 repeated user actions from
 the plot in the left panel, $j=20$. When $j>20$, the
 plot will remain the same, since the series are already
 fully split. The threshold 20 is got by the initial
 setting of the parameter $p_{i1}=0.05$, which means that every hit
 on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
-Hence for $i=$ faceting and $j\in\mathcal{J}$,
+Hence for $j\in\mathcal{J}$,
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
  (0,\;0.05\, (\mathbf{l}{}_i-1)\, j) & 1\leq j<20,\\
@@ -1172,6 +1174,15 @@ where $p_{i1}\in (0,1)$.
 The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
 $j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=\mathbf{l}{}_i$ in this example
 means that the line indicator for faceting is free from $j$.
+
+For $i=$ facet by variable/period, one click will fully split
+the variables, so $j$ does not matter. All lines should be 
+standardized between $[0,1]$ first, then the movement is given by
+\[
+\mathbf{m}{}_{ij} = (0,\; \mathbf{l}{}_i-1).
+\]
+Note that $\mathbf{l}{}_i$ in this case differs from
+$\mathbf{l}{}_i$ in faceting by individual.
 
 \item Mirroring
 
@@ -1208,8 +1219,10 @@ where $I$ is the indicator function.
 
 \end{itemize}
 
-\red{\subsection{Additive interactions\label{interaction-addition}}}
+\subsection{Additive interactions\label{interaction-addition}}
 
+We discussed the additivity of interactions in Section
+\ref{sub:Additivity}, 
 \red{Write a couple of sentences about adding interactions, eg Figure \ref{fig:x-wrapping} where you have X wrapping steps, and then a facetting. Can you show the formula for this? This would tie the previous subsection back to the initial notation definition and to Figure \ref{fig:additive-interactions}. }
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
