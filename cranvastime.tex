@@ -1265,39 +1265,48 @@ the dataset or additional data. Two situations are discussed in the following se
 Self-linking is primarily used to highlight all of the points in a time series when any one is selected. It is the most common behavior that a user would use. When there are multiple time series, it may also be useful to link to all points representing values recorded at a particular time. 
 
 %\subsubsection{``wide data'' and ``long data'' }
+Data underlying multiple time series, as for most of the other plots available in cranvas, are usually in ``wide data'' format (Table \ref{tab:wide-data}). One row contains the values recorded for a particular time, and aesthetic parameters are associated with each row. In this form if the display shows the multiple series, then when a user selects one point by brushing, all the points (values for V1, V2, V3) for this time are highlighted. This form is not conducive to selecting an entire time series. 
 
-The time series and longitudinal data are usually ``wide'', as for
-each time point, there are inputs from multiple variables. To explore
-the dependency of the variables regardless of the time, many graph
-types, like the scatterplot and parallel coordinates plot, can be
-applied. However, if we utilize the ``wide data'' directly to generate
-a mutaframe and plot the time series, then different variables must
-share the same point parameters as from the same observations, as
-explained in Table \ref{tab:wide-data}.
+%The time series and longitudinal data are usually ``wide'', as for each time point, there are inputs from multiple variables. To explore the dependency of the variables regardless of the time, many graph types, like the scatterplot and parallel coordinates plot, can be applied. However, if we utilize the ``wide data'' directly to generate a mutaframe and plot the time series, then different variables must share the same point parameters as from the same observations, as explained in Table \ref{tab:wide-data}.
 
-It is not ideal to make all the dots upon the same time point look
-the same. To force them to be brushed or unbrushed simultaneously
-is even a worse design. Hence we need the ``long data'' to assign
-different properties to different points. Table \ref{tab:long-data}
-is the corresponding long data of Table \ref{tab:wide-data}.
+A more flexible format is provided by melting the data into the ``long data'' format (Table \ref{tab:long-data}). In this format it is easy to realize brushing and self-linking in different ways: the user can select a single point, and (1) only this point is highlighted, (2) all points for that variable (e.g. V1) are highlighted, or (3) all points for that time are highlighted. The latter two are achieved by treating ``Variable'' or ``Time'' as a categorical linking variable, respectively.
+
+%It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
+
+\red{I took out .size which just complicates the explanation.}
 
 \begin{center}
 \begin{table}[h]
+\small
 \begin{centering}
-\begin{tabular}{c|ccc|ccc}
+\begin{tabular}{ccc}
+\begin{tabular}{|c|ccc|ll|}
 \hline 
-\multicolumn{4}{c|}{Variables} & \multicolumn{3}{c}{Parameters}\tabularnewline
+\multicolumn{4}{|c|}{Variables} & \multicolumn{2}{c|}{Parameters}\tabularnewline
 \hline 
-Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
+Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} \tabularnewline
 \hline 
-1 & 3.1 & 27 & 11.9 & FALSE & red & 4\tabularnewline
-\red{2} & \red{3.4} & \red{23} & \red{12.5} & \red{TRUE} & \red{yellow} & \red{3}\tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
+1 & 3.1 & 27 & 11.9 & FALSE & red \tabularnewline
+2 & 3.4 & 23 & 12.5 & FALSE & blue \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
+& &
+\begin{tabular}{|c|ccc|ll|}
+\hline 
+\multicolumn{4}{|c|}{Variables} & \multicolumn{2}{c|}{Parameters}\tabularnewline
+\hline 
+Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} \tabularnewline
+\hline 
+1 & 3.1 & 27 & 11.9 & FALSE & red \tabularnewline
+\red{2} & \red{3.4} & \red{23} & \red{12.5} & \red{TRUE} & \red{yellow} \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\hline 
+\end{tabular}
+\end{tabular}
 \par\end{centering}
-
-\caption{\label{tab:wide-data}Basic tabular form of data underlying plot, think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight just the points for a particular time (Figure \ref{XXX}). It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series. This is achieved by a data re-structuring.}
+\normalsize
+\caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
 
 \par\end{center}
@@ -1305,19 +1314,19 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabul
 \begin{center}
 \begin{table}[h]
 \begin{centering}
-\begin{tabular}{c|cc|ccc}
+\begin{tabular}{|c|cc|ll||ll||ll|}
 \hline 
-\multicolumn{1}{c}{} & \multicolumn{2}{c|}{} & \multicolumn{3}{c}{Parameters}\tabularnewline
+\multicolumn{1}{|c}{} & \multicolumn{2}{c|}{} & \multicolumn{2}{c||}{Single point}& \multicolumn{2}{c||}{All V1}& \multicolumn{2}{c|}{All Time$=2$}\tabularnewline
 \hline 
-Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
+Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.brushed} & \texttt{.color} & \texttt{.brushed} & \texttt{.color}\tabularnewline
 \hline 
-\red{1} & \red{V1} & \red{3.1} & \red{TRUE} & \red{yellow} & \red{4}\tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{yellow} & \textcolor{red}{5}\tabularnewline
-1 & V2 & 27 & FALSE & red & 4\tabularnewline
-2 & V2 & 23 & FALSE & blue & 3\tabularnewline
-1 & V3 & 11.9 & FALSE & red & 4\tabularnewline
-2 & V3 & 12.5 & FALSE & blue & 3\tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
+1 & V1 & 3.1 & TRUE & red & \textcolor{red}{TRUE} & \textcolor{red}{yellow} & TRUE & red \tabularnewline
+2 & V1 & 3.4 & \textcolor{red}{TRUE} & \textcolor{red}{yellow} & \textcolor{red}{TRUE} & \textcolor{red}{yellow} & \textcolor{red}{TRUE} & \textcolor{red}{yellow}\tabularnewline
+1 & V2 & 27 & FALSE & red & FALSE & red & FALSE & red\tabularnewline
+2 & V2 & 23 & FALSE & blue & FALSE & blue & \textcolor{red}{TRUE} & \textcolor{red}{yellow} \tabularnewline
+1 & V3 & 11.9 & FALSE & red & FALSE & red & FALSE & red \tabularnewline
+2 & V3 & 12.5 & FALSE & blue & FALSE & blue & \textcolor{red}{TRUE} & \textcolor{red}{yellow}\tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
@@ -1327,12 +1336,13 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
 
 \par\end{center}
 
-The long data is used for the time plot, but sometimes we still need
-the wide data for the other plots, and want to link the time plot
-with other plots. Hence the linking between two formats has to be
-constructed.
+%The long data is used for the time plot, but sometimes we still need the wide data for the other plots, and want to link the time plot with other plots. Hence the linking between two formats has to be constructed.
+
+The long data format is typically the basic format for longitudinal data, where there may be differing number time points per subject, and measured at different times. So this approach to implementing the brushing works here, too.
 
 \subsection{Linking between plots}
+
+\red{Can you change this section given the changes I made to the sectioning and the self-linking explanation? Concentrate on the problems that you have solved rather than those that are unsolved.}
 
 %\subsubsection{Linking between the ``wide data'' and ``long data''}
 
@@ -1426,6 +1436,8 @@ will be cut off.
 
 \subsection{Linking of the additional layers\label{sub:Linking-of-the-addition}}
 
+\red{Same for this section, update it in light of comments I have made on the section 5.1}
+
 Besides the issue of wide data and long data, there are other datasets
 created during the interactions, such as the follows.
 \begin{itemize}
@@ -1501,6 +1513,8 @@ In future, more special interactions would be needed for the time
 dependent data, for example, the transformation between euclidean
 and polar coordinates, and the transformation between time domain
 and frequency domain.
+
+\red{I want to say something about lag plots, first, second...  differences}
 
 This paper aims at the time series and longitudinal data, but the
 ideas on how to assist data-transforming interactions can be applied
