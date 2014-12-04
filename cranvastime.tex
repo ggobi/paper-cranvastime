@@ -1213,8 +1213,30 @@ where $I$ is the indicator function.
 \subsection{Additive interactions\label{interaction-addition}}
 
 We discussed the additivity of interactions in Section
-\ref{sub:Additivity}. \red{Yes, but you need to show some equations if possible.}
-\red{Write a couple of sentences about adding interactions, eg Figure \ref{fig:x-wrapping} where you have X wrapping steps, and then a facetting. Can you show the formula for this? This would tie the previous subsection back to the initial notation definition and to Figure \ref{fig:additive-interactions}. }
+\ref{sub:Additivity}. The cumulative interactions could
+entirely change both $x$ and $y$ coordinates of data.
+For example, Figure \ref{fig:x-wrapping} firstly directs
+75 steps of horizontal wrapping, and then a faceting by
+period. That gives the eventual movement by
+\begin{eqnarray*}
+\mathbf{m} & = & (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{39}}\right\rceil -1\right)\times\Delta_{39}, \; \mathbf{l}{}_{facet}-1) \\
+& = & (-(\mathbf{l}{}_{wrap,75} -1)\times\Delta_{39}, \; \mathbf{l}{}_{facet}-1) \\
+& = & (-(\mathbf{l}{}_{wrap,75} -1)\times\Delta_{39}, \; \mathbf{l}{}_{wrap,75}-1).
+\end{eqnarray*}
+
+Note that $\mathbf{l}{}_{facet} = \mathbf{l}{}_{wrap,75}$
+in this example, because the line group indicator for
+faceting by period is given by the wrapping steps.
+
+In some other cases, a combination of interactions may
+only modify either $x$ or $y$ coordinates. Figure
+\ref{fig:additive-interactions} shows a combination of
+faceting first by variable then by individual. The final
+movement after the full split of individuals would be
+\[
+\mathbf{m} = (0, \; (\mathbf{l}{}_{facet~by~variable}-1)\times \max(\mathbf{l}{}_{facet~by~individual})+(\mathbf{l}{}_{facet~by~individual}-1)).
+\]
+
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
