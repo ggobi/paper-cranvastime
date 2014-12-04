@@ -1261,8 +1261,13 @@ parameters and the input. The current status is stored in the memory
 and ready to use for the next step. This method is an intuitive
 design and \red{widely used (if it is widely used you need to say where with actual citations. I don't think it is widely used. Maybe places like photoshop?)} in the interactive graphs with few special
 interaction types. For example, scatterplots in \texttt{\textbf{cranvas}}
-can record the brush history, the history of selected data.
-If the user wants to undo or redo the brushing, or combine selected sets, the historical index
+can change the size and transparence of dots. The new size (or
+transparence) is always calculated by the multiplication of the
+current size (or transparence) and a constant. The constant is
+greater than 1 if the parameter is increasing, and less than 1 if
+the parameter is decreasing. Another example is the record of brush
+history, i.e., the history of selected data, in \texttt{\textbf{cranvas}}.
+If the user wants to undo or redo the brushing, the historical index
 will be obtained from the current index and the keystroke,
 then the brush is replaced by the history. \red{I don't understand this. How many sets are stored, and what does index mean? Does the whole column of .brushed get stored??? How does the keystroke get saved?}
 %For example, rotations by GGobi  (\citealt{STLBC03})
@@ -1272,7 +1277,8 @@ then the brush is replaced by the history. \red{I don't understand this. How man
 %not of interest during the rotation.
 
 The advantage of this procedure includes the straightforward design,
-and the convenience of moving to the previous or next status. \red{isn't is also computational efficiency so you don't have to recompute?} However,
+the convenience of moving to the previous or next status, and the
+efficiency of avoiding the recomputation. However,
 when there are many special interactions that could transform the
 data, we need to record both the initial and current data positions
 of each interaction type in the stream $\mathcal{I}$  (recall Section
@@ -1309,16 +1315,16 @@ position easily. But when different types of modifications
 are mixed, the baseline method structures the computation well.
 
 \red{I don't understand this paragraph} With this procedure we do not need to save the intermediate
-positions of the data, but we have to save the movements.
-Now the problem turns to: how to store the movements? The answer is,
-to save $\mathbf{l}_{ij}$ with the data. This is because $\mathbf{p}{}_{i}$
-is fixed and $j$ is known, but $\mathbf{u}{}_{ij}$ and $\mathbf{l}_{ij}$
-are different by line, furthermore, $\mathbf{u}{}_{ij}$ would work
-on $\mathbf{l}_{ij}$. So we need to know how the points are assigned
-to the lines before calculating the movements. So the data frame that
+positions of the data, but we have to save the inputs for movements.
+Now the problem turns to: how to store the inputs including
+$\mathbf{p}{}_{i}$, $\mathbf{u}{}_{ij}$, $\mathbf{l}_{ij}$, and $j$? The answer is,
+to save $\mathbf{l}_{iJ_i}$ with the data, where $J_i$ is the largest
+$j$ in each $i \in \mathcal{I}$. This is because $\mathbf{p}{}_{i}$
+is fixed and $j$ is known, $\mathbf{u}{}_{ij}$ is usually a short array,
+but $\mathbf{l}_{ij}$ is of the same length as the data, and depends
+on other parameters like $\mathbf{u}{}_{ij}$. So the data frame that
 we use to save the data includes not only the coordinates, point parameters
-like size and color, but also the line indicators $\mathbf{l}_{ij}$
-for every $i \in \mathcal{I}$.
+like size and color, but also the line group indicators $\mathbf{l}_{iJ_i}$.
 
 The advantage of this procedure is apparent: we do not have
 to save multiple copies of data, and it is a better way to manage
