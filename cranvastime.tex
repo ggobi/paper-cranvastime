@@ -10,6 +10,7 @@
 \usepackage[numbers]{natbib}
 \usepackage{fullpage}
 \usepackage{hyperref}
+\usepackage{multirow}
 
 \makeatletter
 
@@ -1336,30 +1337,52 @@ the data and parameters during the interactions. However, it is not a comprehens
 \section{Linking\label{sec:Linking}}
 
 Linking between plots is a critical component of using multiple linked
-windows \citet{XXX} to explore data. \citet{xie2014reactive} describes
-types of linking and how it is realized in cranvas. It is possible to
-both self-link, which is important for temporal data, and link on
-different data sources or aggregation levels, using categorical
-variables.  For the temporal and longitudinal data, linking
-is complicated when there is the need for different forms of
-the dataset or additional data. Two situations are discussed in the following sections.
+\red{windows \citet{XXX}} to explore data. \citet{xie2014reactive} describes
+types of linking and how it is realized in \texttt{\textbf{cranvas}}.
+It is possible to both self-link, which is important for temporal data,
+and link on different data sources or aggregation levels, using
+categorical variables. For the temporal and longitudinal data,
+linking is complicated when there is the need for different forms of
+the dataset or additional data. Two situations are discussed in
+the following sections.
 
-\red{Need three additional figures here illustrating linking. Multiple series where one time point is brushed. One where the brush picks one point in a series and the whole series highlights. The other where you have a different plot linked to the time series, would suggest map of the USA and google flu trends.}
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{cc}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-27-1} & \multirow{3}{*}[1.8in]{\includegraphics[width=0.45\textwidth]{graph/pipeline-27-3}} \tabularnewline
+\includegraphics[width=0.48\textwidth]{graph/pipeline-27-2} & \tabularnewline
+\includegraphics[width=0.48\textwidth]{graph/pipeline-27-4} & \tabularnewline
+\end{tabular}
+\end{centering}
+\caption{\label{fig:linking}Three additional figures here
+illustrating linking. Multiple series where one time point
+is brushed. One where the brush picks one point in a series
+and the whole series highlights. The other where you have
+a different plot linked to the time series, would suggest
+map of the USA and google flu trends.}
+\end{figure}
+\par\end{center}
 
 \subsection{Self-Linking}
 
 Self-linking is primarily used to highlight all of the points in a time series when any one is selected. It is the most common behavior that a user would use. When there are multiple time series, it may also be useful to link to all points representing values recorded at a particular time. 
 
-%\subsubsection{``wide data'' and ``long data'' }
-Data underlying multiple time series, as for most of the other plots available in cranvas, are usually in ``wide data'' format (Table \ref{tab:wide-data}). One row contains the values recorded for a particular time, and aesthetic parameters are associated with each row. In this form if the display shows the multiple series, then when a user selects one point by brushing, all the points (values for V1, V2, V3) for this time are highlighted. This form is not conducive to selecting an entire time series. 
+Data underlying multiple time series, as for most of the other
+plots available in \texttt{\textbf{cranvas}}, are usually in
+``wide data'' format (Table \ref{tab:wide-data}). One row contains
+the values recorded for a particular time, and aesthetic
+parameters are associated with each row. In this form if the
+display shows the multiple series, then when a user selects
+one point by brushing, all the points (values for V1, V2, V3)
+for this time are highlighted. This form is not conducive to
+selecting either a single point or an entire time series. 
 
 %The time series and longitudinal data are usually ``wide'', as for each time point, there are inputs from multiple variables. To explore the dependency of the variables regardless of the time, many graph types, like the scatterplot and parallel coordinates plot, can be applied. However, if we utilize the ``wide data'' directly to generate a mutaframe and plot the time series, then different variables must share the same point parameters as from the same observations, as explained in Table \ref{tab:wide-data}.
 
 A more flexible format is provided by melting the data into the ``long data'' format (Table \ref{tab:long-data}). In this format it is easy to realize brushing and self-linking in different ways: the user can select a single point, and (1) only this point is highlighted, (2) all points for that variable (e.g. V1) are highlighted, or (3) all points for that time are highlighted. The latter two are achieved by treating ``Variable'' or ``Time'' as a categorical linking variable, respectively.
 
 %It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
-
-\red{I took out .size which just complicates the explanation.}
 
 \begin{center}
 \begin{table}[h]
@@ -1398,7 +1421,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \par\end{center}
 
 \begin{center}
-\begin{table}[h]
+\begin{table}[H]
 \begin{centering}
 \begin{tabular}{|c|cc|ll||ll||ll|}
 \hline 
@@ -1417,7 +1440,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 \end{tabular}
 \par\end{centering}
 
-\caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{Wickham-rehsape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
+\caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
 
 \par\end{center}
@@ -1429,8 +1452,6 @@ The long data format is typically the basic format for longitudinal data, where 
 \subsection{Linking between plots}
 
 \red{Can you change this section given the changes I made to the sectioning and the self-linking explanation? Concentrate on the problems that you have solved rather than those that are unsolved.}
-
-%\subsubsection{Linking between the ``wide data'' and ``long data''}
 
 \citet{xie2014reactive} delineated how linking works for two data
 objects. First a linking variable must be pointed out, then two listeners
@@ -1450,33 +1471,16 @@ shown in Table \ref{tab:wide-long-linking}.
 \begin{center}
 \begin{table}[h]
 \begin{centering}
-\begin{tabular}{c|cc|ccc}
-\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (a) Long data} & \multicolumn{3}{c}{}\tabularnewline
+\begin{tabular}{c|cc|cc}
+\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (a) Long data} & \multicolumn{2}{c}{}\tabularnewline
 \hline 
-Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
+Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
 \hline 
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} & \textcolor{red}{3}\tabularnewline
-2 & V2 & 23 & FALSE & blue & 3\tabularnewline
-2 & V3 & 12.5 & FALSE & blue & 3\tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
-\hline 
-\end{tabular}
-\par\end{centering}
-
-\begin{centering}
-$\Downarrow$
-\par\end{centering}
-
-\begin{centering}
-\begin{tabular}{c|ccc|ccc}
-\multicolumn{4}{c}{ (b) Wide data} & \multicolumn{3}{c}{}\tabularnewline
-\hline 
-Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
-\hline 
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
-\textcolor{red}{2} & \textcolor{red}{3.4} & \textcolor{red}{23} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} & \textcolor{red}{3}\tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+2 & V2 & 23 & FALSE & blue \tabularnewline
+2 & V3 & 12.5 & FALSE & blue \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
@@ -1486,16 +1490,33 @@ $\Downarrow$
 \par\end{centering}
 
 \begin{centering}
-\begin{tabular}{c|cc|ccc}
-\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (c) Long data} & \multicolumn{3}{c}{}\tabularnewline
+\begin{tabular}{c|ccc|cc}
+\multicolumn{4}{c}{ (b) Wide data} & \multicolumn{2}{c}{}\tabularnewline
 \hline 
-Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.size}\tabularnewline
+Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} \tabularnewline
 \hline 
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} & \textcolor{red}{3}\tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V2} & \textcolor{red}{23} & \textcolor{red}{TRUE} & \textcolor{red}{blue} & \textcolor{red}{3}\tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V3} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} & \textcolor{red}{3}\tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{3.4} & \textcolor{red}{23} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+
+\begin{centering}
+$\Downarrow$
+\par\end{centering}
+
+\begin{centering}
+\begin{tabular}{c|cc|cc}
+\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (c) Long data} & \multicolumn{2}{c}{}\tabularnewline
+\hline 
+Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
+\hline 
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V2} & \textcolor{red}{23} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V3} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}

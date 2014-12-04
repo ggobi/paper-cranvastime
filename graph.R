@@ -218,7 +218,7 @@ qtime(Time,Value,qnasa2221,shift=c(1,12),vdiv=Period)
 
 
 ########## Figure 16 ###########################################################
-flu.data <- read.table("http://www.google.org/flutrends/us/data.txt", skip=11, sep=",", header=TRUE)
+flu.data <- read.table("http://www.google.org/flutrends/us/data.txt", skip=11, sep=",", header=TRUE, check.names=FALSE)
 flu.data <- flu.data[, c(1, 3:53)]
 library(reshape)
 flu.melt <- melt(flu.data, id.vars="Date")
@@ -227,10 +227,20 @@ colnames(flu.melt)[2] <- "State"
 colnames(flu.melt)[3] <- "FluSearches"
 flu.melt$days <- as.vector(difftime(flu.melt$Date,as.Date('2002-12-31')))
 flu2014 <- subset(flu.melt, days>3980 & days<4100)
-ord <- names(sort(tapply(flu2014$FluSearches,flu2014$State,function(x)which(x>(max(x)/5*3))[1])))
+flusearch = sort(tapply(flu2014$FluSearches,flu2014$State,function(x)which(x>(max(x)/5*3))[1]))
+ord = names(flusearch)
 flu2014$State <- factor(flu2014$State,levels=ord)
 qflu <- qdata(flu2014)
-qtime(days, FluSearches, data=qflu, vdiv="State",shift=c(1,7,28,35,91),infolab='Date')
+qtime(days, FluSearches, data=qflu, vdiv=State,shift=c(1,7,28,35,91),infolab='Date')
+
+qstate = map_qdata('state')
+qstate$labels = gsub("(\\w)(\\w*)", "\\U\\1\\L\\2", qstate$labels, perl=TRUE)
+qstate$labels[8] = "District of Columbia"
+qstate$.color = paste0('gray',10-flusearch[qstate$labels],'0')
+qmap(qstate)
+
+link_cat(qstate,'labels',qflu,'State')
+
 
 ########## Figure 18 ###########################################################
 
