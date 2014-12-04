@@ -184,7 +184,13 @@ nasa21$Year = factor(nasa21$Year)
 nasa21$Gridx = factor(as.integer(factor(nasa21$Gridx)))
 colnames(nasa21)[c(1,6,9,14)]=c('Individual','Time','A','B')
 qnasa = qdata(nasa21)
-qtime(Time,c(A,B),qnasa,vdiv=Individual,shift=c(1,12))
+a=qtime(Time,c(A,B),qnasa,vdiv=Individual,shift=c(1,12))
+meta=attr(a,'meta')
+a
+meta$brush$style$linewidth=3
+
+qscatter(A,Time,qnasa)
+link_cat(qnasa,'Time')
 
 
 ########## Figure 9 ############################################################
@@ -232,6 +238,8 @@ ord = names(flusearch)
 flu2014$State <- factor(flu2014$State,levels=ord)
 qflu <- qdata(flu2014)
 qtime(days, FluSearches, data=qflu, vdiv=State,shift=c(1,7,28,35,91),infolab='Date')
+
+qhist(FluSearches, data=qflu)
 
 qstate = map_qdata('state')
 qstate$labels = gsub("(\\w)(\\w*)", "\\U\\1\\L\\2", qstate$labels, perl=TRUE)

@@ -1260,22 +1260,13 @@ This procedure always computes the next position directly from the
 current position. The change only depends on the corresponding interaction
 parameters and the input. The current status is stored in the memory
 and ready to use for the next step. This method is an intuitive
-design and \red{widely used (if it is widely used you need to say where with actual citations. I don't think it is widely used. Maybe places like photoshop?)} in the interactive graphs with few special
+design for interactive graphs with few special
 interaction types. For example, scatterplots in \texttt{\textbf{cranvas}}
 can change the size and transparency of dots. The new size (or
 transparency) is always calculated by the multiplication of the
 current size (or transparency) and a constant. The constant is
 greater than 1 if the parameter is increasing, and less than 1 if
-the parameter is decreasing. Another example is the record of brush
-history, i.e., the history of selected data, in \texttt{\textbf{cranvas}}.
-If the user wants to undo or redo the brushing, the historical index
-will be obtained from the current index and the keystroke,
-then the brush is replaced by the history. \red{I don't understand this. How many sets are stored, and what does index mean? Does the whole column of .brushed get stored??? How does the keystroke get saved?}
-%For example, rotations by GGobi  (\citealt{STLBC03})
-%could be either auto-oriented or user-oriented. Only the current position
-%of the data is stored and the next movement can be got easily from
-%the parameter setting and the user's input. The old positions are
-%not of interest during the rotation.
+the parameter is decreasing.
 
 The advantage of this procedure includes the straightforward design,
 the convenience of moving to the previous or next status, and the
@@ -1315,7 +1306,7 @@ Section \ref{interaction-formulas} will provide the target
 position easily. But when different types of modifications
 are mixed, the baseline method structures the computation well.
 
-\red{I don't understand this paragraph} With this procedure we do not need to save the intermediate
+With this procedure we do not need to save the intermediate
 positions of the data, but we have to save the inputs for movements.
 Now the problem turns to: how to store the inputs including
 $\mathbf{p}{}_{i}$, $\mathbf{u}{}_{ij}$, $\mathbf{l}_{ij}$, and $j$? The answer is,
@@ -1337,7 +1328,7 @@ the data and parameters during the interactions. However, it is not a comprehens
 \section{Linking\label{sec:Linking}}
 
 Linking between plots is a critical component of using multiple linked
-\red{windows \citet{XXX}} to explore data. \citet{xie2014reactive} describes
+windows \citep{stuetzle1987plot} to explore data. \citet{xie2014reactive} describes
 types of linking and how it is realized in \texttt{\textbf{cranvas}}.
 It is possible to both self-link, which is important for temporal data,
 and link on different data sources or aggregation levels, using
@@ -1346,25 +1337,7 @@ linking is complicated when there is the need for different forms of
 the dataset or additional data. Two situations are discussed in
 the following sections.
 
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\begin{tabular}{cc}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-27-1} & \multirow{3}{*}[1.8in]{\includegraphics[width=0.45\textwidth]{graph/pipeline-27-3}} \tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-27-2} & \tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-27-4} & \tabularnewline
-\end{tabular}
-\end{centering}
-\caption{\label{fig:linking}Three additional figures here
-illustrating linking. Multiple series where one time point
-is brushed. One where the brush picks one point in a series
-and the whole series highlights. The other where you have
-a different plot linked to the time series, would suggest
-map of the USA and google flu trends.}
-\end{figure}
-\par\end{center}
-
-\subsection{Self-Linking}
+\subsection{Self-linking}
 
 Self-linking is primarily used to highlight all of the points in a time series when any one is selected. It is the most common behavior that a user would use. When there are multiple time series, it may also be useful to link to all points representing values recorded at a particular time. 
 
@@ -1449,9 +1422,38 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 
 The long data format is typically the basic format for longitudinal data, where there may be differing number time points per subject, and measured at different times. So this approach to implementing the brushing works here, too.
 
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
+\par\end{centering}
+\caption{\label{fig:self-linking}(Left) only a single point is
+highlighted by the brush. (Center) all points for that series are
+highlighted. (Right) all points for that time are highlighted.}
+\end{figure}
+\par\end{center}
+
 \subsection{Linking between plots}
 
 \red{Can you change this section given the changes I made to the sectioning and the self-linking explanation? Concentrate on the problems that you have solved rather than those that are unsolved.}
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{cl}
+\multirow{5}{*}[2in]{\includegraphics[width=0.4\textwidth]{graph/pipeline-28-1}}
+& \includegraphics[width=0.48\textwidth]{graph/pipeline-28-2} \tabularnewline
+& \tabularnewline
+& \tabularnewline
+& \includegraphics[width=0.4\textwidth]{graph/pipeline-28-3} \tabularnewline
+& \tabularnewline
+\end{tabular}
+\end{centering}
+\caption{\label{fig:linking-plots}different plots linked to the time series}
+\end{figure}
+\par\end{center}
 
 \citet{xie2014reactive} delineated how linking works for two data
 objects. First a linking variable must be pointed out, then two listeners
@@ -1541,15 +1543,13 @@ As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
 will be cut off.
 
 
-\subsection{Linking of the additional layers\label{sub:Linking-of-the-addition}}
-
-\red{Same for this section, update it in light of comments I have made on the section 5.1}
+\subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
 
 Besides the issue of wide data and long data, there are other datasets
-created during the interactions, such as the follows.
+created during the interactions that could create some linking issues,
+such as the follows.
 \begin{itemize}
 \item The polygon data from the area layer. 
-
 
 As shown in Figure \ref{fig:layer-system}, the area layer does not
 only need the values in the time series, but also the baseline to
@@ -1559,10 +1559,10 @@ two from the time series and two from the baseline. Because the polygon
 layer should listen to the point and line layers, the link between
 the original data and the polygon data is one-way.
 
-\item Copies of the dataset during the first procedure in Section \ref{sub:Two-procedures}.
+\item Copies of the dataset during the incremental operation.
 
-
-When adopting this procedure, the variations of original dataset will
+When adopting the incremental procedure in Section 
+\ref{sub:Two-procedures}, the variations of original dataset will
 be created with multiple stages of the interactions. However, these
 additional datasets are not required to get linked, because we only
 make the copies of the coordinates, not the properties. To use the
@@ -1570,7 +1570,6 @@ coordinates, we combine them with the properties in the last minute,
 so there will not be any linking issues.
 
 \item Additional areas from the vertical cropping.
-
 
 The example of vertical cropping is shown in Figure \ref{fig:y-wrapping}
 and Figure \ref{fig:Additional-data} explained how the interaction
