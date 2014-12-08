@@ -1566,32 +1566,30 @@ make the copies of the coordinates, not the properties. To use the
 coordinates, we combine them with the properties in the last minute,
 so there will not be any linking issues.
 
-\item Additional areas from the vertical cropping.
+\item Additional areas from the vertical faceting.
 
-The example of vertical cropping is shown in Figure \ref{fig:y-wrapping}
+The example of vertical faceting is shown in Figure \ref{fig:y-wrapping}
 and Figure \ref{fig:Additional-data} explained how the interaction
 creates the additional areas. In Figure \ref{fig:Additional-data},
 the black dots are given by the time series, and the red dots are
-created during the cropping, by the choice of cutting lines. The black
-and red dots are mixed in some order to form the shaded polygons.
-Whenever a point is brushed, one, two, or even more cropped polygons
-should be highlighted. Hence the two-direction linking between the
-cropped polygons and points should be constructed. Note that this is
-a one-to-$n$ mapping, and the linking variable is the point ID, which
-should be assigned to the polygons when the red dots are generated.
-
+created during the cropping step of faceting, by the choice of
+cutting lines. The black and red dots are mixed in some order to
+form the shaded polygons. Whenever a point is brushed, one, two,
+or even more cropped polygons should be highlighted. Hence the
+two-direction linking between the cropped polygons and points
+should be constructed. Note that this is a one-to-$n$ mapping,
+and the linking variable is the point ID, which should be assigned
+to the polygons when the red dots are generated.
 
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-1} \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
 \par\end{centering}
-
 \caption{\label{fig:Additional-data}Additional data created from the vertical
-cropping. The black dots are given by the time series, and the red
-dots are created during the cropping.}
+faceting. The black dots are given by the time series, and the red
+dots are created during the cropping step of faceting.}
 \end{figure}
-
 \par\end{center}
 
 \end{itemize}
