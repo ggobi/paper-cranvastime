@@ -1441,13 +1441,13 @@ highlighted on all the plots. In the normal cases of
 so the brush interaction will modify the parameter attached
 to the data and trigger the listeners of plots to highlight
 the corresponding part. However, linking between a time
-series plot and other plots is a special case, because the
+series plot and other plots is different, because the
 data to create the time plot is in the long data format,
 while the data to create the other plots, like scatterplots
 or histograms, are in the wide data format. Hence, a link
 between the two data formats must be constructed.
 
-\citet{xie2014reactive} delineated how linking works for two data
+\citet{xie2014reactive} delineated how to link two data
 objects. First a linking variable must be pointed out, then two listeners
 are attached on the two objects. If the \texttt{.brushed} parameter
 switches in one dataset, then the listener is triggered. And if any
@@ -1456,16 +1456,17 @@ variable as the first dataset, then the corresponding \texttt{.brushed}
 parameter in the second dataset will be changed. 
 
 Note that the linking between wide data and long data is not a one-to-one
-linking. In the direction from wide to long data, each entry in the
+linking. ``Time'' is the linking variable between two formats.
+In the direction from wide to long data, each entry in the
 wide data can project to multiple entries in the long data. In the
 opposite direction, an entry in the long data will map to one entry in
 the wide data. The unbalanced linking could produce a problem, as
 shown in Table \ref{tab:wide-long-linking}.
 
 This problem can be solved by cutting off the backward linking.
-To facilitate the cutoff, we can make a trick when adding the listeners
-to the datasets. We put two signals in the two listeners. When one
-listener is triggered, the signal will be turned on until the listener
+To facilitate the cutoff, two signals are added respectively
+in the listeners of the two data objects. When one listener
+is triggered, the signal will be turned on until the listener
 finishes its work. During this period, the other listener cannot work.
 As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
 will be cut off.
