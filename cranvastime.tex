@@ -1246,8 +1246,10 @@ interaction types. For example, scatterplots in \texttt{\textbf{cranvas}}
 can change the size and transparency of dots. The new size (or
 transparency) is always calculated by the multiplication of the
 current size (or transparency) and a constant. The constant is
-greater than 1 if the parameter is increasing, and less than 1 if
-the parameter is decreasing.
+greater than 1 if the aesthetic parameter is increasing, and
+less than 1 if the parameter is decreasing. The exponential
+growth of the parameter accelerates the change and reduces the
+times of repeated interaction.
 
 The advantage of this procedure includes the straightforward design,
 the convenience of moving to the previous or next status, and the
@@ -1261,7 +1263,9 @@ should be saved, where $t_{1},t_{2},\cdots,t_{k}$ are the time of
 the end of interaction types $1,2,\cdots,k$. When the data set is
 large, those copies will occupy too much memory. Also, the storage
 and management of $\mathbf{u}{}_{i1}$'s and $\mathbf{l}_{i1}$'s
-is messy. \red{I think another drawback is numerical errors could be introduced?}
+is messy. Another drawback is that numerical errors could be
+introduced after the same number of forward and backward
+interactions, due to the floating-point arithmetic calculation.
 
 \item Baseline: To store the $k+1$ phases, we do not make $k+1$
 copies of the data set, instead, the movement item is traceable. The
