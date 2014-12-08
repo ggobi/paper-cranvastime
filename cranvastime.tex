@@ -1338,7 +1338,16 @@ selecting either a single point or an entire time series.
 
 %The time series and longitudinal data are usually ``wide'', as for each time point, there are inputs from multiple variables. To explore the dependency of the variables regardless of the time, many graph types, like the scatterplot and parallel coordinates plot, can be applied. However, if we utilize the ``wide data'' directly to generate a mutaframe and plot the time series, then different variables must share the same point parameters as from the same observations, as explained in Table \ref{tab:wide-data}.
 
-A more flexible format is provided by melting the data into the ``long data'' format (Table \ref{tab:long-data}). In this format it is easy to realize brushing and self-linking in different ways: the user can select a single point, and (1) only this point is highlighted, (2) all points for that variable (e.g. V1) are highlighted, or (3) all points for that time are highlighted. The latter two are achieved by treating ``Variable'' or ``Time'' as a categorical linking variable, respectively.
+A more flexible format is provided by melting the data
+into the ``long data'' format (Table \ref{tab:long-data}).
+In this format it is easy to realize brushing and self-linking
+in different ways: the user can select a single point, and
+(1) only this point is highlighted, (2) all points for
+that line (e.g. V1) are highlighted, or (3) all points
+for that time are highlighted (Figure \ref{fig:self-linking}).
+The latter two are achieved by treating the line group
+indicator or ``Time'' as a categorical linking variable,
+respectively.
 
 %It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
 
@@ -1375,7 +1384,22 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \normalsize
 \caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
+\par\end{center}
 
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
+\par\end{centering}
+\caption{\label{fig:self-linking}When a single point is brushed,
+there could be three modes of highlighting: (left) only a single
+point is highlighted; (center) all points for that series are
+highlighted, by treating the line group indicators as the categorical
+linking variables; (right) all points for that time are highlighted,
+by using the time as a linking variable.}
+\end{figure}
 \par\end{center}
 
 \begin{center}
@@ -1397,28 +1421,16 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 \hline 
 \end{tabular}
 \par\end{centering}
-
 \caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
-
 \par\end{center}
 
-%The long data is used for the time plot, but sometimes we still need the wide data for the other plots, and want to link the time plot with other plots. Hence the linking between two formats has to be constructed.
+The long data format is typically the basic format
+for longitudinal data, where there may be differing
+number time points per subject, and measured at
+different times. So this approach to implementing
+the brushing works here, too.
 
-The long data format is typically the basic format for longitudinal data, where there may be differing number time points per subject, and measured at different times. So this approach to implementing the brushing works here, too.
-
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
-\par\end{centering}
-\caption{\label{fig:self-linking}(Left) only a single point is
-highlighted by the brush. (Center) all points for that series are
-highlighted. (Right) all points for that time are highlighted.}
-\end{figure}
-\par\end{center}
 
 \subsection{Linking between plots}
 
