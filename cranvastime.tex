@@ -1434,23 +1434,18 @@ the brushing works here, too.
 
 \subsection{Linking between plots}
 
-\red{Can you change this section given the changes I made to the sectioning and the self-linking explanation? Concentrate on the problems that you have solved rather than those that are unsolved.}
-
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\begin{tabular}{cl}
-\multirow{5}{*}[2in]{\includegraphics[width=0.4\textwidth]{graph/pipeline-28-1}}
-& \includegraphics[width=0.48\textwidth]{graph/pipeline-28-2} \tabularnewline
-& \tabularnewline
-& \tabularnewline
-& \includegraphics[width=0.4\textwidth]{graph/pipeline-28-3} \tabularnewline
-& \tabularnewline
-\end{tabular}
-\end{centering}
-\caption{\label{fig:linking-plots}different plots linked to the time series}
-\end{figure}
-\par\end{center}
+Linking between plots builds a reactive brushing chain that
+when the data points on one plot are brushed, then they are
+highlighted on all the plots. In the normal cases of
+\texttt{\textbf{cranvas}}, data behind the plots is unique,
+so the brush interaction will modify the parameter attached
+to the data and trigger the listeners of plots to highlight
+the corresponding part. However, linking between a time
+series plot and other plots is a special case, because the
+data to create the time plot is in the long data format,
+while the data to create the other plots, like scatterplots
+or histograms, are in the wide data format. Hence, a link
+between the two data formats must be constructed.
 
 \citet{xie2014reactive} delineated how linking works for two data
 objects. First a linking variable must be pointed out, then two listeners
@@ -1463,15 +1458,28 @@ parameter in the second dataset will be changed.
 Note that the linking between wide data and long data is not a one-to-one
 linking. In the direction from wide to long data, each entry in the
 wide data can project to multiple entries in the long data. In the
-other direction, an entry in the long data will map to one entry in
+opposite direction, an entry in the long data will map to one entry in
 the wide data. The unbalanced linking could produce a problem, as
 shown in Table \ref{tab:wide-long-linking}.
+
+This problem can be solved by cutting off the backward linking.
+To facilitate the cutoff, we can make a trick when adding the listeners
+to the datasets. We put two signals in the two listeners. When one
+listener is triggered, the signal will be turned on until the listener
+finishes its work. During this period, the other listener cannot work.
+As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
+will be cut off.
+
+Figure \ref{fig:linking-plots} shows the linking between
+a longitudinal time plot, a map, and a histogram. The data
+come from the Google Flu Trends
+\footnote{Source: http://www.google.org/flutrends/.}.
 
 \begin{center}
 \begin{table}[h]
 \begin{centering}
 \begin{tabular}{c|cc|cc}
-\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (a) Long data} & \multicolumn{2}{c}{}\tabularnewline
+\multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
 \hline 
 Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
 \hline 
@@ -1490,7 +1498,7 @@ $\Downarrow$
 
 \begin{centering}
 \begin{tabular}{c|ccc|cc}
-\multicolumn{4}{c}{ (b) Wide data} & \multicolumn{2}{c}{}\tabularnewline
+\multicolumn{6}{c}{(b) Wide data format, used in other plots}\tabularnewline
 \hline 
 Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} \tabularnewline
 \hline 
@@ -1507,7 +1515,7 @@ $\Downarrow$
 
 \begin{centering}
 \begin{tabular}{c|cc|cc}
-\multicolumn{1}{c}{} & \multicolumn{2}{c}{ (c) Long data} & \multicolumn{2}{c}{}\tabularnewline
+\multicolumn{5}{c}{(c) Long data format, used in time plots}\tabularnewline
 \hline 
 Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
 \hline 
@@ -1519,25 +1527,34 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
-
 \caption{\label{tab:wide-long-linking}Linking between the long and wide data
-may produce a problem. Suppose we start from brushing a point  (V1
+format may produce a problem. Suppose we start from brushing a point  (V1
 at time 2) in the long data  (a). Then the listener of the long data
 is triggered and changes the .brushed parameter for time 2 in the
 wide data  (b). Then the listener of the wide data is triggered and
 switches the .brushed parameter for all the observations at time 2
-in the long data  (c), which conflicts with  (a).}
+in the long data  (c), which will update (a) but make a conflict.}
 \end{table}
-
 \par\end{center}
 
-The way to solve this problem is cutting off the backward linking.
-To facilitate the cutoff, we can make a trick when adding the listeners
-to the datasets. We put two signals in the two listeners. When one
-listener is triggered, the signal will be turned on until the listener
-finishes its work. During this period, the other listener cannot work.
-As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
-will be cut off.
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{cl}
+\multirow{5}{*}[1.3in]{\includegraphics[width=0.3\textwidth]{graph/pipeline-28-1}}
+& \includegraphics[width=0.36\textwidth]{graph/pipeline-28-2} \tabularnewline
+& \tabularnewline
+& \tabularnewline
+& \includegraphics[width=0.3\textwidth]{graph/pipeline-28-3} \tabularnewline
+& \tabularnewline
+\end{tabular}
+\par\end{centering}
+\caption{\label{fig:linking-plots}Linking between different plots
+for the Google Flu Trends data from November 24, 2013 -- March 16, 2014.
+When California in the map is brushed, all the flu searches from the
+state are also highlighted in the longitudinal plot and histogram.}
+\end{figure}
+\par\end{center}
 
 
 \subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
