@@ -1181,13 +1181,44 @@ faceting by period is given by the wrapping steps.
 
 In some other cases, a combination of interactions may
 only modify either $x$ or $y$ coordinates. Figure
-\ref{fig:additive-interactions} shows a combination of
-faceting first by variable then by individual. The final
-movement after the full split of individuals would be
+\ref{fig:faceting-var-ind} (a $\rightarrow$ b $\rightarrow$ d)
+shows a combination of faceting first by variable then
+by individual. The final movement after the full split
+of individuals would be
 \[
 \mathbf{m} = (0, \; (\mathbf{l}{}_{facet~by~variable}-1)\times \max(\mathbf{l}{}_{facet~by~individual})+(\mathbf{l}{}_{facet~by~individual}-1)).
 \]
+Table \ref{tab:additive-faceting} takes the first point
+of each series as an example to show $y$ and the changes
+at the three stages.
 
+\begin{center}
+\begin{table}[h]
+\begin{centering}
+\begin{tabular}{|c|c|cc|c||c||c|}
+\cline{1-2} \cline{5-7}
+$l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\tabularnewline
+\cline{1-2} \cline{5-7}
+1 & 1 &  &  & 0.16 & 0.16+(1-1)=0.16 & 0.16+(1-1)$\times$3+(1-1)=0.16\tabularnewline
+\cline{1-2} \cline{5-7}
+1 & 2 &  &  & 0.33 & 0.33+(1-1)=0.33 & 0.33+(1-1)$\times$3+(2-1)=1.33\tabularnewline
+\cline{1-2} \cline{5-7}
+1 & 3 &  &  & 0.26 & 0.26+(1-1)=0.26 & 0.26+(1-1)$\times$3+(3-1)=2.26\tabularnewline
+\cline{1-2} \cline{5-7}
+2 & 1 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(1-1)=3.84\tabularnewline
+\cline{1-2} \cline{5-7}
+2 & 2 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(2-1)=4.84\tabularnewline
+\cline{1-2} \cline{5-7}
+2 & 3 &  &  & 0.90 & 0.90+(2-1)=1.90 & 0.90+(2-1)$\times$3+(3-1)=5.90\tabularnewline
+\cline{1-2} \cline{5-7}
+\end{tabular}
+\par\end{centering}
+\caption{\label{tab:additive-faceting}$y$-coordinates of the
+first point on each line, at Figure \ref{fig:faceting-var-ind}
+(a) no faceting, (b) faceting by variable, (d) faceting by
+variable then individual.}
+\end{table}
+\par\end{center}
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
@@ -1496,7 +1527,7 @@ will be cut off.
 \subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
 
 Besides the issue of wide data and long data, there are other datasets
-created during the interactions that could create some linking issues,
+created during the interactions that could produce some linking issues,
 such as the follows.
 \begin{itemize}
 \item The polygon data from the area layer. 
