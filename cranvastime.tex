@@ -1181,13 +1181,44 @@ faceting by period is given by the wrapping steps.
 
 In some other cases, a combination of interactions may
 only modify either $x$ or $y$ coordinates. Figure
-\ref{fig:additive-interactions} shows a combination of
-faceting first by variable then by individual. The final
-movement after the full split of individuals would be
+\ref{fig:faceting-var-ind} (a $\rightarrow$ b $\rightarrow$ d)
+shows a combination of faceting first by variable then
+by individual. The final movement after the full split
+of individuals would be
 \[
 \mathbf{m} = (0, \; (\mathbf{l}{}_{facet~by~variable}-1)\times \max(\mathbf{l}{}_{facet~by~individual})+(\mathbf{l}{}_{facet~by~individual}-1)).
 \]
+Table \ref{tab:additive-faceting} takes the first point
+of each series as an example to show $y$ and the changes
+at the three stages.
 
+\begin{center}
+\begin{table}[h]
+\begin{centering}
+\begin{tabular}{|c|c|cc|c||c||c|}
+\cline{1-2} \cline{5-7}
+$l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\tabularnewline
+\cline{1-2} \cline{5-7}
+1 & 1 &  &  & 0.16 & 0.16+(1-1)=0.16 & 0.16+(1-1)$\times$3+(1-1)=0.16\tabularnewline
+\cline{1-2} \cline{5-7}
+1 & 2 &  &  & 0.33 & 0.33+(1-1)=0.33 & 0.33+(1-1)$\times$3+(2-1)=1.33\tabularnewline
+\cline{1-2} \cline{5-7}
+1 & 3 &  &  & 0.26 & 0.26+(1-1)=0.26 & 0.26+(1-1)$\times$3+(3-1)=2.26\tabularnewline
+\cline{1-2} \cline{5-7}
+2 & 1 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(1-1)=3.84\tabularnewline
+\cline{1-2} \cline{5-7}
+2 & 2 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(2-1)=4.84\tabularnewline
+\cline{1-2} \cline{5-7}
+2 & 3 &  &  & 0.90 & 0.90+(2-1)=1.90 & 0.90+(2-1)$\times$3+(3-1)=5.90\tabularnewline
+\cline{1-2} \cline{5-7}
+\end{tabular}
+\par\end{centering}
+\caption{\label{tab:additive-faceting}$y$-coordinates of the
+first point on each line, at Figure \ref{fig:faceting-var-ind}
+(a) no faceting, (b) faceting by variable, (d) faceting by
+variable then individual.}
+\end{table}
+\par\end{center}
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
@@ -1215,8 +1246,10 @@ interaction types. For example, scatterplots in \texttt{\textbf{cranvas}}
 can change the size and transparency of dots. The new size (or
 transparency) is always calculated by the multiplication of the
 current size (or transparency) and a constant. The constant is
-greater than 1 if the parameter is increasing, and less than 1 if
-the parameter is decreasing.
+greater than 1 if the aesthetic parameter is increasing, and
+less than 1 if the parameter is decreasing. The exponential
+growth of the parameter accelerates the change and reduces the
+times of repeated interaction.
 
 The advantage of this procedure includes the straightforward design,
 the convenience of moving to the previous or next status, and the
@@ -1230,7 +1263,9 @@ should be saved, where $t_{1},t_{2},\cdots,t_{k}$ are the time of
 the end of interaction types $1,2,\cdots,k$. When the data set is
 large, those copies will occupy too much memory. Also, the storage
 and management of $\mathbf{u}{}_{i1}$'s and $\mathbf{l}_{i1}$'s
-is messy. \red{I think another drawback is numerical errors could be introduced?}
+is messy. Another drawback is that numerical errors could be
+introduced after the same number of forward and backward
+interactions, due to the floating-point arithmetic calculation.
 
 \item Baseline: To store the $k+1$ phases, we do not make $k+1$
 copies of the data set, instead, the movement item is traceable. The
@@ -1303,7 +1338,16 @@ selecting either a single point or an entire time series.
 
 %The time series and longitudinal data are usually ``wide'', as for each time point, there are inputs from multiple variables. To explore the dependency of the variables regardless of the time, many graph types, like the scatterplot and parallel coordinates plot, can be applied. However, if we utilize the ``wide data'' directly to generate a mutaframe and plot the time series, then different variables must share the same point parameters as from the same observations, as explained in Table \ref{tab:wide-data}.
 
-A more flexible format is provided by melting the data into the ``long data'' format (Table \ref{tab:long-data}). In this format it is easy to realize brushing and self-linking in different ways: the user can select a single point, and (1) only this point is highlighted, (2) all points for that variable (e.g. V1) are highlighted, or (3) all points for that time are highlighted. The latter two are achieved by treating ``Variable'' or ``Time'' as a categorical linking variable, respectively.
+A more flexible format is provided by melting the data
+into the ``long data'' format (Table \ref{tab:long-data}).
+In this format it is easy to realize brushing and self-linking
+in different ways: the user can select a single point, and
+(1) only this point is highlighted, (2) all points for
+that line (e.g. V1) are highlighted, or (3) all points
+for that time are highlighted (Figure \ref{fig:self-linking}).
+The latter two are achieved by treating the line group
+indicator or ``Time'' as a categorical linking variable,
+respectively.
 
 %It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
 
@@ -1340,7 +1384,22 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \normalsize
 \caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
+\par\end{center}
 
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
+\par\end{centering}
+\caption{\label{fig:self-linking}When a single point is brushed,
+there could be three modes of highlighting: (left) only a single
+point is highlighted; (center) all points for that series are
+highlighted, by treating the line group indicators as the categorical
+linking variables; (right) all points for that time are highlighted,
+by using the time as a linking variable.}
+\end{figure}
 \par\end{center}
 
 \begin{center}
@@ -1362,28 +1421,16 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 \hline 
 \end{tabular}
 \par\end{centering}
-
 \caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
-
 \par\end{center}
 
-%The long data is used for the time plot, but sometimes we still need the wide data for the other plots, and want to link the time plot with other plots. Hence the linking between two formats has to be constructed.
+The long data format is typically the basic format
+for longitudinal data, where there may be differing
+number time points per subject, and measured at
+different times. So this approach to implementing
+the brushing works here, too.
 
-The long data format is typically the basic format for longitudinal data, where there may be differing number time points per subject, and measured at different times. So this approach to implementing the brushing works here, too.
-
-\begin{center}
-\begin{figure}[H]
-\begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
-\par\end{centering}
-\caption{\label{fig:self-linking}(Left) only a single point is
-highlighted by the brush. (Center) all points for that series are
-highlighted. (Right) all points for that time are highlighted.}
-\end{figure}
-\par\end{center}
 
 \subsection{Linking between plots}
 
@@ -1496,7 +1543,7 @@ will be cut off.
 \subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
 
 Besides the issue of wide data and long data, there are other datasets
-created during the interactions that could create some linking issues,
+created during the interactions that could produce some linking issues,
 such as the follows.
 \begin{itemize}
 \item The polygon data from the area layer. 
@@ -1519,32 +1566,30 @@ make the copies of the coordinates, not the properties. To use the
 coordinates, we combine them with the properties in the last minute,
 so there will not be any linking issues.
 
-\item Additional areas from the vertical cropping.
+\item Additional areas from the vertical faceting.
 
-The example of vertical cropping is shown in Figure \ref{fig:y-wrapping}
+The example of vertical faceting is shown in Figure \ref{fig:y-wrapping}
 and Figure \ref{fig:Additional-data} explained how the interaction
 creates the additional areas. In Figure \ref{fig:Additional-data},
 the black dots are given by the time series, and the red dots are
-created during the cropping, by the choice of cutting lines. The black
-and red dots are mixed in some order to form the shaded polygons.
-Whenever a point is brushed, one, two, or even more cropped polygons
-should be highlighted. Hence the two-direction linking between the
-cropped polygons and points should be constructed. Note that this is
-a one-to-$n$ mapping, and the linking variable is the point ID, which
-should be assigned to the polygons when the red dots are generated.
-
+created during the cropping step of faceting, by the choice of
+cutting lines. The black and red dots are mixed in some order to
+form the shaded polygons. Whenever a point is brushed, one, two,
+or even more cropped polygons should be highlighted. Hence the
+two-direction linking between the cropped polygons and points
+should be constructed. Note that this is a one-to-$n$ mapping,
+and the linking variable is the point ID, which should be assigned
+to the polygons when the red dots are generated.
 
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-1} \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
 \par\end{centering}
-
 \caption{\label{fig:Additional-data}Additional data created from the vertical
-cropping. The black dots are given by the time series, and the red
-dots are created during the cropping.}
+faceting. The black dots are given by the time series, and the red
+dots are created during the cropping step of faceting.}
 \end{figure}
-
 \par\end{center}
 
 \end{itemize}
