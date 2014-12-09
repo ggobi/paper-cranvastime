@@ -689,7 +689,8 @@ to the right. So it can not be replaced by faceting on individual.
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-01-1} \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-01-1}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
 \par\end{centering}
 
@@ -907,10 +908,22 @@ area layer, and right is the target position. See the video at \url{https://vime
 Some interactions do not have an obvious target, e.g. wrapping.
 Then two types of designs for the movement direction are useful
 (Figure \ref{fig:interaction-direction}). A bi-directional design
-is smoother, because users can ease forward and backup on demand.
-However, it can be annoying, because it requires possibly too
-many commands to return to the inital state. Both styles of
-movement need a quick return to an initial state.
+is smoother, because users can ease forward and backup on demand,
+to tune the state. However, it can be annoying, because it
+requires possibly too many commands and additional keyboard
+manipulation to return to the inital state. The bi-directional
+design works better for the interactions that change the
+coordinates or parameters further by repeating the command,
+e.g., horizontal or vertical wrapping. The other design, looping,
+is better for the interactions that jump to a parallel
+position. For example, in Figure \ref{fig:faceting-4ind} and
+its video, a longitudinal dataset is faceted by four categorical
+variables. The order of the categories on $x$ and $y$ axes can
+be rotated by some keyboard manipulations. Different orders make
+different positions, but they are all parallel with no position
+prior to the other in terms of the computational complexity.
+However, both styles of movement will need a quick return to
+an initial state, for convenience.
 
 %but there must exist two manipulating commands for the forward and backward interactions. This is annoying to the users when there are many interactions because it doubles the number of commands. The loop design only needs one command, but a sudden change will happen in the transition from the last position to the starting position. Also, backing to the previous position will be a little painful by this design.
 
