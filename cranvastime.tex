@@ -849,12 +849,8 @@ within individual. Figure \ref{fig:faceting-period} shows another
 example of additivity: from the left to right, horizontal wrapping
 is followed by faceting on period. It is also interesting to
 note that wrapping vertically after mirroring, will result in
-a horizon graph, \red{like Figure \ref{fig:y-wrapping}}.
+a horizon graph, like Figure \ref{fig:horizontal-axis} (f).
 %Also, users should be able to select the points, query the information, and link to other graphs after any interaction.
-
-\red{Does the discussion in the next paragraph belong to the next subsection (transitional speed)?}
-
-\red{I think I know where some of the confusions happens: the word ``facet'' implies separate windows, but the vertical shifting is done in pieces, incrementally. So using faceting leads people to think in the wrong way. Need something else, elastic facetting, transitional facetting, ...?? Have looked up alternatives, detangle, extrude, but none are right.}
 
 To make the interactions additive is not trivial when multiple types are allowed. It is important to know the current state, the initial state, and some intermediate states. When iteratively adding more of the same type of interaction, we can think of forward and backward movements. For these we need to know when to stop moving forwards, and knowing when the initial state is reached when backing up.  If a different interaction is started, keeping the state when this starts makes for a cleaner design.  Figure \ref{fig:additive-interactions} explains why both the current and initial status are required by a faceting example. This will be re-visited Section \ref{sub:Two-procedures} after the formulas for different interactions are described.
 
@@ -880,10 +876,13 @@ a target state  (e.g. Figure \ref{fig:smoothness}) there is a
 potential for a speed parameter. This parameter would control
 how quickly the plot changes to get to the target. There is
 some benefit for slow, smooth transitions, because small
-inconsistencies in are revealed as series slide slowly last
+inconsistencies are revealed as series slide slowly past
 each other. There is also benefit to moving fast, to quickly
-get to a target state. \red{It is also possible that there is no
-known, or fixed target state.}
+get to a target state. It is also possible that there is no
+known, or fixed target state, in which case using the fast
+transitions could get to the neighborhood of the target state
+quickly, and using the slow transitions is easier to find the
+optimum when the state is close.
 
 %For the interactions that modify the data coordinates, there will be a starting position, several  (or none) intermediate positions and a target position  (Figure \ref{fig:smoothness}). The starting position is the point coordinates before the interaction. The target position is the coordinates that maximize the effect of the interaction. The target position could either be known or unknown by the user. When it is known, any intermediate positions are not urgently needed, the interaction could be just a command to make the points jump from the starting position to the target. For example, with a known period, the user can wrap the series on the period directly. However, under many situations the target position is not known, and human intelligence are involved to seek the target. Then the intermediate positions are very important, and the step length between intermediate positions is crucial. The small steps make the interaction look smooth and not likely to miss the interesting phenomena, but are slow to reach the optimum. The big steps get close to the target quickly, but may miss it. Hence a gear to adjust the step length will be handy to control.
 
