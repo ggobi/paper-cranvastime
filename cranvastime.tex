@@ -82,7 +82,7 @@ Longitudinal data.
 
 \section{Introduction}
 
-Interactive graphics for temporal data build upon static displays. Aspects of the displays are made available for modifying by user actions on the plot, for the purpose of facilitating different explorations. There are many different ways of displaying temporal data, some of which depend on the structure of the time descriptor. 
+We can think about constructing interactive graphics for temporal data as building upon static displays. Aspects of the displays are made available for modifying by user actions on the plot, for the purpose of facilitating different explorations. There are many different ways of displaying temporal data, some of which depend on the structure of the time descriptor. 
 
 %Interactions would change the static pictures by some order such that the user can find the best graphical summary. Hence before introducing the interactive graphics, we give an overview of the static graphics for temporal and longitudinal data in this section.
 
@@ -168,7 +168,7 @@ of the initial value, and in most cases the price will not increase
 or decrease for more than 30\%.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \begin{tabular}{cc}
 (a) & (b) \\
@@ -231,7 +231,7 @@ the short period problems and multiple time series.
 \end{itemize}
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-polarline}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-polarperiod}
@@ -346,7 +346,7 @@ layers & map & polygon, googlemaps, path, point\tabularnewline
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
 \par\end{centering}
@@ -368,7 +368,7 @@ i.e., $\#polygons=\#edges$.
 As shown in Figure \ref{fig:features}, the color of lines follows from the color of the first point of the line segment.The color of polygons is mapped from the lines.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.4\textwidth]{graph/pipeline-13-layer-features}
 \par\end{centering}
@@ -392,7 +392,7 @@ linking system, and some details are discussed in Section
 \ref{sub:Linking-of-the-addition}.
 
 \begin{center}
-\begin{table}[H]
+\begin{table}[htp]
 \begin{centering}
 {\small{}}%
 \begin{tabular}{ccc}
@@ -522,7 +522,7 @@ when multiple series are faceted.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.84\textwidth]{graph/pipeline-16-original}
 \par\end{centering}
@@ -561,7 +561,7 @@ much easier.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
 \par\end{centering}
@@ -613,7 +613,7 @@ facet on period. Those faceting methods change the coordinates
 of the points, and then the baselines of the area layer.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \begin{tabular}{cc}
 \multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
@@ -646,7 +646,7 @@ and two in the vertical direction.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
 \par\end{centering}
@@ -667,7 +667,7 @@ The north part is bumpier than the middle and south part.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
 \par\end{centering}
@@ -711,7 +711,7 @@ to the right. So it can not be replaced by faceting on individual.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-01-1}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
@@ -759,7 +759,7 @@ additional data in linking.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-18-original}
 \par\end{centering}
@@ -797,7 +797,7 @@ pattern.
 
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
@@ -832,7 +832,7 @@ Switching between the layers does not change the data  (just need to
 add the baselines), but the following interactions will require for
 some data modification.
 
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \begin{tabular}{cc}
 \multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
@@ -880,7 +880,7 @@ a horizon graph, like Figure \ref{fig:horizontal-axis} (f).
 To make the interactions additive is not trivial when multiple types are allowed. It is important to know the current state, the initial state, and some intermediate states. When iteratively adding more of the same type of interaction, we can think of forward and backward movements. For these we need to know when to stop moving forwards, and knowing when the initial state is reached when backing up.  If a different interaction is started, keeping the state when this starts makes for a cleaner design.  Figure \ref{fig:additive-interactions} explains why both the current and initial status are required by a faceting example. This will be re-visited Section \ref{sub:Two-procedures} after the formulas for different interactions are described.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 %\includegraphics[width=0.5\textwidth]{graph/pipeline-20-additive-interactions}
 \includegraphics[width=0.5\textwidth]{graph/additivity.pdf}
@@ -912,7 +912,7 @@ optimum when the state is close.
 %For the interactions that modify the data coordinates, there will be a starting position, several  (or none) intermediate positions and a target position  (Figure \ref{fig:smoothness}). The starting position is the point coordinates before the interaction. The target position is the coordinates that maximize the effect of the interaction. The target position could either be known or unknown by the user. When it is known, any intermediate positions are not urgently needed, the interaction could be just a command to make the points jump from the starting position to the target. For example, with a known period, the user can wrap the series on the period directly. However, under many situations the target position is not known, and human intelligence are involved to seek the target. Then the intermediate positions are very important, and the step length between intermediate positions is crucial. The small steps make the interaction look smooth and not likely to miss the interesting phenomena, but are slow to reach the optimum. The big steps get close to the target quickly, but may miss it. Hence a gear to adjust the step length will be handy to control.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-original}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-smooth}
@@ -952,7 +952,7 @@ an initial state, for convenience.
 %but there must exist two manipulating commands for the forward and backward interactions. This is annoying to the users when there are many interactions because it doubles the number of commands. The loop design only needs one command, but a sudden change will happen in the transition from the last position to the starting position. Also, backing to the previous position will be a little painful by this design.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 %\includegraphics[width=0.98\textwidth]{graph/pipeline-21-directions}
 \includegraphics[width=0.70\textwidth]{graph/direction.pdf}
@@ -1086,7 +1086,7 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 \end{enumerate}
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
 \caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
 the horizontal wrapping. There are three consecutive wrapping
@@ -1457,7 +1457,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \par\end{center}
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
@@ -1473,7 +1473,7 @@ by using the time as a linking variable.}
 \par\end{center}
 
 \begin{center}
-\begin{table}[H]
+\begin{table}[htp]
 \begin{centering}
 \begin{tabular}{|c|cc|ll||ll||ll|}
 \hline 
@@ -1544,10 +1544,10 @@ will be cut off.
 Figure \ref{fig:linking-plots} shows the linking between
 a longitudinal time plot, a map, and a histogram. The data
 come from the Google Flu Trends
-\footnote{Source: http://www.google.org/flutrends/.}.
+(\url{http://www.google.org/flutrends/}).
 
 \begin{center}
-\begin{table}[H]
+\begin{table}[htp]
 \begin{centering}
 \begin{tabular}{c|cc|cc}
 \multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
@@ -1609,7 +1609,7 @@ in the long data  (c), which will update (a) but make a conflict.}
 \par\end{center}
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \begin{tabular}{cl}
 \multirow{5}{*}[1.3in]{\includegraphics[width=0.3\textwidth]{graph/pipeline-28-1}}
@@ -1670,7 +1670,7 @@ and the linking variable is the point ID, which should be assigned
 to the polygons when the red dots are generated.
 
 \begin{center}
-\begin{figure}[H]
+\begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-1}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
