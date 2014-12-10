@@ -1,16 +1,23 @@
-%% LyX 2.0.6 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
-\documentclass[english]{article}
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{enumerate}
+\usepackage{natbib}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 \usepackage{color}
 \usepackage{float}
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage[numbers]{natbib}
-\usepackage{fullpage}
 \usepackage{hyperref}
 \usepackage{multirow}
+%\usepackage{babel}
+
+\newcommand{\blind}{0}
+
+\addtolength{\oddsidemargin}{-.75in}%
+\addtolength{\evensidemargin}{-.75in}%
+\addtolength{\textwidth}{1.5in}%
+\addtolength{\textheight}{1.3in}%
+\addtolength{\topmargin}{-.8in}%
 
 \makeatletter
 
@@ -18,28 +25,40 @@
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
-\newenvironment{lyxlist}[1]
-{\begin{list}{}
-{\settowidth{\labelwidth}{#1}
- \setlength{\leftmargin}{\labelwidth}
- \addtolength{\leftmargin}{\labelsep}
- \renewcommand{\makelabel}[1]{##1\hfil}}}
-{\end{list}}
+\newcommand{\red}[1]{{\color{red} #1}} 
 
 \makeatother
 
-\usepackage{color}
-\newcommand{\red}[1]{{\color{red} #1}} 
-
-\usepackage{babel}
 \begin{document}
 
-\title{Enabling Interactivity on Temporal and Longitudinal Displays}
-\author{Xiaoyue Cheng, Dianne Cook, Heike Hofmann\\ Department of Statistics, Iowa State University}
-\date{}
-\maketitle
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if0\blind
+{
+  \title{\bf Enabling Interactivity on Temporal and Longitudinal Displays}
+  \author{Xiaoyue Cheng\thanks{
+    The authors gratefully acknowledge},\hspace{.2cm}
+    Dianne Cook, Heike Hofmann \\
+    Department of Statistics, Iowa State University
+    }
+  \maketitle
+} \fi
+
+\if1\blind
+{
+  \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf Enabling Interactivity on Temporal and Longitudinal Displays}
+\end{center}
+  \medskip
+} \fi
+
+\bigskip
 \begin{abstract}
 Exploring temporal data can be facilitated by interactive graphics.
 We describe structuring data objects to support different types of
@@ -53,9 +72,13 @@ implemented in the R package \texttt{\textbf{cranvas}}, which is
 a system for exploring data using multiple linked windows. The way
 the temporal displays are linked to displays of other variables as
 part of a general interactive graphics system is explained.
-
-% This paper describes structuring data and plots to make interactive exploration of temporal data possible. We first reviews the static graphics for the time series and longitudinal data, and introduced the interactive graphics with a discussion on the types of interactions. Then the display in the point, line, and area layers are introduced in a triangle structure of the relationship. Several special interactions are proposed for data exploration and pattern examination. These interactions requires a new conceptual framework to support the heavy load in data transformation, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. So we elaborated two procedures to transform data during the interactions, along with the linking between different forms of the dataset, or between the original data and additional data. The methods in this paper are implemented in the software cranvas, for the qtime display.
 \end{abstract}
+
+\noindent%
+{\it Keywords:}  Interactive graphics; Multivariate time series;
+Longitudinal data.
+
+\spacingset{1.45}
 
 \section{Introduction}
 
@@ -125,6 +148,25 @@ symmetric vertically (Figure \ref{fig:horizontal-axis} row 3 left). Streamgraph 
 It changed the algorithm to avoid the symmetry which increases the
 internal distortion.
 
+\item Horizon graphs. The horizon graph is inspired by two-tone pseudo coloring
+\citep{saito2005two} and formally developed at Panopticon Software
+\citep{reijner2008development}. Two-tone pseudo coloring is a technique
+to visualize the details of multiple time series precisely and effectively.
+However, the horizon graph became more popular after mirroring the
+lower part of the series and simplifying the color scheme (Figure \ref{fig:horizontal-axis} row 3 right). The horizon
+graphs were designed for visualizing the stock prices and economic/financial
+data, so the features fit the requirements very well:  (1) The data
+have a baseline, which is usually the value at the starting time point.
+Then the baseline can be used to mirror the negative part to the positive,
+in order to save the graph space, where `negative/positive' means
+smaller/greater than the baseline.  (2) The positive and negative performance
+should be distinguished, so the horizon graph provides two hues.  (3)
+The number of the color bands should be small, usually three color
+bands for the positive values and three for the negative. Finding
+the band height is easy for the stock prices since they can use 10\%
+of the initial value, and in most cases the price will not increase
+or decrease for more than 30\%.
+
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
@@ -145,24 +187,6 @@ time series: (From top left to bottom right) overlaid line plots, facetted line 
 \end{figure}
 \par\end{center}
 
-\item Horizon graphs. The horizon graph is inspired by two-tone pseudo coloring
-\citep{saito2005two} and formally developed at Panopticon Software
-\citep{reijner2008development}. Two-tone pseudo coloring is a technique
-to visualize the details of multiple time series precisely and effectively.
-However, the horizon graph became more popular after mirroring the
-lower part of the series and simplifying the color scheme (Figure \ref{fig:horizontal-axis} row 3 right). The horizon
-graphs were designed for visualizing the stock prices and economic/financial
-data, so the features fit the requirements very well:  (1) The data
-have a baseline, which is usually the value at the starting time point.
-Then the baseline can be used to mirror the negative part to the positive,
-in order to save the graph space, where `negative/positive' means
-smaller/greater than the baseline.  (2) The positive and negative performance
-should be distinguished, so the horizon graph provides two hues.  (3)
-The number of the color bands should be small, usually three color
-bands for the positive values and three for the negative. Finding
-the band height is easy for the stock prices since they can use 10\%
-of the initial value, and in most cases the price will not increase
-or decrease for more than 30\%.
 \end{itemize}
 
 \item Time on both horizontal and vertical axes
@@ -1523,7 +1547,7 @@ come from the Google Flu Trends
 \footnote{Source: http://www.google.org/flutrends/.}.
 
 \begin{center}
-\begin{table}[h]
+\begin{table}[H]
 \begin{centering}
 \begin{tabular}{c|cc|cc}
 \multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
@@ -1648,7 +1672,8 @@ to the polygons when the red dots are generated.
 \begin{center}
 \begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-23-1} \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-23-1}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
 \par\end{centering}
 \caption{\label{fig:Additional-data}Additional data created from the vertical
 faceting. The black dots are given by the time series, and the red
@@ -1687,7 +1712,7 @@ an order is needed to sort the lines from top to bottom, from
 left to right. In the current work we use alphabetical order for
 sorting variables, and the default factor level order for sorting
 individuals. But the best order for visualization may be different.
-For example, in Figure \ref{fig:smoothness}, sorting the states
+For example, in Figure \ref{fig:linking-plots}, sorting the states
 by the time of flu search peaks could better track the spatial
 trend of flu search, or flu eruption. In R language, users can
 manually change the factor levels for individuals before plotting,
@@ -1698,7 +1723,7 @@ This paper aims at the time series and longitudinal data, but the
 ideas on how to assist data-transforming interactions can be applied
 to other interactive graphics too.
 
-\bibliographystyle{apa}
+\bibliographystyle{natbib}
 \bibliography{cranvastime}
 
 \end{document}
