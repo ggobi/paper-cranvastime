@@ -1658,7 +1658,7 @@ dots are created during the cropping step of faceting.}
 
 \end{itemize}
 
-\section{Conclusion}
+\section{Conclusions and future work}
 
 In this paper we reviewed the static and interactive graphics for
 the time series and longitudinal data and refined the framework of
@@ -1678,14 +1678,25 @@ In future, more special interactions would be needed for the time
 dependent data, for example, the transformation between euclidean
 and polar coordinates, and the transformation between time domain
 and frequency domain. Besides, some more interactive plots will
-be needed, for example, the lag plots to detect auto-dependence
+be needed, for example, interactive lag plots to detect auto-dependence
 between the time series and their lagged versions.
+
+Another issue that needs to be solved in future is the order of
+series after faceting. When faceting by variable or individual,
+an order is needed to sort the lines from top to bottom, from
+left to right. In the current work we use alphabetical order for
+sorting variables, and the default factor level order for sorting
+individuals. But the best order for visualization may be different.
+For example, in Figure \ref{fig:smoothness}, sorting the states
+by the time of flu search peaks could better track the spatial
+trend of flu search, or flu eruption. In R language, users can
+manually change the factor levels for individuals before plotting,
+however, if they are not confident about the best order, there
+should be an interaction to switch between different orders.
 
 This paper aims at the time series and longitudinal data, but the
 ideas on how to assist data-transforming interactions can be applied
 to other interactive graphics too.
-
-\red{Integers for additive - categorical variables and sorting needs to be discussed.}
 
 \bibliographystyle{apa}
 \bibliography{cranvastime}
