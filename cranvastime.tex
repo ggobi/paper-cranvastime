@@ -346,12 +346,18 @@ layers & map & polygon, googlemaps, path, point\tabularnewline
 
 
 \begin{center}
-\begin{figure}[htp]
+\begin{figure}[h]
 \begin{centering}
 \includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
 \par\end{centering}
 
-\caption{\label{fig:layer-system}The point layer is the center of the system that receives the data and interactions at first. Then the line and area layers adopt the current position from the point layer.}
+\caption{\label{fig:layer-system}The point layer is the center
+of the system that receives the data and interactions at first.
+Then the line and area layers adopt the current position and
+features from the point layer. The color of the lines is
+determined by the color of the first point in the pair
+defining the line segment. The color of the polygon is
+driven by the color of the line segment.}
 \end{figure}
 
 \par\end{center}
@@ -365,16 +371,18 @@ The base element for the temporal plots are the points, and in \texttt{\textbf{c
 $\# points=\#edges+n.$
 In the area layer, each polygon is defined by a number of edges,
 i.e., $\#polygons=\#edges$.
-As shown in Figure \ref{fig:features}, the color of lines follows from the color of the first point of the line segment.The color of polygons is mapped from the lines.
+As shown in Figure \ref{fig:layer-system}, the color of lines
+follows from the color of the first point of the line segment.
+The color of polygons is mapped from the lines.
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-13-layer-features}
-\par\end{centering}
-\caption{\label{fig:features}Illustration of the coloring logic for the different layers -- everything is driven by the point layer. Each point here has a different color. The color of the lines is determined by the color of the first point in the pair defining the line segment. The color of the polygon is driven by the color of the line segment.}
-\end{figure}
-\par\end{center}
+%\begin{center}
+%\begin{figure}[htp]
+%\begin{centering}
+%\includegraphics[width=0.4\textwidth]{graph/pipeline-13-layer-features}
+%\par\end{centering}
+%\caption{\label{fig:features}Illustration of the coloring logic for the different layers -- everything is driven by the point layer. Each point here has a different color. The color of the lines is determined by the color of the first point in the pair defining the line segment. The color of the polygon is driven by the color of the line segment.}
+%\end{figure}
+%\par\end{center}
 
 % brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
 
@@ -382,62 +390,59 @@ As shown in Figure \ref{fig:features}, the color of lines follows from the color
 points. The point layer only needs the $x/y$ coordinates, while
 the line layer needs the $x/y$ coordinates in order and in groups.
 But the area layer incorporates a baseline, which is generated
-by calculating the minimum of the values on the variable.
-Table \ref{tab:coordinates-for-layers} shows how data are
-augmented with the line and area layers. When
+by calculating the minimum of the values on the variable. When
 the $y$-coordinates of the variable change, like the shifting in
 Section \ref{sub:Special-interactions}, the baseline need to be
 updated instantly. The additional information challenges the
 linking system, and some details are discussed in Section
 \ref{sub:Linking-of-the-addition}.
 
-\begin{center}
-\begin{table}[htp]
-\begin{centering}
-{\small{}}%
-\begin{tabular}{ccc}
-{Point layer} & {Line layer} & {Area layer}\tabularnewline\tabularnewline
-{\small{}}%
-\begin{tabular}{|c|c|l|}
-\hline 
-{\small{$x$}} & {\small{$y$}} & {\small{color}}\tabularnewline
-\hline 
-{\small{1}} & {\small{3}} & {\small{peach}}\tabularnewline
-{\small{2}} & {\small{5}} & {\small{olive}}\tabularnewline
-{\small{3}} & {\small{2}} & {\small{cyan}}\tabularnewline
-{\small{4}} & {\small{4}} & {\small{purple}}\tabularnewline
-{\small{5}} & {\small{3}} & {\small{peach}}\tabularnewline
-\hline 
-\end{tabular} & {\small{}}%
-\begin{tabular}{|cc|cc|l|}
-\hline 
-{\small{$x_1$}} & {\small{$x_2$}} & {\small{$y_1$}} & {\small{$y_2$}} & {\small{color}}\tabularnewline
-\hline 
-{\small{1}} & {\small{2}} & {\small{3}} & {\small{5}} & {\small{peach}}\tabularnewline
-{\small{2}} & {\small{3}} & {\small{5}} & {\small{2}} & {\small{olive}}\tabularnewline
-{\small{3}} & {\small{4}} & {\small{2}} & {\small{4}} & {\small{cyan}}\tabularnewline
-{\small{4}} & {\small{5}} & {\small{4}} & {\small{3}} & {\small{purple}}\tabularnewline
-\hline 
-\multicolumn{1}{c}{} & \multicolumn{1}{c}{} &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
-\end{tabular} & {\small{}}%
-\begin{tabular}{|cccc|cccc|l|}
-\hline 
-{\small{$x_1$}} & {\small{$x_2$}} & {\small{$x_3$}} & {\small{$x_4$}} & {\small{$y_1$}} & {\small{$y_2$}} & {\small{$y_3$}} & {\small{$y_4$}} & {\small{color}}\tabularnewline
-\hline 
-{\small{1}} & {\small{2}} & {\small{2}} & {\small{1}} & {\small{3}} & {\small{5}} & {\small{1}} & {\small{1}} & {\small{peach}}\tabularnewline
-{\small{2}} & {\small{3}} & {\small{3}} & {\small{2}} & {\small{5}} & {\small{2}} & {\small{1}} & {\small{1}} & {\small{olive}}\tabularnewline
-{\small{3}} & {\small{4}} & {\small{4}} & {\small{3}} & {\small{2}} & {\small{4}} & {\small{1}} & {\small{1}} & {\small{cyan}}\tabularnewline
-{\small{4}} & {\small{5}} & {\small{5}} & {\small{4}} & {\small{4}} & {\small{3}} & {\small{1}} & {\small{1}} & {\small{purple}}\tabularnewline
-\hline 
-\multicolumn{1}{c}{} &  &  & \multicolumn{1}{c}{} &  &  &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
-\end{tabular}\tabularnewline
-\end{tabular}
-\par\end{centering}{\small \par}
-
-\caption{\label{tab:coordinates-for-layers}Data to generate three layers for Figure \ref{fig:features}. The data for point layer is in the same structure as the original time series. In the line layer, coordinates for both sides of four edges are generated from the point data. More structural points are needed for the area layer to form the baseline -- here a $y$-value of 1 is chosen as the baseline. The $x$/$y$ coordinates for four vertexes in each polygon are given, in which the first two columns for both $x$ and $y$ are adopted from the line layer.}
-\end{table}
-
-\par\end{center}
+% \begin{center}
+% \begin{table}[htp]
+% \begin{centering}
+% {\small{}}%
+% \begin{tabular}{ccc}
+% {Point layer} & {Line layer} & {Area layer}\tabularnewline\tabularnewline
+% {\small{}}%
+% \begin{tabular}{|c|c|l|}
+% \hline 
+% {\small{$x$}} & {\small{$y$}} & {\small{color}}\tabularnewline
+% \hline 
+% {\small{1}} & {\small{3}} & {\small{peach}}\tabularnewline
+% {\small{2}} & {\small{5}} & {\small{olive}}\tabularnewline
+% {\small{3}} & {\small{2}} & {\small{cyan}}\tabularnewline
+% {\small{4}} & {\small{4}} & {\small{purple}}\tabularnewline
+% {\small{5}} & {\small{3}} & {\small{peach}}\tabularnewline
+% \hline 
+% \end{tabular} & {\small{}}%
+% \begin{tabular}{|cc|cc|l|}
+% \hline 
+% {\small{$x_1$}} & {\small{$x_2$}} & {\small{$y_1$}} & {\small{$y_2$}} & {\small{color}}\tabularnewline
+% \hline 
+% {\small{1}} & {\small{2}} & {\small{3}} & {\small{5}} & {\small{peach}}\tabularnewline
+% {\small{2}} & {\small{3}} & {\small{5}} & {\small{2}} & {\small{olive}}\tabularnewline
+% {\small{3}} & {\small{4}} & {\small{2}} & {\small{4}} & {\small{cyan}}\tabularnewline
+% {\small{4}} & {\small{5}} & {\small{4}} & {\small{3}} & {\small{purple}}\tabularnewline
+% \hline 
+% \multicolumn{1}{c}{} & \multicolumn{1}{c}{} &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
+% \end{tabular} & {\small{}}%
+% \begin{tabular}{|cccc|cccc|l|}
+% \hline 
+% {\small{$x_1$}} & {\small{$x_2$}} & {\small{$x_3$}} & {\small{$x_4$}} & {\small{$y_1$}} & {\small{$y_2$}} & {\small{$y_3$}} & {\small{$y_4$}} & {\small{color}}\tabularnewline
+% \hline 
+% {\small{1}} & {\small{2}} & {\small{2}} & {\small{1}} & {\small{3}} & {\small{5}} & {\small{1}} & {\small{1}} & {\small{peach}}\tabularnewline
+% {\small{2}} & {\small{3}} & {\small{3}} & {\small{2}} & {\small{5}} & {\small{2}} & {\small{1}} & {\small{1}} & {\small{olive}}\tabularnewline
+% {\small{3}} & {\small{4}} & {\small{4}} & {\small{3}} & {\small{2}} & {\small{4}} & {\small{1}} & {\small{1}} & {\small{cyan}}\tabularnewline
+% {\small{4}} & {\small{5}} & {\small{5}} & {\small{4}} & {\small{4}} & {\small{3}} & {\small{1}} & {\small{1}} & {\small{purple}}\tabularnewline
+% \hline 
+% \multicolumn{1}{c}{} &  &  & \multicolumn{1}{c}{} &  &  &  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\tabularnewline
+% \end{tabular}\tabularnewline
+% \end{tabular}
+% \par\end{centering}{\small \par}
+% 
+% \caption{\label{tab:coordinates-for-layers}Data to generate three layers for Figure \ref{fig:features}. The data for point layer is in the same structure as the original time series. In the line layer, coordinates for both sides of four edges are generated from the point data. More structural points are needed for the area layer to form the baseline -- here a $y$-value of 1 is chosen as the baseline. The $x$/$y$ coordinates for four vertexes in each polygon are given, in which the first two columns for both $x$ and $y$ are adopted from the line layer.}
+% \end{table}
+% \par\end{center}
 
 \end{enumerate}
 
@@ -478,36 +483,33 @@ Note that these interactions  (brushing, selection, linking, zooming,
 panning, querying, etc.) are universal for all graph types. Considering
 the unusual characteristics of the temporal and longitudinal data,
 some special interactions should be utilized to reveal the time-dependent
-structure and series associations easily and quickly. In this section
-we introduce the design of the interactions and discuss the the interactivity
-issues.
-
-
-\subsection{A taxonomy of tasks\label{sub:Special-interactions}}
-
+structure and series associations easily and quickly.
+% In this section we introduce the design of the interactions
+% and discuss the the interactivity issues.
 \citet{Buja1996} describe a taxonomy of interactive tasks
 for multivariate data. This section describes a taxonomy
 of tasks with a focus on temporal data. Each of these
 different plot manipulations enables the exploration of
 different components of time series, and longitudinal data.
 
+%\subsection{A taxonomy of tasks\label{sub:Special-interactions}}
+
 \begin{itemize}
 
 \item Wrapping: comparing sequential elements of the
 data to examine seasonality, and dependence.
-
-Wrapping cut the series by a fixed-length interval in
+Wrapping cuts the series by a fixed-length interval in
 the horizontal/vertical direction, and shift the right/top pieces
 to the left/bottom. It could change the $x$- / $y$- coordinates of the
 data.
-
 There are two reasons for wrapping. The first one
 is to compare the periods, or to find the period for the data
 that is potentially periodical. Also the periodic variation
 could be explored \citep{mcdonald1986periodic}. For this
-purpose we suggest to wrap the series horizontally. Figure
-\ref{fig:faceting-period} (left to center) gives an example
-of horizontal wrapping with a known period. Figure \ref{fig:x-wrapping}
+purpose we suggest to wrap the series horizontally.
+% Figure \ref{fig:faceting-period} (left to center) gives an
+% example of horizontal wrapping with a known period.
+Figure \ref{fig:x-wrapping}
 shows an example of wrapping process with an unknown period.
 
 The second reason is to cut the temporal and longitudinal data into
@@ -516,34 +518,42 @@ of data display \citep{cleveland1987graphical}, and then reveal more
 details. When the time series is long, to keep a proper aspect ratio
 is not always workable, due to the the limit of the screen width.
 Two possible solutions are  (1) if the series is periodical, then wrap
-it horizontally by the period, as Figure \ref{fig:faceting-period}
-and \ref{fig:x-wrapping}.  (2) Wrap the series vertically, especially
+it horizontally by the period, as Figure %\ref{fig:faceting-period}
+\ref{fig:x-wrapping}.  (2) Wrap the series vertically, especially
 when multiple series are faceted.
 
 
 \begin{center}
-\begin{figure}[htp]
+\begin{figure}[H]
 \begin{centering}
-\includegraphics[width=0.84\textwidth]{graph/pipeline-16-original}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\small{(a)}}\\
+\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-16-original}}\\
+\small{(b)} & \small{(c)} \\
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-1} &
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-2} \\
+\small{(d)} & \small{(e)} \\
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-xwrap} &
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-xwrap-facet} \\
+\small{(f)} & \small{(g)} \\
+\includegraphics[width=0.4\textwidth]{graph/pipeline-18-original} &
+\includegraphics[width=0.4\textwidth]{graph/pipeline-18-mirrored} \\
+\end{tabular}
 \par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.42\textwidth]{graph/pipeline-16-1} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-2}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap} \includegraphics[width=0.42\textwidth]{graph/pipeline-16-xwrap-facet}
-\par\end{centering}
-
-\caption{\label{fig:x-wrapping}Top: time series plot of annual numbers of
+\caption{\label{fig:x-wrapping}(a) time series plot of annual numbers of
 lynx trappings for 1821\textendash{}1934 in the MacKenzie River District
-\citep{campbell1977survey}. Second row: during the horizontal wrapping
+\citep{campbell1977survey}. (b \textendash{} c) during the horizontal wrapping
 movement, we try to match the late time period with the early time.
-Bottom left: a good match of patterns usually indicates the potential
-period. Bottom right: facet on the wrapped lines to view clearly.
-Similar but not exactly matched pattern is seen here. Video illustrating these interactions is available at \url{https://vimeo.com/112431547}.}
+(d) a good match of patterns usually indicates the potential
+period. (e) facet on the wrapped lines to view clearly.
+Similar but not exactly matched pattern is seen here.
+Video illustrating these interactions is available at
+\url{https://vimeo.com/112431547}.
+(f) area plot. (g) mirroring by the mean. Two colors are assigned
+to the upper and lower part: blue are the values above the mean,
+yellow below the mean. The video at \url{https://vimeo.com/112432400}
+shows these interactions.}
 \end{figure}
-
 \par\end{center}
 
 
@@ -584,7 +594,6 @@ variables, also a leading pattern between PROFIT and GILTS. The video at \url{ht
 
 \item Faceting: creating small multiples to organize and
 examine different aspects of the data.
-
 Sometimes we care about some objects or time intervals more than others,
 for instance, the patients under a special treatment, or the climate
 observations in a year when the earthquakes frequently happened. In
@@ -604,13 +613,12 @@ within and between facet regions easily when the aspect ratio keeps
 well.
 
 There are three possible conditions to facet on: variable, individual
- (for the longitudinal data), or period. Figure \ref{fig:faceting-var-ind}
-gives an example for faceting on two variables and three individuals.
-Design of the faceting interaction should make the switching among
-five panels done on-the-fly. 
-Figure \ref{fig:faceting-period} explains why and shows how to
-facet on period. Those faceting methods change the coordinates
-of the points, and then the baselines of the area layer.
+(for the longitudinal data), or period. Those faceting methods change
+the coordinates of the points, and then the baselines of the area layer.
+Figure \ref{fig:faceting-var-ind} gives an example for faceting on two
+variables and three individuals. Design of the faceting interaction
+should make the switching among five panels done on-the-fly. 
+% Figure \ref{fig:faceting-period} explains why and shows how to facet on period.
 
 \begin{center}
 \begin{figure}[htp]
@@ -618,10 +626,8 @@ of the points, and then the baselines of the area layer.
 \begin{tabular}{cc}
 \multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
 \multicolumn{2}{c}{\includegraphics[width=0.48\textwidth]{graph/pipeline-14-1}}\tabularnewline
-$\swarrow$ & $\searrow$\tabularnewline
 {\scriptsize{ (b) faceting by variable}} & {\scriptsize{ (c) faceting by individual}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-2} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-3}\tabularnewline
-$\downarrow$ & $\downarrow$\tabularnewline
 {\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
 \end{tabular}
@@ -692,44 +698,44 @@ and individuals. To realize this functionality we use the variables
 as the $y$ input, and specify the variable name that indicates the individuals
 or groups. Faceting on period is similar as faceting on individual
 -- in both ways the observations are grouped by a variable indicator
-and the points within group are connected. One idea is that if the
-faceting-on-period interaction can be substituted by faceting-on-individual,
-to simplify the manipulation. If we treat the period as the individual,
-then each period has one line of the same length, so we can plot them
-together and use the individual faceting method to separate the lines.
-But the answer is no. Two things are ignored in the idea. First, it
-assumes that the period exists as a variable in the data, like the
-year for monthly data. Second, it assumes that the time indexes for
-each period are already the same. For example, in Figure \ref{fig:faceting-period} (left),
-the time indexes for the original series are from 1-72. The indexes
-for the six periods are 1-12, 13-24, 25-36, 37-48, 49-60, 61-72, respectively.
-If we facet the period as faceting by individual, then the six lines
-are separated vertically and also horizontally, which is different
-from Figure \ref{fig:faceting-period} (right). A necessary step for
-faceting on period is to re-index the time points from the left panel
-to the right. So it can not be replaced by faceting on individual.
+and the points within group are connected. But the faceting-on-period
+interaction can not be substituted by faceting on individual, because
+faceting on period needs to re-index the time points. Figure
+\ref{fig:x-wrapping} (e) shows faceting on an irregular period.
+The video at \url{https://vimeo.com/112505175} illustrates an example
+of faceting on period for a time series with a regular period of every
+12 observations.
 
+% If we treat the period as the individual, then each period has one
+% line of the same length, so we can plot them together and use the
+% individual faceting method to separate the lines. But the answer
+% is no. Two things are ignored in the idea. First, it assumes that
+% the period exists as a variable in the data, like the year for
+% monthly data. Second, it assumes that the time indexes for each
+% period are already the same. For example, in Figure \ref{fig:faceting-period} (left),
+% the time indexes for the original series are from 1-72. The indexes
+% for the six periods are 1-12, 13-24, 25-36, 37-48, 49-60, 61-72,
+% respectively. If we facet the period as faceting by individual,
+% then the six lines are separated vertically and also horizontally,
+% which is different from Figure \ref{fig:faceting-period} (right).
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-01-1}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
-\par\end{centering}
-
-\caption{\label{fig:faceting-period}An example of faceting on period for a
-time series with a period of every 12 observations. The left panel
-is the original series, the center and right panels show the periods
-before and after faceting. From the left to center, the wrapping interaction
-is used. The video at \url{https://vimeo.com/112505175} illustrates this.}
-\end{figure}
-\par\end{center}
+% \begin{center}
+% \begin{figure}[htp]
+% \begin{centering}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-01-1}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
+% \par\end{centering}
+% \caption{\label{fig:faceting-period}An example of faceting on period
+% for a time series with a period of every 12 observations. The left
+% panel is the original series, the center and right panels show the
+% periods before and after faceting. From the left to center, the
+% wrapping interaction is used.}
+% \end{figure}
+% \par\end{center}
 
 
 \item Mirroring: comparing the magnitude of peaks and troughs.
-
-
 Mirroring is an interaction proposed by the horizon graphs that helps
 to compare the extreme values of the two sides, save more room for
 the main body, and provide a better display for the series with binary
@@ -738,12 +744,10 @@ divider and reflects the bottom area up to the divider with a change
 of the color scheme. The $y$-coordinates of the data are modified by
 this interaction.
 
-
-Figure \ref{fig:mirroring} shows the mirroring result for the lynx
-trappings data with the mean divider. From the mirrored plot we see
-the peaks last shortly but are sharp and irregular, the valleys are
-smooth and regular.
-
+Figure \ref{fig:x-wrapping} (f) and (g) shows the mirroring result
+for the lynx trappings data with the mean divider. From the mirrored
+plot we see the peaks last shortly but are sharp and irregular, the
+valleys are smooth and regular.
 
 However, two issues raise up during the mirroring process:  (1) how
 to choose the horizontal divider -- midpoint of the range, mean of
@@ -757,35 +761,28 @@ are added on the mirrored graph, like wrapping or linking. Section
 \ref{sub:Linking-of-the-addition} introduces the problems from the
 additional data in linking.
 
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-18-original}
-\par\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-18-mirrored}
-\par\end{centering}
-
-\caption{\label{fig:mirroring}Top: area plot for the lynx trappings data.
-Bottom: mirroring by the mean. Two colors are assigned to the upper
-and lower part: blue are the values above the mean, yellow below the
-mean. The video at \url{https://vimeo.com/112432400} shows these interactions.}
-\end{figure}
-
-\par\end{center}
+% \begin{center}
+% \begin{figure}[htp]
+% \begin{centering}
+% \includegraphics[width=0.98\textwidth]{graph/pipeline-18-original}
+% \par\end{centering}
+% \begin{centering}
+% \includegraphics[width=0.98\textwidth]{graph/pipeline-18-mirrored}
+% \par\end{centering}
+% \caption{\label{fig:mirroring}Top: area plot for the lynx trappings data.
+% Bottom: mirroring by the mean. Two colors are assigned to the upper
+% and lower part: blue are the values above the mean, yellow below the
+% mean. The video at \url{https://vimeo.com/112432400} shows these interactions.}
+% \end{figure}
+% \par\end{center}
 
 
 \item Shifting: exploring dependence between series.
-
-
 When there are multiple series, we may consider to shift one or more
 series horizontally to match with others for some reason, like the
 starting time of the series is not the same, or one variable is leading
 another. This interaction will modify the $x$-coordinates for the selected
 series.
-
 
 Figure \ref{fig:x-shifting} shows how shifting reveals the leading
 pattern. From the left panel we see variable B  (blue lines) has all
@@ -795,174 +792,133 @@ by four time points and get the right panel. The peaks and valleys
 match well for the two variables, which confirms the guess of leading
 pattern.
 
-
 \begin{center}
 \begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
 \par\end{centering}
-
 \caption{\label{fig:x-shifting}Left: area plot for the longitudinal data with
 two variables and three individuals. Right: three bottom lines from
 variable A are shifted horizontally to the right, to match the peak
 time with variable B. See the video at \url{https://vimeo.com/112439923} for an illustration.}
 \end{figure}
-
 \par\end{center}
 
 
 \item Switching between layers: point, line, area.
-
 Starting from the basic demand, the interactive time plots should
 support the switch between the line and area layers, as the line and
 area plots have their own pluses and minuses. The line plots are concise
 when comparing the series in the same scales, in contrast the area
-plots make the space noisy with the overlapping area. As shown in
-Figure \ref{fig:switching-layers} (1), the area draws much attention
-but not necessary. In some other cases like the small multiples, the
-area plots are better because when the baselines are not of the same
-height, the area makes the understanding and comparison more accurate
-between values from different series. In Figure \ref{fig:switching-layers} (2),
-the line plot does not deliver the information as clearly as the area
-plot, on the overall high values of series B1 and low values of series
-A1.
+plots make the space noisy with the overlapping area. In some other
+cases like the small multiples, the area plots are better because
+when the baselines are not of the same height, the area makes the
+understanding and comparison more accurate between values from
+different series. The video at \url{https://vimeo.com/112530645}
+demonstrates two situations when the line plot or area plot is
+preferred.
 
-Switching between the layers does not change the data  (just need to
-add the baselines), but the following interactions will require for
-some data modification.
+% As shown in Figure \ref{fig:switching-layers} (1), the area draws much
+% attention but not necessary. In Figure \ref{fig:switching-layers} (2),
+% the line plot does not deliver the information as clearly as the area
+% plot, on the overall high values of series B1 and low values of series A1.
 
-\begin{figure}[htp]
-\begin{centering}
-\begin{tabular}{cc}
-\multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
- & \tabularnewline
-\multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
-\end{tabular}
-\par\end{centering}
+% Switching between the layers does not change the data  (just need to
+% add the baselines), but the following interactions will require for
+% some data modification.
 
-\caption{\label{fig:switching-layers}Switching between the line plot and the
-area plot. The line plot is preferred in the first row for the compact
-design without losing information. The area plot is preferred in the
-second row for the easier comparison among values in different lines. Swithcing is illustrated in \url{https://vimeo.com/112530645}. }
-\end{figure}
+% \begin{figure}[htp]
+% \begin{centering}
+% \begin{tabular}{cc}
+% \multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
+% \includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
+%  & \tabularnewline
+% \multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
+% \includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
+% \end{tabular}
+% \par\end{centering}
+% \caption{\label{fig:switching-layers}Switching between the line plot and the
+% area plot. The line plot is preferred in the first row for the compact
+% design without losing information. The area plot is preferred in the
+% second row for the easier comparison among values in different lines. Swithcing is illustrated in \url{https://vimeo.com/112530645}. }
+% \end{figure}
 
 \end{itemize}
 
-\subsection{Considerations}
-
+%\subsection{Considerations}
 %An interactive system needs to include careful consideration of a number of aspects of the operations, which include accuracy after multiple actions, response time for the human user, and reverse actions. This section discusses ways to address these issues.
 
-\subsubsection{Additivity\label{sub:Additivity}}
 
-Most of the interactions could be considered to be additive.
-%That means interaction A can start at any status of interaction B.
-Figure \ref{fig:faceting-var-ind} shows an example, where two
-different results are generated by different ordering of interactions.
-Faceting on individual is done after faceting on variable, with the
-process following panels (a) $\rightarrow$ (b) $\rightarrow$ (d).
-Faceting on variable after individual, as in the process (a)
-$\rightarrow$ (c) $\rightarrow$ (e), produces a different
-configuration of the time series. The additive application of
-interactions is not commutative. Both results are useful, because
-each facilitates a different type of comparison of the series,
-using proximity. Plot (d) enables the comparison of individuals,
-within variables, while plot (e) enables the comparison of series
-within individual. Figure \ref{fig:faceting-period} shows another
-example of additivity: from the left to right, horizontal wrapping
-is followed by faceting on period. It is also interesting to
-note that wrapping vertically after mirroring, will result in
-a horizon graph, like Figure \ref{fig:horizontal-axis} (f).
-%Also, users should be able to select the points, query the information, and link to other graphs after any interaction.
-
-To make the interactions additive is not trivial when multiple types are allowed. It is important to know the current state, the initial state, and some intermediate states. When iteratively adding more of the same type of interaction, we can think of forward and backward movements. For these we need to know when to stop moving forwards, and knowing when the initial state is reached when backing up.  If a different interaction is started, keeping the state when this starts makes for a cleaner design.  Figure \ref{fig:additive-interactions} explains why both the current and initial status are required by a faceting example. This will be re-visited Section \ref{sub:Two-procedures} after the formulas for different interactions are described.
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-%\includegraphics[width=0.5\textwidth]{graph/pipeline-20-additive-interactions}
-\includegraphics[width=0.5\textwidth]{graph/additivity.pdf}
-\par\end{centering}
-
-\caption{\label{fig:additive-interactions}
-Complications arise from multiple types of additive interactions, with transitional movement. to get from the initial state to the intermediate state and back is simple forward and backward actions. But when a further interaction is added, to get the final state, there are two ways to revert to the initial state, A and B. A is the cleanest approach, but requires saving the intermediate state. B can be completed because the forward states were achieved by adding increments to the point positions of the initial state, but might mean not seeing the intermediate state in the backwards transitions.}
-\end{figure}
-
-\par\end{center}
+%\subsubsection{Additivity\label{sub:Additivity}}
 
 
-\subsubsection{Transitional speed}
+%\subsubsection{Transitional speed}
 
-Because the interactions happen in a transitional manner, from
-the initial state, through one or more intermediate states, to
-a target state  (e.g. Figure \ref{fig:smoothness}) there is a
-potential for a speed parameter. This parameter would control
-how quickly the plot changes to get to the target. There is
-some benefit for slow, smooth transitions, because small
-inconsistencies are revealed as series slide slowly past
-each other. There is also benefit to moving fast, to quickly
-get to a target state. It is also possible that there is no
-known, or fixed target state, in which case using the fast
-transitions could get to the neighborhood of the target state
-quickly, and using the slow transitions is easier to find the
-optimum when the state is close.
+% Because the interactions happen in a transitional manner, from
+% the initial state, through one or more intermediate states, to
+% a target state  (e.g. Figure \ref{fig:smoothness}) there is a
+% potential for a speed parameter. This parameter would control
+% how quickly the plot changes to get to the target. There is
+% some benefit for slow, smooth transitions, because small
+% inconsistencies are revealed as series slide slowly past
+% each other. There is also benefit to moving fast, to quickly
+% get to a target state. It is also possible that there is no
+% known, or fixed target state, in which case using the fast
+% transitions could get to the neighborhood of the target state
+% quickly, and using the slow transitions is easier to find the
+% optimum when the state is close.
 
 %For the interactions that modify the data coordinates, there will be a starting position, several  (or none) intermediate positions and a target position  (Figure \ref{fig:smoothness}). The starting position is the point coordinates before the interaction. The target position is the coordinates that maximize the effect of the interaction. The target position could either be known or unknown by the user. When it is known, any intermediate positions are not urgently needed, the interaction could be just a command to make the points jump from the starting position to the target. For example, with a known period, the user can wrap the series on the period directly. However, under many situations the target position is not known, and human intelligence are involved to seek the target. Then the intermediate positions are very important, and the step length between intermediate positions is crucial. The small steps make the interaction look smooth and not likely to miss the interesting phenomena, but are slow to reach the optimum. The big steps get close to the target quickly, but may miss it. Hence a gear to adjust the step length will be handy to control.
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-22-original}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-22-smooth}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-22-jump}
-\par\end{centering}
-
-\caption{\label{fig:smoothness}Three positions of the faceting. Left panel
-is the starting position, center is an intermediate position with
-area layer, and right is the target position. See the video at \url{https://vimeo.com/112528131} to see the smooth transitions.}
-\end{figure}
-
-\par\end{center}
+% \begin{center}
+% \begin{figure}[htp]
+% \begin{centering}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-22-original}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-22-smooth}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-22-jump}
+% \par\end{centering}
+% \caption{\label{fig:smoothness}Three positions of the faceting. Left panel
+% is the starting position, center is an intermediate position with
+% area layer, and right is the target position. See the video at \url{https://vimeo.com/112528131} to see the smooth transitions.}
+% \end{figure}
+% \par\end{center}
 
 
-\subsubsection{Bi-directional interactions and looping}
-
-Some interactions do not have an obvious target, e.g. wrapping.
-Then two types of designs for the movement direction are useful
-(Figure \ref{fig:interaction-direction}). A bi-directional design
-is smoother, because users can ease forward and backup on demand,
-to tune the state. However, it can be annoying, because it
-requires possibly too many commands and additional keyboard
-manipulation to return to the inital state. The bi-directional
-design works better for the interactions that change the
-coordinates or parameters further by repeating the command,
-e.g., horizontal or vertical wrapping. The other design, looping,
-is better for the interactions that jump to a parallel
-position. For example, in Figure \ref{fig:faceting-4ind} and
-its video, a longitudinal dataset is faceted by four categorical
-variables. The order of the categories on $x$ and $y$ axes can
-be rotated by some keyboard manipulations. Different orders make
-different positions, but they are all parallel with no position
-prior to the other in terms of the computational complexity.
-However, both styles of movement will need a quick return to
-an initial state, for convenience.
+% \subsubsection{Bi-directional interactions and looping}
+% 
+% Some interactions do not have an obvious target, e.g. wrapping.
+% Then two types of designs for the movement direction are useful
+% (Figure \ref{fig:interaction-direction}). A bi-directional design
+% is smoother, because users can ease forward and backup on demand,
+% to tune the state. However, it can be annoying, because it
+% requires possibly too many commands and additional keyboard
+% manipulation to return to the inital state. The bi-directional
+% design works better for the interactions that change the
+% coordinates or parameters further by repeating the command,
+% e.g., horizontal or vertical wrapping. The other design, looping,
+% is better for the interactions that jump to a parallel
+% position. For example, in Figure \ref{fig:faceting-4ind} and
+% its video, a longitudinal dataset is faceted by four categorical
+% variables. The order of the categories on $x$ and $y$ axes can
+% be rotated by some keyboard manipulations. Different orders make
+% different positions, but they are all parallel with no position
+% prior to the other in terms of the computational complexity.
+% However, both styles of movement will need a quick return to
+% an initial state, for convenience.
 
 %but there must exist two manipulating commands for the forward and backward interactions. This is annoying to the users when there are many interactions because it doubles the number of commands. The loop design only needs one command, but a sudden change will happen in the transition from the last position to the starting position. Also, backing to the previous position will be a little painful by this design.
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-%\includegraphics[width=0.98\textwidth]{graph/pipeline-21-directions}
-\includegraphics[width=0.70\textwidth]{graph/direction.pdf}
-\par\end{centering}
-
-\caption{\label{fig:interaction-direction}Two designs for the direction of
-interactions: (Left) bi-directional movement, and (right) loop.}
-\end{figure}
-
-\par\end{center}
+% \begin{center}
+% \begin{figure}[htp]
+% \begin{centering}
+% %\includegraphics[width=0.98\textwidth]{graph/pipeline-21-directions}
+% \includegraphics[width=0.70\textwidth]{graph/direction.pdf}
+% \par\end{centering}
+% \caption{\label{fig:interaction-direction}Two designs for the direction of
+% interactions: (Left) bi-directional movement, and (right) loop.}
+% \end{figure}
+% \par\end{center}
 
 
 \section{Display Pipeline\label{sec:Pipeline}}
@@ -1123,8 +1079,8 @@ x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-\sum_{a=1}^j u_{ia}}}
 \end{eqnarray*}
 
 If the user wants to skip all intermediate positions and use
-only one jump to the fully wrapped position, as shown in Figure
-\ref{fig:faceting-period} from the left to center panel,
+only one jump to the fully wrapped position, %as shown in Figure
+%\ref{fig:faceting-period} from the left to center panel,
 then the new $x$-range will be $(x_{(1)}, x_{(p_{i2})})$, where
 the parameter $p_{i2}$ is the length of period. Hence for $j\ge 1$,
 \begin{eqnarray*}
@@ -1233,8 +1189,52 @@ where $I$ is the indicator function.
 
 \subsection{Additive interactions\label{interaction-addition}}
 
-We discussed the additivity of interactions in Section
-\ref{sub:Additivity}. The cumulative interactions could
+Most of the interactions could be considered to be additive.
+%That means interaction A can start at any status of interaction B.
+Figure \ref{fig:faceting-var-ind} shows an example, where two
+different results are generated by different ordering of interactions.
+Faceting on individual is done after faceting on variable, with the
+process following panels (a) $\rightarrow$ (b) $\rightarrow$ (d).
+Faceting on variable after individual, as in the process (a)
+$\rightarrow$ (c) $\rightarrow$ (e), produces a different
+configuration of the time series. The additive application of
+interactions is not commutative. Both results are useful, because
+each facilitates a different type of comparison of the series,
+using proximity. Plot (d) enables the comparison of individuals,
+within variables, while plot (e) enables the comparison of series
+within individual. It is also interesting to
+note that wrapping vertically after mirroring, will result in
+a horizon graph, like Figure \ref{fig:horizontal-axis} (f).
+%Figure \ref{fig:faceting-period} shows another example of
+%additivity: from the left to right, horizontal wrapping is
+%followed by faceting on period.
+%Also, users should be able to select the points, query the information, and link to other graphs after any interaction.
+
+To make the interactions additive is not trivial when multiple
+types are allowed. It is important to know the current state,
+the initial state, and some intermediate states. When iteratively
+adding more of the same type of interaction, we can think of
+forward and backward movements. For these we need to know when
+to stop moving forwards, and knowing when the initial state is
+reached when backing up.  If a different interaction is started,
+keeping the state when this starts makes for a cleaner design.
+Figure \ref{fig:additive-interactions} explains why both the
+current and initial status are required by a faceting example.
+This will be re-visited Section \ref{sub:Two-procedures} after
+the formulas for different interactions are described.
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+%\includegraphics[width=0.5\textwidth]{graph/pipeline-20-additive-interactions}
+\includegraphics[width=0.5\textwidth]{graph/additivity.pdf}
+\par\end{centering}
+\caption{\label{fig:additive-interactions}
+Complications arise from multiple types of additive interactions, with transitional movement. to get from the initial state to the intermediate state and back is simple forward and backward actions. But when a further interaction is added, to get the final state, there are two ways to revert to the initial state, A and B. A is the cleanest approach, but requires saving the intermediate state. B can be completed because the forward states were achieved by adding increments to the point positions of the initial state, but might mean not seeing the intermediate state in the backwards transitions.}
+\end{figure}
+\par\end{center}
+
+The cumulative interactions could
 entirely change both $x$ and $y$ coordinates of data.
 For example, Figure \ref{fig:x-wrapping} firstly directs
 75 steps of horizontal wrapping, and then a faceting by

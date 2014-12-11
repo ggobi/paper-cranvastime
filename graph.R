@@ -154,6 +154,14 @@ dev.off()
 
 
 ########## Figure 4 ############################################################
+nasa2221 = subset(nasa, Gridx == 22 & Gridy == 21)[1:36,]
+nasa2221$Month = factor(nasa2221$Month)
+qnasa = qdata(nasa2221,color=Month)
+qscatter(TimeIndx,ts,data=qnasa)
+qtime(TimeIndx,ts,qnasa,shift=c(1,12))
+
+
+########## Figure 5 ############################################################
 dat = data.frame(x=1:5,y=c(3,5,2,4,3),col=factor(c(1:4,1)))
 datpoly = data.frame(x=c(1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5),
                      y=c(3,1,1,5,5,1,1,2,2,1,1,4,4,1,1,3),
