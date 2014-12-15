@@ -95,7 +95,7 @@ On a discrete scale, it may be possible to have regular or irregular time spacin
 \begin{figure}[h]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-01-regular} \includegraphics[width=0.48\textwidth]{graph/pipeline-01-irregular}
-\par\end{centering}
+\end{centering}
 
 \caption{\label{fig:Time-series-plots}Time series plots for regular time spacing
  (left) and irregular time spacing  (right). Tick marks at bottom indicate the time sampling.}
@@ -113,7 +113,7 @@ Longitudinal data and time series data, although analyzed very differently, have
 Time is most conventionally displayed on a horizontal axis of a plot. There are many different variations: 
 
 \begin{itemize} \itemsep 0in
-\item A line graph, the basic building block for temporal data, displays the measured variable on the vertical axis, time horizontally, and consecutive time points are connected with line segments. Figure \ref{fig:Time-series-plots} gives two examples of line graphs, for a single measured variable: (left) a classical time series plot, (right) a profile plot of longitudinal data. When there are many series, for example time series of different stocks or different geographic locations, or many patients, the series may be overlaid on the same plot (Figure \ref{fig:horizontal-axis} row 1 left), or facetted in several blocks (Figure \ref{fig:horizontal-axis} row 1 right). 
+\item A line graph, the basic building block for temporal data, displays the measured variable on the vertical axis, time horizontally, and consecutive time points are connected with line segments. Figure \ref{fig:Time-series-plots} gives two examples of line graphs, for a single measured variable: (left) a classical time series plot, (right) a profile plot of longitudinal data. When there are many series, for example time series of different stocks or different geographic locations, or many patients, the series may be overlaid on the same plot (Figure \ref{fig:horizontal-axis} row 1 left), or faceted in several blocks (Figure \ref{fig:horizontal-axis} row 1 right). 
 
 %\begin{center}
 %\begin{figure}[h]
@@ -175,9 +175,9 @@ or decrease for more than 30\%.
 \end{tabular}
 \end{centering}
 \caption{\label{fig:horizontal-axis} Six variations of horizontal axis time plots for multivariate
-time series: (From top left to bottom right) overlaid line plots, facetted line plots,  stacked graph, faceted area chart, themeriver, horizon graph. Plots in the right column are examples of small multiples. }
+time series: (From top left to bottom right) overlaid line plots, faceted line plots,  stacked graph, faceted area chart, themeriver, horizon graph. Plots in the right column are examples of small multiples. }
 \end{figure}
-\par\end{center}
+\end{center}
 
 \end{itemize}
 
@@ -224,64 +224,45 @@ the short period problems and multiple time series.
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-polarline}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-polarperiod}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-03-spiral}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:polar-axis}Three types of time series plots
 in polar coordinates for the same data in Figure
 \ref{fig:Time-series-plots} (left).
 (Left) direct conversion. (Center) wrapped by the period.
 (Right) spiral graph with the color representing the values.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 %\end{enumerate}
 
 \subsection{Interactive graphics\label{sec:interactive-graphics}}
 
-Interactive graphics emphasize the user manipulation of plot elements via input devices like the keyboard and mouse \citep{symanzik2012interactive}. \citet{swayne1999} conducted a survey of the terminology, ``interactive graphics'', which revealed some differences in what people mean when they use the term. They found that most commonly people perceived interactive graphics to mean that a new plot can be recreated quickly from the command line, like base R plots. They suggested using a different term, direct manipulation, to mean directly changing elements of the plot using input devices. However, this term did not gain traction in the community, and we still use interactive graphics. To be clear, we use it here to indicate direct manipulation of plot elements through input actions of mouse or key strokes. 
+Interactive graphics emphasize the user manipulation of plot elements via input devices like the keyboard and mouse \citep{symanzik2012interactive}. \citet{swayne1999} surveyed the use of the term ``interactive graphics'', which revealed some differences in what people mean when they use the term. They found that most commonly people perceived interactive graphics to mean that a new plot can be recreated quickly from the command line, like base R plots. They suggested using a different term, direct manipulation, to mean directly changing elements of the plot using input devices. However, this term did not gain traction in the community, and we still use interactive graphics. To be clear, we use it here to indicate direct manipulation of plot elements through input actions of mouse or key strokes. 
 
-The work described here builds from many statistics software systems that support interactive graphics, 
-\texttt{\textbf{PRIM-9}}\citep{fisherkeller1988prim},
-\texttt{\textbf{Data Desk}}\citep{velleman1988datadesk},
-\texttt{\textbf{LISP-STAT}}\citep{tierney1990lisp},
-\texttt{\textbf{XGobi}}\citep{swayne1998xgobi} and
-\texttt{\textbf{GGobi}}\citep{cook2007ggobi},
-\texttt{\textbf{MANET}}\citep{unwin1996manet},
-\texttt{\textbf{Mondrian}}\citep{theus2002mondrian}.
-With the popularity of R language \citep{Rlanguage},
-the goal is that interactive graphics can
-integrate closely and flexibly with statistical modeling.
-Packages that support this are \texttt{\textbf{rggobi}}\citep{rggobi},
-\texttt{\textbf{iplots}}\citep{iplots},
-\texttt{\textbf{rgl}}\citep{adler2003rgl},
-\texttt{\textbf{cranvas}}\citep{cranvas},
-\texttt{\textbf{ggvis}}\citep{ggvis},
-and \texttt{\textbf{animint}}\citep{animint}. In terms of
-time series and longitudinal data, the software like
-\texttt{\textbf{Diamond Fast}} \citep{unwin1988eyeballing},
-\texttt{\textbf{XQz}}\citep{McDougall1994},
-\texttt{\textbf{XGobi}}, \texttt{\textbf{GGobi}},
-\texttt{\textbf{Fortune}}\citep{kotterfortune},
-\texttt{\textbf{TraXplorer}}\citep{Javed2010},
-\texttt{\textbf{d3.js}}\citep{bostock2011d3},
-\texttt{\textbf{cranvas}}, and \texttt{\textbf{ggvis}}
-have in the past, or currently provide some interactive graphics.
+The work described here builds from a history of statistics software systems that support interactive graphics: e.g. 
+\texttt{\textbf{PRIM-9}}~\citep{fisherkeller1988prim},
+\texttt{\textbf{Data Desk}}~\citep{velleman1988datadesk},
+\texttt{\textbf{LISP-STAT}}~\citep{tierney1990lisp},
+\texttt{\textbf{XGobi}}~\citep{swayne1998xgobi} and
+\texttt{\textbf{GGobi}}~\citep{cook2007ggobi},
+\texttt{\textbf{MANET}}~\citep{unwin1996manet},
+\texttt{\textbf{Mondrian}}~\citep{theus2002mondrian}.
+The software \texttt{\textbf{Diamond Fast}}~\citep{unwin1988eyeballing},
+\texttt{\textbf{XQz}}~\citep{McDougall1994}, and \texttt{\textbf{Fortune}}~\citep{kotterfortune}  provided tools specifically for exploring time series data.
+With the current popularity of R language \citep{Rlanguage}, ideally interactive graphics can
+integrate closely and flexibly with statistical modeling. Packages that support this to varying extents are \texttt{\textbf{rggobi}}~\citep{rggobi},
+\texttt{\textbf{iplots}}~\citep{iplots},
+\texttt{\textbf{rgl}}~\citep{adler2003rgl},
+\texttt{\textbf{cranvas}}~\citep{cranvas},
+\texttt{\textbf{ggvis}}~\citep{ggvis},
+and \texttt{\textbf{animint}}~\citep{animint}. 
 
-Of these software, \texttt{\textbf{cranvas}}, which evolved substantially from  \texttt{\textbf{GGobi}}, is the vehicle for the ideas conducted in this paper.
-Its foundation is a data pipeline system channeling data to plots, and interactions. The
-interface uses \texttt{\textbf{Qt}}\citep{Qt} that enables flexible design
-on the canvas and fast painting for smooth interaction. It has
+Of these software, \texttt{\textbf{cranvas}}, which evolved substantially from  \texttt{\textbf{GGobi}}, is the vehicle for the ideas described in this paper.
+At its foundation is a data pipeline that channels data to plot elements, and provides interaction through reactive data elements, using plumbr~\citep{plumbr2014}. The
+graphics are constructed using \texttt{\textbf{Qt}}~\citep{Qt} that enables flexible plot design and fast rendering for smooth interaction. Cranvas has
 many different types of plots and possible interactions.
-Compared to \texttt{\textbf{cranvas}}, the other R packages for
-interactive graphics have different purposes and strengths:
-\texttt{\textbf{rgl}} focuses more on 3-d plot rotation;
-\texttt{\textbf{ggvis}} interactivity is built on top of
-\texttt{\textbf{shiny}}\citep{shiny}, which means that ideally any
-plotting parameters can be consecutively changed by some GUI widget;
-\texttt{\textbf{animint}} is good at web-based display;
-\texttt{\textbf{iplots}} is the most similar package that interfaces
-to \texttt{\textbf{Java}}, requires a special GUI, JGR to operate, and provides a smaller set of graph types and interactions.
-
-The design of \texttt{\textbf{cranvas}}, \citet{xie2014reactive} provides a dichotomy of interactions: single display interactions and the linking between different displays. Single display interactions include many different interactions, such as brushing, zooming, panning, querying, etc. Linking between different displays connects multiple graphic windows via brushing.  The displays could be either in the same type, or different types, like the scatterplot, histogram, map, etc. These both need to be considered when making interactions on plots for temporal data.
+%Other R packages incorporating interactive graphics have different purposes and strengths. \texttt{\textbf{rgl}} focuses more on 3-d plot rotation. \texttt{\textbf{ggvis}} interactivity is built on top of \texttt{\textbf{shiny}}~\citep{shiny}, and focuses on simple purposes as yet.  \texttt{\textbf{animint}} translates \texttt{\textbf{ggplot2}} to javascript plots.  \texttt{\textbf{iplots}} is the most similar to cranvas. It is built using \texttt{\textbf{Java}}, requires a special GUI, JGR to operate, and provides a smaller set of plot types and interactions.
+The design of \texttt{\textbf{cranvas}}, \citet{xie2014reactive} provides single display interactions and the linking between different displays. Single display interactions include brushing, zooming, panning, and querying. Linked brushing can be done between different displays. To integrate temporal displays in this system requires integrating with this setup. % The displays could be either in the same type, or different types, like the scatterplot, histogram, map, etc. These both need to be considered when making interactions on plots for temporal data.
 
 %\red{Shelve these next two paragraphs for now, From another angle, the interactions can be classified by complexity. In a simplest case, the interaction is a one-way, direct manipulation that the user asks the computer to execute directly from the original data and current settings. This type of interactions is usually attached to some action as a handler, which does not require any following command. So nothing needs to be saved from the result. For example, with a graphical user interface (GUI), we can change the graph parameters simply by clicking a button, then the plot will be updated. Another example is querying. \citet{theus2011interactive} gave a well description on how to query the information, where the ``command'' is pausing the mouse icon on an object. 
 
@@ -289,23 +270,17 @@ The design of \texttt{\textbf{cranvas}}, \citet{xie2014reactive} provides a dich
 
 %This characterisitic of the complex interactions brings at least two issues: rewritability of the result storage, and accessibility from different function environments to the result. \citet{xie2014reactive} solved the second issue based on the design of \texttt{\textbf{cranvas}}. 
 
-This paper is organized in the following way. The next section describes the building blocks for temporal displays, which is followed by a taxonomy of interactive tasks that is desirable to use for exploration (Section \ref{sec:Design-of-interactions}). How to realize the interactions is described in Section \ref{sec:Pipeline}. Linking between temporal data displays and other plots is described in Section \ref{sec:Linking}. 
+%This paper is organized in the following way. 
+The next section describes the building blocks for temporal displays, which is followed by a taxonomy of interactive tasks that is desirable to use for exploration (Section \ref{sec:Design-of-interactions}). How to realize the interactions is described in Section \ref{sec:Pipeline}. Linking between temporal data displays and other plots is described in Section \ref{sec:Linking}. 
 
 
-\section{Graph layers\label{sec:graph-layers}}
+\section{Layering to create a plot\label{sec:graph-layers}}
 
-A well-defined structure forms the foundation of a good data plot. For 
-interactive graphics, layering up the plot to enable different interactions can be useful, and efficient for large data. The base layer may be the plot of all of the data. An overlay of a brush layer, where only elements actively being colored are displayed, can mean that just the relevant subset needs to be displayed, and thus provides faster rendering. 
+ For 
+interactive graphics, layering up the plot to enable different interactions can be useful, and efficient for large data. The base layer is typically the plot of all of the data. An overlay of a brush layer, where only elements actively being colored are displayed, can provide the efficiency of faster rendering. A brush layer is common to all displays because brushing is a basic function for interactive graphics. Background layers like an axis layer or grid layer are common too, but are not necessary in displays like maps.  Table \ref{tab:Layers} lists the layers of common plot types in \texttt{\textbf{cranvas}}.
 
 %we can different layers are desired as the plot regions by different interactions. Usually there are many layers for an interactive graph, because a complex interaction can be then decomposed into small simple tasks on different layers. One layer is often designed for only one graph element, like the title layer, x-axis layer, or brush layer. Based on the characteristics of the graph elements, different painting functions are used to make the plotting fast for layers. When one layer changes, the irrelevant layers will remain the same.
 
-Some layers are common to all types of displays, e.g. a brush
-layer, since brushing is a basic function for interactive
-graphics. Background layers like an axis layer or grid layer
-are common too, but sometimes not necessary due to the properties
-of the graph. Different graph types will have their own special
-design of layers. Table \ref{tab:Layers} lists the layers for
-a few common plot types in \texttt{\textbf{cranvas}}.
 
 \begin{center}
 \begin{table}[h]
@@ -314,54 +289,45 @@ a few common plot types in \texttt{\textbf{cranvas}}.
 \hline 
 common & required & brush, identify, keys\tabularnewline
 \cline{2-3} 
-layers & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
+ & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
 \hline 
- & scatterplot & point\tabularnewline
+  & scatterplot & point\tabularnewline
 \cline{2-3} 
-special & histogram & bar, cue\tabularnewline
+display specific & histogram & bar, cue\tabularnewline
 \cline{2-3} 
-layers & map & polygon, googlemaps, path, point\tabularnewline
+ & map & polygon, googlemaps, path, point\tabularnewline
 \cline{2-3} 
  & time plot & point, line, area, stats\tabularnewline
 \hline 
 \end{tabular}
-\par\end{centering}
+\end{centering}
 
 \caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}} of layers used in constructing plots. Some are common to all plots, and each plot has some layers that are unique. The ``keys'' layer listens for key strokes that change interaction modes. The ``cue'' layer on the histogram contains listeners and handles for dragging to change to binwidth interactively.}
 \end{table}
 
-\par\end{center}
+\end{center}
 
 
-\begin{center}
-\begin{figure}[h]
-\begin{centering}
-\includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
-\par\end{centering}
+%\begin{center}
+%\begin{figure}[h]
+%\begin{centering}
+%\includegraphics[width=0.8\textwidth]{graph/pipeline-12-threelayers}
+%\par\end{centering}
 
-\caption{\label{fig:layer-system}The point layer is the center
-of the system that receives the data and interactions at first.
-Then the line and area layers adopt the current position and
-features from the point layer. The color of the lines is
-determined by the color of the first point in the pair
-defining the line segment. The color of the polygon is
-driven by the color of the line segment.}
-\end{figure}
+%\caption{\label{fig:layer-system}The point layer is the center of the system that receives the data and interactions at first. Then the line and area layers adopt the current position and features from the point layer. The color of the lines is determined by the color of the first point in the pair defining the line segment. The color of the polygon is driven by the color of the line segment.}
+%\end{figure}
 
-\par\end{center}
+%\par\end{center}
 
 
-For temporal data displays, we use three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a base line which enables closing the series to create a set of polygons.  Figure \ref{fig:layer-system} shows the relationship among three layers. Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers:
+For temporal data displays, there are three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a base line which enables closing the series to create a set of polygons.  %Figure \ref{fig:layer-system} shows the relationship among three layers. 
+Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers:
 
 \begin{enumerate} \itemsep 0in
-\item Transmission of the brushing information. The brush features like color, size, or visibility, are generated for each observation when creating the mutaframe\citep{plumbr2014,xie2014reactive}.
-The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe, essentially, points are brushed. However, translating this to edges is not simply defined because one edge connects two points, $\# points=\# edges+1$, and for a multivariate time plot with $n$ series, 
-$\# points=\#edges+n.$
-In the area layer, each polygon is defined by a number of edges,
-i.e., $\#polygons=\#edges$.
-As shown in Figure \ref{fig:layer-system}, the color of lines
-follows from the color of the first point of the line segment.
-The color of polygons is mapped from the lines.
+\item Transmission of the brushing information. The brush features, color, size, or visibility, are generated for each observation when creating the plumbr mutaframe.
+The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe, essentially, points are brushed. The number of lines is one less than the number of points, and line color follows the first point in the defining pair. The number of polygons for the area display is the same as the number of lines, so color follows lines directly to polygons.
+
+%However, translating this to edges is not simply defined because one edge connects two points, $\# points=\# edges+1$, and for a multivariate time plot with $n$ series,  $\# points=\#edges+n.$ In the area layer, each polygon is defined by a number of edges, i.e., $\#polygons=\#edges$. %As shown in Figure \ref{fig:layer-system},  The color of lines follows from the color of the first point of the line segment, and the color of polygons descends from the lines.
 
 %\begin{center}
 %\begin{figure}[htp]
@@ -374,16 +340,7 @@ The color of polygons is mapped from the lines.
 
 % brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
 
-\item The area layer can sometimes need additional construction
-points. The point layer only needs the $x/y$ coordinates, while
-the line layer needs the $x/y$ coordinates in order and in groups.
-But the area layer incorporates a baseline, which is generated
-by calculating the minimum of the values on the variable. When
-the $y$-coordinates of the variable change, like the shifting in
-Section \ref{sec:Design-of-interactions}, the baseline need to be
-updated instantly. The additional information challenges the
-linking system, and some details are discussed in Section
-\ref{sub:Linking-of-the-addition}.
+\item The area layer typically will need additional construction points. The point layer needs the $x/y$ coordinates, while the line layer needs the $x/y$ coordinates in order and in groups. But the area layer incorporates a baseline, which is generated by calculating the minimum of the values on the variable. When the $y$-coordinates of the variable change, like the shifting in Section \ref{sec:Design-of-interactions}, the baseline needs to be updated instantly. The additional information challenges the linking system, and some details are discussed in Section \ref{sub:Linking-of-the-addition}.
 
 % \begin{center}
 % \begin{table}[htp]
@@ -435,7 +392,7 @@ linking system, and some details are discussed in Section
 \end{enumerate}
 
 
-\section{Interactivity for temporal data plots\label{sec:Design-of-interactions}}
+\section{A taxonomy of interactions for temporal data displays\label{sec:Design-of-interactions}}
 
 For the time-dependent plots, \citet{wills2012visualizing} summarized
 the interactivity from two aspects: parameters and data. On one hand,
@@ -505,9 +462,9 @@ parts for a better aspect ratio which will increase the effectiveness
 of data display \citep{cleveland1987graphical}, and then reveal more
 details. When the time series is long, to keep a proper aspect ratio
 is not always workable, due to the the limit of the screen width.
-Two possible solutions are  (1) if the series is periodical, then wrap
+Two possible solutions are:  (1) if the series is periodical, then wrap
 it horizontally by the period, as Figure %\ref{fig:faceting-period}
-\ref{fig:x-wrapping}.  (2) Wrap the series vertically, especially
+\ref{fig:x-wrapping},  (2) Wrap the series vertically, especially
 when multiple series are faceted.
 
 
@@ -527,7 +484,7 @@ when multiple series are faceted.
 \includegraphics[width=0.4\textwidth]{graph/pipeline-18-original} &
 \includegraphics[width=0.4\textwidth]{graph/pipeline-18-mirrored} \\
 \end{tabular}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:x-wrapping}(a) time series plot of annual numbers of
 lynx trappings for 1821\textendash{}1934 in the MacKenzie River District
 \citep{campbell1977survey}. (b \textendash{} c) during the horizontal wrapping
@@ -542,7 +499,7 @@ to the upper and lower part: blue are the values above the mean,
 yellow below the mean. The video at \url{https://vimeo.com/112432400}
 shows these interactions.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 
 Figure \ref{fig:y-wrapping} gives an example of the vertical wrapping
@@ -562,11 +519,11 @@ much easier.
 \begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
-\par\end{centering}
+\end{centering}
 
 \begin{centering}
 \includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
-\par\end{centering}
+\end{centering}
 
 \caption{\label{fig:y-wrapping}Quarterly pig production for 1967-1978 in UK.
 Top: the original data faceted on variable. HERDSZ and PRODUCTION
@@ -577,7 +534,7 @@ for the first two variables and seasonal change for the latter two
 variables, also a leading pattern between PROFIT and GILTS. The video at \url{https://vimeo.com/112435889} demonstrates this wrapping.}
 \end{figure}
 
-\par\end{center}
+\end{center}
 
 
 \item Faceting: creating small multiples to organize and
@@ -619,13 +576,13 @@ should make the switching among five panels done on-the-fly.
 {\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
 \end{tabular}
-\par\end{centering}
+\end{centering}
 
 \caption{\label{fig:faceting-var-ind}Faceting on a temporal data set with
 two variables and three individuals. The entire data overlaid (plot (a)) shows six series, where color indicates two different variables. Plot (b) splits on two variables, and plot (c) facets by the three individuals. Plot (d) facets (b) by individual, and plot  (e) facets (c) by individual. The order of the interactions changes the result. Both are useful: the configurtion in (d) supports the comparison of individuals, and that in (e) supports comparison of variables.  Video footage illustrating these steps is available at \url{https://vimeo.com/112438919}.}
 \end{figure}
 
-\par\end{center}
+\end{center}
 
 
 Faceting by individual sometimes extends to much more complex situations,
@@ -643,11 +600,11 @@ and two in the vertical direction.
 \begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
-\par\end{centering}
+\end{centering}
 
 \begin{centering}
 \includegraphics[width=0.38\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-4}
-\par\end{centering}
+\end{centering}
 
 \caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
 that have 72-month surface temperatures on a 24$\times$24 spatial grid 
@@ -657,27 +614,27 @@ than the east.  (Bottom left) Faceting by latitudinal grid.
 The north part is bumpier than the middle and south part.
  (Bottom right) Faceting by longitude and latitude. An illustration of this facetting in both directions is shown in \url{https://vimeo.com/112503285}.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 
 \begin{center}
 \begin{figure}[htp]
 \begin{centering}
 \includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
-\par\end{centering}
+\end{centering}
 \begin{centering}
 \includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
-\par\end{centering}
+\end{centering}
 
 \caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
 a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
 Sex and height are used in the horizontal direction, age and weight
 are used in the vertical direction.  (Top left) Original data without
-facetting.  (Top right) Facetted by height and weight.  (Bottom left)
-Facetted by sex and age.  (Bottom right) Facetted by sex and height
+facetting.  (Top right) Faceted by height and weight.  (Bottom left)
+Faceted by sex and age.  (Bottom right) Faceted by sex and height
 horizontally, age and weight vertically. See the video at \url{https://vimeo.com/112509324} on how this works.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 
 It is apparent that faceting by either variable, individual or both
@@ -785,13 +742,13 @@ pattern.
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:x-shifting}Left: area plot for the longitudinal data with
 two variables and three individuals. Right: three bottom lines from
 variable A are shifted horizontally to the right, to match the peak
 time with variable B. See the video at \url{https://vimeo.com/112439923} for an illustration.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 
 \item Switching between layers: point, line, area.
@@ -1054,7 +1011,7 @@ series has only 3 points. In the actual implementation the
 scale of the horizontal axis is changed at each step so that
 the full plot width is used.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 Sometimes it is useful to wrap the series faster. If you have
 a long time series, it might be useful to make full year jumps.
@@ -1117,7 +1074,7 @@ issues are discussed later in this paper.
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-original}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-smooth}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-22-jump}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:smoothness}Three positions of the faceting.
 Left panel is the starting position, center is an intermediate
 position with area layer, and right is the target position.
@@ -1127,7 +1084,7 @@ each other. There is also benefit to moving fast, to quickly
 get to a target state. See the video at
 \url{https://vimeo.com/112528131} to see the smooth transitions.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 In Figure \ref{fig:smoothness}, the interaction type
 $i=$ facet by individual. The plot in the center
@@ -1274,13 +1231,13 @@ $l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\t
 2 & 3 &  &  & 0.90 & 0.90+(2-1)=1.90 & 0.90+(2-1)$\times$3+(3-1)=5.90\tabularnewline
 \cline{1-2} \cline{5-7}
 \end{tabular}
-\par\end{centering}
+\end{centering}
 \caption{\label{tab:additive-faceting}$y$-coordinates of the
 first point on each line, at Figure \ref{fig:faceting-var-ind}
 (a) no faceting, (b) faceting by variable, (d) faceting by
 variable then individual.}
 \end{table}
-\par\end{center}
+\end{center}
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
@@ -1443,11 +1400,11 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
 \end{tabular}
-\par\end{centering}
+\end{centering}
 \normalsize
 \caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
-\par\end{center}
+\end{center}
 
 \begin{center}
 \begin{figure}[htp]
@@ -1455,7 +1412,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:self-linking}When a single point is brushed,
 there could be three modes of highlighting: (left) only a single
 point is highlighted; (center) all points for that series are
@@ -1463,7 +1420,7 @@ highlighted, by treating the line group indicators as the categorical
 linking variables; (right) all points for that time are highlighted,
 by using the time as a linking variable.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 \begin{center}
 \begin{table}[htp]
@@ -1483,10 +1440,10 @@ Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.brushed
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\par\end{centering}
+\end{centering}
 \caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
-\par\end{center}
+\end{center}
 
 The long data format is typically the basic format
 for longitudinal data, where there may be differing
@@ -1554,11 +1511,11 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\par\end{centering}
+\end{centering}
 
 \begin{centering}
 $\Downarrow$
-\par\end{centering}
+\end{centering}
 
 \begin{centering}
 \begin{tabular}{c|ccc|cc}
@@ -1571,11 +1528,11 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\par\end{centering}
+\end{centering}
 
 \begin{centering}
 $\Downarrow$
-\par\end{centering}
+\end{centering}
 
 \begin{centering}
 \begin{tabular}{c|cc|cc}
@@ -1590,7 +1547,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\par\end{centering}
+\end{centering}
 \caption{\label{tab:wide-long-linking}Linking between the long and wide data
 format may produce a problem. Suppose we start from brushing a point  (V1
 at time 2) in the long data  (a). Then the listener of the long data
@@ -1599,7 +1556,7 @@ wide data  (b). Then the listener of the wide data is triggered and
 switches the .brushed parameter for all the observations at time 2
 in the long data  (c), which will update (a) but make a conflict.}
 \end{table}
-\par\end{center}
+\end{center}
 
 \begin{center}
 \begin{figure}[htp]
@@ -1612,7 +1569,7 @@ in the long data  (c), which will update (a) but make a conflict.}
 & \includegraphics[width=0.4\textwidth]{graph/pipeline-28-3} \tabularnewline
 & \tabularnewline
 \end{tabular}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:linking-plots}Linking between different plots
 for the Google Flu Trends data from November 24, 2013 -- March 16, 2014.
 When two states in the map are brushed, all the flu searches from the
@@ -1620,7 +1577,7 @@ states are also highlighted in the longitudinal plot and histogram.
 The gray scale of the map indicates the time of the flu search peak.
 The lighter color means the peak started earlier.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 
 \subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
@@ -1666,12 +1623,12 @@ to the polygons when the red dots are generated.
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-1}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
-\par\end{centering}
+\end{centering}
 \caption{\label{fig:Additional-data}Additional data created from the vertical
 faceting. The black dots are given by the time series, and the red
 dots are created during the cropping step of faceting.}
 \end{figure}
-\par\end{center}
+\end{center}
 
 \end{itemize}
 
