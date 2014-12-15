@@ -38,7 +38,7 @@
 
 \if0\blind
 {
-  \title{\bf Enabling Interactivity on Temporal and Longitudinal Displays}
+  \title{\bf  Enabling Interactivity on Displays of Multivariate Time Series and Longitudinal Data}
   \author{Xiaoyue Cheng\thanks{
     The authors gratefully acknowledge},\hspace{.2cm}
     Dianne Cook, Heike Hofmann \\
@@ -53,43 +53,36 @@
   \bigskip
   \bigskip
   \begin{center}
-    {\LARGE\bf Enabling Interactivity on Temporal and Longitudinal Displays}
+    {\LARGE\bf Enabling Interactivity on Displays of Multivariate Time Series and Longitudinal Data}
 \end{center}
   \medskip
 } \fi
 
 \bigskip
 \begin{abstract}
-Exploring temporal data can be facilitated by interactive graphics.
-We describe structuring data objects to support different types of
-temporal displays. A taxonomy of interactions is given that can be
-useful for examining different components of multivariate time
-series and longitudinal data: seasonality, temporal dependence,
-cross-correlation, within and between subject variation. The
-conceptual data pipeline framework for realizing the interactions
-using primarily data transformations is explained. The ideas are
-implemented in the R package \texttt{\textbf{cranvas}}, which is
-a system for exploring data using multiple linked windows. The way
-the temporal displays are linked to displays of other variables as
-part of a general interactive graphics system is explained.
+Temporal data is information measured in the context of time. This contextual structure provides components that need to be explored to understand the data and that can form the basis of interactions applied to the plots. In multivariate time series we expect to see temporal dependence, long term and seasonal trends and cross-correlations. In longitudinal data we also expect within and between subject dependence. Time series and longitudinal data, although analyzed differently, are often plotted using similar displays.  We provide a taxonomy of interactions on plots that can enable exploring temporal components of these data types, and describe how to build these interactions using data transformations. Because temporal data is often accompanied other types of data we also describe how to link the temporal plots with other displays of data. The ideas are conceptualized into a data pipeline for temporal data, and implemented into the R package \texttt{\textbf{cranvas}}. This package provides many different types of interactive graphics that can be used together to explore data or diagnose a model fit. 
+
+%Exploring temporal data can be facilitated by interactive graphics that allow structural components of the data to be sliced, diced and rearranged. This paper explains how to build upon static displays, to create interactive graphics. This involves developing a taxonomy of desirable tasks, restructuring data, and conceptualization of a data pipeline to realize the interactions. 
+ 
+%We describe structuring data objects to support different types of temporal displays. A taxonomy of interactions is given that can be useful for examining different components of multivariate time series and longitudinal data: seasonality, temporal dependence, cross-correlation, within and between subject variation. The conceptual data pipeline framework for realizing the interactions using primarily data transformations is explained. The ideas are implemented in the R package \texttt{\textbf{cranvas}}, which is a system for exploring data using multiple linked windows. The way the temporal displays are linked to displays of other variables as part of a general interactive graphics system is explained.
 \end{abstract}
 
 \noindent%
 {\it Keywords:}  Interactive graphics; Multivariate time series;
-Longitudinal data.
+Longitudinal data;  Multiple linked windows; Data Visualization; Statistical graphics.
 
 \spacingset{1.45}
 
 \section{Introduction}
 
-We can think about constructing interactive graphics for temporal data as building upon static displays. Aspects of the displays are made available for modifying by user actions on the plot, for the purpose of facilitating different explorations. There are many different ways of displaying temporal data, some of which depend on the structure of the time descriptor. 
+Constructing interactive graphics for temporal data can be enabled by building upon static displays. Aspects of the graphical elements in the displays can be made accessible to modification by user actions, for the purpose of facilitating different exploration of the temporal components in the data. To explain how to do this we first need to understand how time might be structured, and the common types of temporal data displays. 
 
 %Interactions would change the static pictures by some order such that the user can find the best graphical summary. Hence before introducing the interactive graphics, we give an overview of the static graphics for temporal and longitudinal data in this section.
 
 
 \subsection{Characterizing time}
 
-Time can be coded in many different ways: as a date/time format ("Wed Oct 15 09:51:53 2014"), as discrete or continuous values, sporadic events or intervals. Recoding a time variable into other units like week in the year or days in the month, although convenient for some tasks, brings imprecision, as does events like leap years, and seconds. There may not be a well-defined absolute time line, and periodicity can be hard to quantify. Variables measured over time may be measured on different scales, e.g. atmospheric particulate matter and mortality drawn from different sources to study the effect of pollution on human health. 
+In data, time is coded in many different ways: as a date/time format ("Wed Oct 15 09:51:53 2014"), as discrete or continuous values, sporadic events or intervals. Recoding a time variable into other units like week in the year or days in the month, although convenient for some tasks, brings imprecision, as do events like leap years, and seconds. There may not be a well-defined absolute time line, and periodicity can be hard to quantify. Variables measured over time may be measured on different scales, e.g. atmospheric particulate matter and mortality might be drawn from different sources to study the effect of pollution on human health and measured at different resolutions. 
 
 %The custom time formats brings some further problems, for example, the number of weeks per year is not an integer, the number of days per month varies over the year, and the leap year recurs every four years. In some cases, the data can only be collected during the weekdays.  Therefore, the time plot may not be accurate in an absolute time line, and the length of the periodicity could be hard to verify. Besides, the dependent variables could appear with different time formats, which makes the visualization more difficult but interesting.
 
@@ -115,12 +108,11 @@ When many measurements are made more complications ensue. In climate records we 
 
 \subsection{Visualizing time}
 
-Longitudinal data and time series data, although analyzed very differently, have in common the context of time.  There are common ways to display  in plots.
+Longitudinal data and time series data, although analyzed very differently, have in common the context of time that is commonly plotted in similar ways. Here are examples of common types of temporal displays.
 
-\begin{enumerate}
-\item Time is most commonly displayed on a horizontal axis of a plot. There are many different variations. 
+Time is most conventionally displayed on a horizontal axis of a plot. There are many different variations: 
 
-\begin{itemize}
+\begin{itemize} \itemsep 0in
 \item A line graph, the basic building block for temporal data, displays the measured variable on the vertical axis, time horizontally, and consecutive time points are connected with line segments. Figure \ref{fig:Time-series-plots} gives two examples of line graphs, for a single measured variable: (left) a classical time series plot, (right) a profile plot of longitudinal data. When there are many series, for example time series of different stocks or different geographic locations, or many patients, the series may be overlaid on the same plot (Figure \ref{fig:horizontal-axis} row 1 left), or facetted in several blocks (Figure \ref{fig:horizontal-axis} row 1 right). 
 
 %\begin{center}
@@ -189,9 +181,10 @@ time series: (From top left to bottom right) overlaid line plots, facetted line 
 
 \end{itemize}
 
-\item Time on both horizontal and vertical axes
+When time can be broken into two components it might be displayed on both horizontal and vertical axes;
 
-A high frequency time series often has hierarchic or nested
+\begin{itemize} \itemsep 0in
+\item A high frequency time series often has hierarchic or nested
 period levels, like year, day, minute, etc. Those levels can
 be placed on horizontal and vertical axes to reveal the periodic
 dependency. For example, \citet{keller1993visual} used days
@@ -199,22 +192,17 @@ and hours on two axes. In these graphs, the measurements of
 the time series are drawn in the grids via aesthetic settings
 like color or size.
 
-\begin{itemize}
 \item Calendar heat maps. \citet{van1999cluster} proposed a
 colored calendar visualization  (weeks and days on two axes).
 \texttt{\textbf{d3.js}} \citep{bostock2011d3} applies the calendar
 heat maps and makes it interactive.
 \end{itemize}
 
-\item Time in the polar coordinates
+Because time in some circumstances can be considered to be cyclical it is sometimes displayed in the polar coordinates:
 
-As an alternative to the Euclidean coordinates, polar coordinates
-provide a compact way to visualize the series by rolling the line
-clockwise or counterclockwise. Any line graphs in Euclidean
-coordinates can be converted to polar coordinates. Two named
-graphs to visualize time in polar coordinates are given as follows.
-
-\begin{itemize}
+%As an alternative to the Euclidean coordinates, polar coordinates provide a compact way to visualize the series by rolling the line clockwise or counterclockwise. Any line graphs in Euclidean coordinates can be converted to polar coordinates. Two named graphs to visualize time in polar coordinates are given as follows.
+ 
+\begin{itemize} \itemsep 0in
 \item Nightingale's coxcomb. Florence Nightingale might be the earliest
 author of a time series plot in polar coordinates. In the original
 plots, two unstacked barcharts were made in polar coordinates. Each
@@ -245,7 +233,7 @@ in polar coordinates for the same data in Figure
 \end{figure}
 \par\end{center}
 
-\end{enumerate}
+%\end{enumerate}
 
 \subsection{Interactive graphics\label{sec:interactive-graphics}}
 
@@ -365,7 +353,7 @@ driven by the color of the line segment.}
 
 For temporal data displays, we use three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a base line which enables closing the series to create a set of polygons.  Figure \ref{fig:layer-system} shows the relationship among three layers. Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers:
 
-\begin{enumerate}
+\begin{enumerate} \itemsep 0in
 \item Transmission of the brushing information. The brush features like color, size, or visibility, are generated for each observation when creating the mutaframe\citep{plumbr2014,xie2014reactive}.
 The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe, essentially, points are brushed. However, translating this to edges is not simply defined because one edge connects two points, $\# points=\# edges+1$, and for a multivariate time plot with $n$ series, 
 $\# points=\#edges+n.$
@@ -494,7 +482,7 @@ different components of time series, and longitudinal data.
 
 %\subsection{A taxonomy of tasks\label{sub:Special-interactions}}
 
-\begin{itemize}
+\begin{itemize} \itemsep 0in
 
 \item Wrapping: comparing sequential elements of the
 data to examine seasonality, and dependence.
@@ -993,7 +981,7 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 
 \noindent These are the specific functional definitions used to generate the movement for the interactions available in \texttt{\textbf{cranvas}}. 
 
-\begin{itemize}
+\begin{itemize} \itemsep 0in
 
 \item Wrapping
 
@@ -1297,7 +1285,7 @@ variable then individual.}
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
 Calculations can be made incrementally or with respect to a stable state (baseline), which, respectively, stores multiple copies of data, or a single storage of the data with storage of movement.
-\begin{enumerate}
+\begin{enumerate} \itemsep 0in
 \item Incremental: Let
 
 \begin{eqnarray*}
@@ -1640,7 +1628,7 @@ The lighter color means the peak started earlier.}
 Besides the issue of wide data and long data, there are other datasets
 created during the interactions that could produce some linking issues,
 such as the follows.
-\begin{itemize}
+\begin{itemize} \itemsep 0in
 \item The polygon data from the area layer. 
 As shown in Figure \ref{fig:layer-system}, the area layer does not
 only need the values in the time series, but also the baseline to
