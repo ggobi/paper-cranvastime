@@ -276,20 +276,15 @@ The next section describes the building blocks for temporal displays, which is f
 
 \section{Layering to create a plot\label{sec:graph-layers}}
 
- For 
-interactive graphics, layering up the plot to enable different interactions can be useful, and efficient for large data. The base layer is typically the plot of all of the data. An overlay of a brush layer, where only elements actively being colored are displayed, can provide the efficiency of faster rendering. A brush layer is common to all displays because brushing is a basic function for interactive graphics. Background layers like an axis layer or grid layer are common too, but are not necessary in displays like maps.  Table \ref{tab:Layers} lists the layers of common plot types in \texttt{\textbf{cranvas}}.
+ For interactive graphics, layering up the plot to enable different interactions can be useful, and efficient for large data. The base layer is typically the plot of all of the data. An overlay of a brush layer, where only elements actively being colored are displayed, can provide the efficiency of faster rendering. A brush layer is common to all displays because brushing is a basic function for interactive graphics. Background layers like an axis layer or grid layer are common too, but are not necessary in displays like maps.  Table \ref{tab:Layers} lists the layers of common plot types in \texttt{\textbf{cranvas}}.
 
 %we can different layers are desired as the plot regions by different interactions. Usually there are many layers for an interactive graph, because a complex interaction can be then decomposed into small simple tasks on different layers. One layer is often designed for only one graph element, like the title layer, x-axis layer, or brush layer. Based on the characteristics of the graph elements, different painting functions are used to make the plotting fast for layers. When one layer changes, the irrelevant layers will remain the same.
 
 
 \begin{center}
 \begin{table}[h]
-\begin{centering}
+\begin{center}
 \begin{tabular}{c|l|l}
-\hline 
-common & required & brush, identify, keys\tabularnewline
-\cline{2-3} 
- & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
 \hline 
   & scatterplot & point\tabularnewline
 \cline{2-3} 
@@ -299,8 +294,12 @@ display specific & histogram & bar, cue\tabularnewline
 \cline{2-3} 
  & time plot & point, line, area, stats\tabularnewline
 \hline 
+common & required & brush, identify, keys\tabularnewline
+\cline{2-3} 
+ & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
+\hline 
 \end{tabular}
-\end{centering}
+\end{center}
 
 \caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}} of layers used in constructing plots. Some are common to all plots, and each plot has some layers that are unique. The ``keys'' layer listens for key strokes that change interaction modes. The ``cue'' layer on the histogram contains listeners and handles for dragging to change to binwidth interactively.}
 \end{table}
@@ -320,12 +319,12 @@ display specific & histogram & bar, cue\tabularnewline
 %\par\end{center}
 
 
-For temporal data displays, there are three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a base line which enables closing the series to create a set of polygons.  %Figure \ref{fig:layer-system} shows the relationship among three layers. 
-Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers:
+For temporal data displays, there are three basic layers: point, line, and area. The coordinates of the points are initially calculated from the data, and interactions may change the locations of the points in the display. The line layer connects the current positions of the points, so it requires the order, or, path information to know how to make the connections. The area layer shades the area under the line by constructing a baseline, matching the minimum data values, which enables closing the series to create a set of polygons.  %Figure \ref{fig:layer-system} shows the relationship among three layers. 
+Each of these layers can take different interactions, and some care needs to be taken in realizing the effect on the different layers. 
 
-\begin{enumerate} \itemsep 0in
-\item Transmission of the brushing information. The brush features, color, size, or visibility, are generated for each observation when creating the plumbr mutaframe.
-The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe, essentially, points are brushed. The number of lines is one less than the number of points, and line color follows the first point in the defining pair. The number of polygons for the area display is the same as the number of lines, so color follows lines directly to polygons.
+%\begin{enumerate} \itemsep 0in
+%\item Transmission of the brushing information. 
+The point attributes, selected, color, size, or visibility, are generated for each observation when creating the plumbr mutaframe. The base element for the temporal plots are the points, and in \texttt{\textbf{cranvas}} brushing changes the attribute of each point in the mutaframe -- essentially, points are brushed. The number of lines is one less than the number of points, and line color follows the first point in the defining pair. The number of polygons for the area display is the same as the number of lines, so color follows lines directly to polygons. The additional construction points of the area layer are only used in the area layer, and do not have independent attributes. This affects brushing behavior which is discussed later. 
 
 %However, translating this to edges is not simply defined because one edge connects two points, $\# points=\# edges+1$, and for a multivariate time plot with $n$ series,  $\# points=\#edges+n.$ In the area layer, each polygon is defined by a number of edges, i.e., $\#polygons=\#edges$. %As shown in Figure \ref{fig:layer-system},  The color of lines follows from the color of the first point of the line segment, and the color of polygons descends from the lines.
 
@@ -340,7 +339,8 @@ The base element for the temporal plots are the points, and in \texttt{\textbf{c
 
 % brushing Now the problem is, how to get the painting features for each edge and polygon? It is easy to answer the question when the features of points are identical. But when they are varied, we have to skip the features of $n$ points for $n$ lines by Equation  (\ref{eq:points_edges}). Then how to choose the $n$ points? One possible but not perfect solution is the first or last point of a line.%, like shown in Figure \ref{fig:features}. A smoother method should be considered for the edges and polygons that connect two points with different features. To make it convenient for the interactions, the method should be simple and avoid involving new coordinates.
 
-\item The area layer typically will need additional construction points. The point layer needs the $x/y$ coordinates, while the line layer needs the $x/y$ coordinates in order and in groups. But the area layer incorporates a baseline, which is generated by calculating the minimum of the values on the variable. When the $y$-coordinates of the variable change, like the shifting in Section \ref{sec:Design-of-interactions}, the baseline needs to be updated instantly. The additional information challenges the linking system, and some details are discussed in Section \ref{sub:Linking-of-the-addition}.
+%\item 
+%The area layer typically will need additional construction points, which are considered to be part of the area layer, but not the point layer. The point layer needs the $x/y$ coordinates, while the line layer needs the $x/y$ coordinates in order and in groups. But the area layer incorporates a baseline, which is generated by calculating the minimum of the values on the variable. When the $y$-coordinates change, as happens when facetting, the baseline needs to be updated instantly. The additional information challenges the linking system, and some details are discussed in Section \ref{sub:Linking-of-the-addition}.
 
 % \begin{center}
 % \begin{table}[htp]
@@ -389,84 +389,26 @@ The base element for the temporal plots are the points, and in \texttt{\textbf{c
 % \end{table}
 % \par\end{center}
 
-\end{enumerate}
+%\end{enumerate}
 
 
 \section{A taxonomy of interactions for temporal data displays\label{sec:Design-of-interactions}}
 
-For the time-dependent plots, \citet{wills2012visualizing} summarized
-the interactivity from two aspects: parameters and data. On one hand,
-the parameters are modified for the purpose of changing the element,
-aesthetic, coordinate, statistic, scale, facet, or transform, while
-the data remain the same. On the other hand, to brush, link, or drill-down (zoom-in),
-the data are modified -- not necessarily the positional information,
-but also the augmented variables used in the display. However, some
-of the ideas for the parameters are conceptual and there is no software
-to integrate them all.
+\citet{wills2012visualizing} summarizes
+the interactivity for temporal displays as changes to parameters or data. Data is mapped into coordinates in the plot. Parameters can be considered to be attributes like color, labels, geometric elements, facet, or they can be considered to be aspects used to get the data into the plot like transformations, binning, dimension reductions or scales. Changes to the data or parameters provoke changes to the plots. 
 
-In reality, the interactions like brushing, selection, linking, zooming,
-panning, and querying, were already embedded in some interactive graphics
-software. The software mentioned in Section \ref{sec:interactive-graphics}
-for time series and longitudinal data
-used some or all of the interactions.
+Parameters can often be attached to graphical user interface (GUI) items like sliders, that can generate the change in the plot. But more generally, interactions happen by direct action on the plot. For example, in brushing, the user selects elements in the plots, like points. The software needs to locate these items in the data, update the attributes of these selected points, and broadcast these changes to other plots. 
 
-Within the realized interactions mentioned above, all but querying
-belong to the complex type of interactions, based on the discussion
-in Section \ref{sec:interactive-graphics}. For more explanation,
-brushing requires the knowledge of the current brush location, and
-returns the corresponding brushed points. Selection hears from the
-selection methods, the current selected points, and the cursor location,
-to return the new selected points. Linking transmits the brushed status
-from one graph object to another. Zooming and panning uses the current
-cursor location and zooming range to anchor the new range. All of
-these returned objects or status should be saved for future use. Hence,
-the strength of the above software is to support the instantly data
-exploration conveniently, compared to other interactive tools like
-GUI. 
+%On one hand, the parameters are modified for the purpose of changing the element, aesthetic, coordinate, statistic, scale, facet, or transform, while the data remain the same. On the other hand, to brush, link, or drill-down (zoom-in), the data are modified -- not necessarily the positional information, but also the augmented variables used in the display. However, some of the ideas for the parameters are conceptual and there is no software to integrate them all.
 
-Note that these interactions  (brushing, selection, linking, zooming,
-panning, querying, etc.) are universal for all graph types. Considering
-the unusual characteristics of the temporal and longitudinal data,
-some special interactions should be utilized to reveal the time-dependent
-structure and series associations easily and quickly.
-% In this section we introduce the design of the interactions
-% and discuss the the interactivity issues.
-\citet{Buja1996} describe a taxonomy of interactive tasks
-for multivariate data. This section describes a taxonomy
-of tasks with a focus on temporal data. Each of these
-different plot manipulations enables the exploration of
-different components of time series, and longitudinal data.
+%In reality, the interactions like brushing, selection, linking, zooming, panning, and querying, were already embedded in some interactive graphics software. The software mentioned in Section \ref{sec:interactive-graphics} for time series and longitudinal data used some or all of the interactions.
+
+%Within the realized interactions mentioned above, all but querying belong to the complex type of interactions, based on the discussion in Section \ref{sec:interactive-graphics}. For more explanation, brushing requires the knowledge of the current brush location, and returns the corresponding brushed points. Selection hears from the selection methods, the current selected points, and the cursor location, to return the new selected points. Linking transmits the brushed status from one graph object to another. Zooming and panning uses the current cursor location and zooming range to anchor the new range. All of these returned objects or status should be saved for future use. Hence, the strength of the above software is to support the instantly data exploration conveniently, compared to other interactive tools like GUI. 
+
+Some interactions, like brushing, selection, linking, zooming, panning, and querying, are universal for all plot types. Temporal and longitudinal data solicit special interactions to explore aspects of temporal dependence and trend. % In this section we introduce the design of the interactions % and discuss the the interactivity issues. 
+\citet{Buja1996} describe a taxonomy of interactive tasks for multivariate data. Here we describe a taxonomy of tasks for temporal data, that enable exploration of different components of time series and longitudinal data:
 
 %\subsection{A taxonomy of tasks\label{sub:Special-interactions}}
-
-\begin{itemize} \itemsep 0in
-
-\item Wrapping: comparing sequential elements of the
-data to examine seasonality, and dependence.
-Wrapping cuts the series by a fixed-length interval in
-the horizontal/vertical direction, and shift the right/top pieces
-to the left/bottom. It could change the $x$- / $y$- coordinates of the
-data.
-There are two reasons for wrapping. The first one
-is to compare the periods, or to find the period for the data
-that is potentially periodical. Also the periodic variation
-could be explored \citep{mcdonald1986periodic}. For this
-purpose we suggest to wrap the series horizontally.
-% Figure \ref{fig:faceting-period} (left to center) gives an
-% example of horizontal wrapping with a known period.
-Figure \ref{fig:x-wrapping}
-shows an example of wrapping process with an unknown period.
-
-The second reason is to cut the temporal and longitudinal data into
-parts for a better aspect ratio which will increase the effectiveness
-of data display \citep{cleveland1987graphical}, and then reveal more
-details. When the time series is long, to keep a proper aspect ratio
-is not always workable, due to the the limit of the screen width.
-Two possible solutions are:  (1) if the series is periodical, then wrap
-it horizontally by the period, as Figure %\ref{fig:faceting-period}
-\ref{fig:x-wrapping},  (2) Wrap the series vertically, especially
-when multiple series are faceted.
-
 
 \begin{center}
 \begin{figure}[H]
@@ -502,19 +444,6 @@ shows these interactions.}
 \end{center}
 
 
-Figure \ref{fig:y-wrapping} gives an example of the vertical wrapping
-for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}.
-The four variables are HERDSZ: actual breeding herd size, PRODUCTION:
-number of clean pig meat slaughtered, PROFIT: ratio of all-pig price
-to all fattener feed price, GILTS: number of sows in pig for the first
-time. In the top panel we see some overall pattern but it is hard
-to compare two values from the first quarter and last quarter of a
-line. In the bottom panel the series are wrapped in an area plot.
-The darkness of the colors indicates the magnitude of the series values,
-and the color bands make the comparison within or between the series
-much easier. 
-
-
 \begin{center}
 \begin{figure}[htp]
 \begin{centering}
@@ -535,6 +464,68 @@ variables, also a leading pattern between PROFIT and GILTS. The video at \url{ht
 \end{figure}
 
 \end{center}
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
+\multicolumn{2}{c}{\includegraphics[width=0.48\textwidth]{graph/pipeline-14-1}}\tabularnewline
+{\scriptsize{ (b) faceting by variable}} & {\scriptsize{ (c) faceting by individual}}\tabularnewline
+\includegraphics[width=0.48\textwidth]{graph/pipeline-14-2} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-3}\tabularnewline
+{\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
+\includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
+\end{tabular}
+\end{centering}
+
+\caption{\label{fig:faceting-var-ind}Faceting on a temporal data set with
+two variables and three individuals. The entire data overlaid (plot (a)) shows six series, where color indicates two different variables. Plot (b) splits on two variables, and plot (c) facets by the three individuals. Plot (d) facets (b) by individual, and plot  (e) facets (c) by individual. The order of the interactions changes the result. Both are useful: the configurtion in (d) supports the comparison of individuals, and that in (e) supports comparison of variables.  Video footage illustrating these steps is available at \url{https://vimeo.com/112438919}.}
+\end{figure}
+
+\end{center}
+
+
+
+\begin{itemize} \itemsep 0in
+
+\item Wrapping: comparing sequential elements of the
+data to examine seasonality, and dependence.
+Wrapping cuts the series by a fixed-length interval in
+the horizontal/vertical direction, and shift the right/top pieces
+to the left/bottom. It could change the $x$- / $y$- coordinates of the
+data.
+There are two reasons for wrapping. The first one
+is to compare the periods, or to find the period for the data
+that is potentially periodical. Also the periodic variation
+could be explored \citep{mcdonald1986periodic}. For this
+purpose we suggest to wrap the series horizontally.
+% Figure \ref{fig:faceting-period} (left to center) gives an
+% example of horizontal wrapping with a known period.
+Figure \ref{fig:x-wrapping}
+shows an example of wrapping process with an unknown period.
+
+The second reason is to cut the temporal and longitudinal data into
+parts for a better aspect ratio which will increase the effectiveness
+of data display \citep{cleveland1987graphical}, and then reveal more
+details. When the time series is long, to keep a proper aspect ratio
+is not always workable, due to the the limit of the screen width.
+Two possible solutions are:  (1) if the series is periodical, then wrap
+it horizontally by the period, as Figure %\ref{fig:faceting-period}
+\ref{fig:x-wrapping},  (2) Wrap the series vertically, especially
+when multiple series are faceted.
+
+Figure \ref{fig:y-wrapping} gives an example of the vertical wrapping
+for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}.
+The four variables are HERDSZ: actual breeding herd size, PRODUCTION:
+number of clean pig meat slaughtered, PROFIT: ratio of all-pig price
+to all fattener feed price, GILTS: number of sows in pig for the first
+time. In the top panel we see some overall pattern but it is hard
+to compare two values from the first quarter and last quarter of a
+line. In the bottom panel the series are wrapped in an area plot.
+The darkness of the colors indicates the magnitude of the series values,
+and the color bands make the comparison within or between the series
+much easier. 
+
 
 
 \item Faceting: creating small multiples to organize and
@@ -565,26 +556,6 @@ variables and three individuals. Design of the faceting interaction
 should make the switching among five panels done on-the-fly. 
 % Figure \ref{fig:faceting-period} explains why and shows how to facet on period.
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\begin{tabular}{cc}
-\multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
-\multicolumn{2}{c}{\includegraphics[width=0.48\textwidth]{graph/pipeline-14-1}}\tabularnewline
-{\scriptsize{ (b) faceting by variable}} & {\scriptsize{ (c) faceting by individual}}\tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-14-2} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-3}\tabularnewline
-{\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
-\includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
-\end{tabular}
-\end{centering}
-
-\caption{\label{fig:faceting-var-ind}Faceting on a temporal data set with
-two variables and three individuals. The entire data overlaid (plot (a)) shows six series, where color indicates two different variables. Plot (b) splits on two variables, and plot (c) facets by the three individuals. Plot (d) facets (b) by individual, and plot  (e) facets (c) by individual. The order of the interactions changes the result. Both are useful: the configurtion in (d) supports the comparison of individuals, and that in (e) supports comparison of variables.  Video footage illustrating these steps is available at \url{https://vimeo.com/112438919}.}
-\end{figure}
-
-\end{center}
-
-
 Faceting by individual sometimes extends to much more complex situations,
 because individuals can be grouped under different combinations of
 categorical variables, not only the individual IDs. Both horizontal
@@ -596,45 +567,6 @@ faceting by four categorical variables, two in the horizontal direction
 and two in the vertical direction.
 
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
-\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.38\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-4}
-\end{centering}
-
-\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
-that have 72-month surface temperatures on a 24$\times$24 spatial grid 
-\citep{murrell2010}.  (Top left) The mixed individuals.  (Top right) Faceting
-by longitudinal grid. There is more variation from the west areas
-than the east.  (Bottom left) Faceting by latitudinal grid.
-The north part is bumpier than the middle and south part.
- (Bottom right) Faceting by longitude and latitude. An illustration of this facetting in both directions is shown in \url{https://vimeo.com/112503285}.}
-\end{figure}
-\end{center}
-
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
-\end{centering}
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
-\end{centering}
-
-\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
-a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
-Sex and height are used in the horizontal direction, age and weight
-are used in the vertical direction.  (Top left) Original data without
-facetting.  (Top right) Faceted by height and weight.  (Bottom left)
-Faceted by sex and age.  (Bottom right) Faceted by sex and height
-horizontally, age and weight vertically. See the video at \url{https://vimeo.com/112509324} on how this works.}
-\end{figure}
-\end{center}
 
 
 It is apparent that faceting by either variable, individual or both
@@ -737,20 +669,6 @@ by four time points and get the right panel. The peaks and valleys
 match well for the two variables, which confirms the guess of leading
 pattern.
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
-\end{centering}
-\caption{\label{fig:x-shifting}Left: area plot for the longitudinal data with
-two variables and three individuals. Right: three bottom lines from
-variable A are shifted horizontally to the right, to match the peak
-time with variable B. See the video at \url{https://vimeo.com/112439923} for an illustration.}
-\end{figure}
-\end{center}
-
-
 \item Switching between layers: point, line, area.
 Starting from the basic demand, the interactive time plots should
 support the switch between the line and area layers, as the line and
@@ -790,6 +708,61 @@ preferred.
 % \end{figure}
 
 \end{itemize}
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
+\end{centering}
+
+\begin{centering}
+\includegraphics[width=0.38\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-4}
+\end{centering}
+
+\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
+that have 72-month surface temperatures on a 24$\times$24 spatial grid 
+\citep{murrell2010}.  (Top left) The mixed individuals.  (Top right) Faceting
+by longitudinal grid. There is more variation from the west areas
+than the east.  (Bottom left) Faceting by latitudinal grid.
+The north part is bumpier than the middle and south part.
+ (Bottom right) Faceting by longitude and latitude. An illustration of this facetting in both directions is shown in \url{https://vimeo.com/112503285}.}
+\end{figure}
+\end{center}
+
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
+\end{centering}
+\begin{centering}
+\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
+\end{centering}
+
+\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
+a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
+Sex and height are used in the horizontal direction, age and weight
+are used in the vertical direction.  (Top left) Original data without
+facetting.  (Top right) Faceted by height and weight.  (Bottom left)
+Faceted by sex and age.  (Bottom right) Faceted by sex and height
+horizontally, age and weight vertically. See the video at \url{https://vimeo.com/112509324} on how this works.}
+\end{figure}
+\end{center}
+
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
+\end{centering}
+\caption{\label{fig:x-shifting}Left: area plot for the longitudinal data with
+two variables and three individuals. Right: three bottom lines from
+variable A are shifted horizontally to the right, to match the peak
+time with variable B. See the video at \url{https://vimeo.com/112439923} for an illustration.}
+\end{figure}
+\end{center}
+
 
 %\subsection{Considerations}
 %An interactive system needs to include careful consideration of a number of aspects of the operations, which include accuracy after multiple actions, response time for the human user, and reverse actions. This section discusses ways to address these issues.
@@ -1587,7 +1560,7 @@ created during the interactions that could produce some linking issues,
 such as the follows.
 \begin{itemize} \itemsep 0in
 \item The polygon data from the area layer. 
-As shown in Figure \ref{fig:layer-system}, the area layer does not
+The area layer does not
 only need the values in the time series, but also the baseline to
 form many polygons. To draw the polygons, the data must be rearranged
 in an order of polygon vertexes. Each polygon is made of four vertexes:
