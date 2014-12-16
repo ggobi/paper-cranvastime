@@ -427,7 +427,7 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 \multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-18-mirrored}} \\
 \end{tabular}
 \caption{\label{fig:x-wrapping}Lynx trappings for 1821\textendash{}1934 in the MacKenzie River District
-\citep{campbell1977survey}: (a) Time series, (b \textendash{} d) stages of horizontal wrapping, matching peaks, (e) faceted on the wrapped series, (f) area plot, (g) mirrored on the mean, blue indicating values above the mean, and yellow below the mean.  (Video illustrating these interactions is available at \url{https://vimeo.com/112431547} and \url{https://vimeo.com/112432400}.)}
+\citep{campbell1977survey}: (a) Time series, (b \textendash{} d) stages of x-wrapping, matching peaks, (e) faceted on the wrapped series, (f) area plot, (g) mirrored on the mean, blue indicating values above the mean, and yellow below the mean.  (Video illustrating these interactions is available at \url{https://vimeo.com/112431547} and \url{https://vimeo.com/112432400}.)}
 \end{center}
 \end{figure}
 
@@ -446,7 +446,7 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 Top: the original data faceted on variable. HERDSZ and PRODUCTION
 goes up slowly then down after the midway, and grows a little at the
 end. PROFIT and GILTS seems to show the seasonality with increasing
-variation. Bottom: wrapping in $y$-direction. We see the gradually change
+variation. Bottom: y-wrapping. We see the gradually change
 for the first two variables and seasonal change for the latter two
 variables, also a leading pattern between PROFIT and GILTS. The video at \url{https://vimeo.com/112435889} demonstrates this wrapping.}
 \end{figure}
@@ -457,17 +457,16 @@ variables, also a leading pattern between PROFIT and GILTS. The video at \url{ht
 \begin{figure}[htp]
 \begin{centering}
 \begin{tabular}{cc}
-\multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
+%\multicolumn{2}{c}{{\scriptsize{ (a) not faceting}}}\tabularnewline
 \multicolumn{2}{c}{\includegraphics[width=0.48\textwidth]{graph/pipeline-14-1}}\tabularnewline
-{\scriptsize{ (b) faceting by variable}} & {\scriptsize{ (c) faceting by individual}}\tabularnewline
+%{\scriptsize{ (b) faceting by variable}} & {\scriptsize{ (c) faceting by individual}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-2} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-3}\tabularnewline
-{\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
+%{\scriptsize{ (d) by variable then individual}} & {\scriptsize{ (e) by individual then variable}}\tabularnewline
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
 \end{tabular}
 \end{centering}
 
-\caption{\label{fig:faceting-var-ind}Faceting on a temporal data set with
-two variables and three individuals. The entire data overlaid (plot (a)) shows six series, where color indicates two different variables. Plot (b) splits on two variables, and plot (c) facets by the three individuals. Plot (d) facets (b) by individual, and plot  (e) facets (c) by individual. The order of the interactions changes the result. Both are useful: the configurtion in (d) supports the comparison of individuals, and that in (e) supports comparison of variables.  Video footage illustrating these steps is available at \url{https://vimeo.com/112438919}.}
+\caption{\label{fig:faceting-var-ind}Order of interaction matters when faceting with two variables and three individuals: (a) all series overlaid, color indicates variable, (b) facet first on variable (A, B),  (c) facet first by individual (1, 2, 3), (d) facets (b) by individual, and (e) facets (c) by variable. Both final configurations are useful: (d) supports the primary comparison of individuals, with variable comparisons secondary and (e) supports comparison of variables within individuals.  (Video footage illustration is available at \url{https://vimeo.com/112438919}.)}
 \end{figure}
 
 \end{center}
@@ -502,7 +501,7 @@ it horizontally by the period, as Figure %\ref{fig:faceting-period}
 \ref{fig:x-wrapping},  (2) Wrap the series vertically, especially
 when multiple series are faceted.
 
-Figure \ref{fig:y-wrapping} gives an example of the vertical wrapping
+Figure \ref{fig:y-wrapping} gives an example of the y-vertical wrapping
 for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}.
 The four variables are HERDSZ: actual breeding herd size, PRODUCTION:
 number of clean pig meat slaughtered, PROFIT: ratio of all-pig price
@@ -961,7 +960,7 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
 \caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
-the horizontal wrapping. There are three consecutive wrapping
+the x-wrapping. There are three consecutive wrapping
 steps. At step $j=1$ the $x$ value of the last point changes
 from 21 to 16, and the line group indicator increments to 2.
 At step $j=2$ the $x$ values of the last two points are changed,
@@ -1019,7 +1018,7 @@ Denote the function as $g_j$, so the new $x$-range is
 $(x_{(1)},x_{(n-g_j(p_{i3},\mathbf{x}_0)})$, and the
 movements can be calculated then.
 
-Movements from the vertical wrapping on the $y$-direction,
+Movements from the y-wrapping on the $y$-direction,
 as shown in Figure \ref{fig:y-wrapping}, could be obtained
 by similar formulas. It is messier to realize because the
 $y$-values are typically not in a sequential order which
@@ -1147,7 +1146,7 @@ a horizon graph, like Figure \ref{fig:horizontal-axis} (f).
 The cumulative interactions could
 entirely change both $x$ and $y$ coordinates of data.
 For example, Figure \ref{fig:x-wrapping} firstly directs
-75 steps of horizontal wrapping, and then a faceting by
+75 steps of x-wrapping, and then a faceting by
 period. That gives the eventual movement by
 \begin{eqnarray*}
 \mathbf{m} & = & (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{39}}\right\rceil -1\right)\times\Delta_{39}, \; \mathbf{l}{}_{facet}-1) \\
