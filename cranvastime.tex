@@ -442,13 +442,8 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 \includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
 \end{centering}
 
-\caption{\label{fig:y-wrapping}Quarterly pig production for 1967-1978 in UK.
-Top: the original data faceted on variable. HERDSZ and PRODUCTION
-goes up slowly then down after the midway, and grows a little at the
-end. PROFIT and GILTS seems to show the seasonality with increasing
-variation. Bottom: y-wrapping. We see the gradually change
-for the first two variables and seasonal change for the latter two
-variables, also a leading pattern between PROFIT and GILTS. The video at \url{https://vimeo.com/112435889} demonstrates this wrapping.}
+\caption{\label{fig:y-wrapping}Quarterly pig production for 1967-1978 in UK measured by five variables: (a) faceted, (b) y-wrapped (see video at \url{https://vimeo.com/112435889}). Profit and gilts seem slightly lag-related. Herdsz and production may be related in a lag relationship also, but neither is seasonal. In the y-wrapped version density indicates the magnitude of values, and long periods of higher values, like in herdsize are more visible. }
+%Top: the original data faceted on variable. HERDSZ and PRODUCTION goes up slowly then down after the midway, and grows a little at the end. PROFIT and GILTS seems to show the seasonality with increasing variation. Bottom: y-wrapping. We see the gradually change for the first two variables and seasonal change for the latter two variables, also a leading pattern between PROFIT and GILTS. The video at \url{https://vimeo.com/112435889} demonstrates this wrapping.}
 \end{figure}
 
 \end{center}
@@ -696,45 +691,36 @@ preferred.
 
 \end{itemize}
 
-\begin{center}
 \begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
-\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.38\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-4}
-\end{centering}
-
-\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set
-that have 72-month surface temperatures on a 24$\times$24 spatial grid 
-\citep{murrell2010}.  (Top left) The mixed individuals.  (Top right) Faceting
-by longitudinal grid. There is more variation from the west areas
-than the east.  (Bottom left) Faceting by latitudinal grid.
-The north part is bumpier than the middle and south part.
- (Bottom right) Faceting by longitude and latitude. An illustration of this facetting in both directions is shown in \url{https://vimeo.com/112503285}.}
-\end{figure}
-\end{center}
-
-
 \begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
-\end{centering}
-\begin{centering}
-\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
-\end{centering}
+\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.5\textwidth]{graph/pipeline-25-2}
 
-\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for
-a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}).
-Sex and height are used in the horizontal direction, age and weight
-are used in the vertical direction.  (Top left) Original data without
-facetting.  (Top right) Faceted by height and weight.  (Bottom left)
-Faceted by sex and age.  (Bottom right) Faceted by sex and height
-horizontally, age and weight vertically. See the video at \url{https://vimeo.com/112509324} on how this works.}
-\end{figure}
+\caption{\label{fig:faceting-examples}Faceting can be conducted bi-directionally: (left) by spatial grid for spatiotemporal data (\url{https://vimeo.com/112503285}), (right) by two covariates, sex and age, in longitudinal data \url{https://vimeo.com/112509324}.}
 \end{center}
+\end{figure}
+
+
+%\begin{figure}[htp]
+%\begin{center}
+%\includegraphics[width=0.38\textwidth]{graph/pipeline-24-1} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-3}
+%\includegraphics[width=0.38\textwidth]{graph/pipeline-24-2} \includegraphics[width=0.38\textwidth]{graph/pipeline-24-4}
+%\caption{\label{fig:faceting-2ind}Faceting on a tempo-spatial data set that have 72-month surface temperatures on a 24$\times$24 spatial grid 
+%\citep{murrell2010}.  (Top left) The mixed individuals.  (Top right) Faceting by longitudinal grid. There is more variation from the west areas than the east.  (Bottom left) Faceting by latitudinal grid.The north part is bumpier than the middle and south part.  (Bottom right) Faceting by longitude and latitude. An illustration of this facetting in both directions is shown in \url{https://vimeo.com/112503285}.}
+%\end{center}
+%\end{figure}
+
+
+%\begin{center}
+%\begin{figure}[htp]
+%\begin{centering}
+%\includegraphics[width=0.4\textwidth]{graph/pipeline-25-1} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-3}
+%\end{centering}
+%\begin{centering}
+%\includegraphics[width=0.4\textwidth]{graph/pipeline-25-2} \includegraphics[width=0.4\textwidth]{graph/pipeline-25-4}
+%\end{centering}
+%\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}). Sex and height are used in the horizontal direction, age and weight are used in the vertical direction.  (Top left) Original data without facetting.  (Top right) Faceted by height and weight.  (Bottom left) Faceted by sex and age.  (Bottom right) Faceted by sex and height horizontally, age and weight vertically. See the video at \url{https://vimeo.com/112509324} on how this works.}
+%\end{figure}
+%\end{center}
 
 
 \begin{center}
@@ -1591,6 +1577,8 @@ dots are created during the cropping step of faceting.}
 \end{center}
 
 \end{itemize}
+
+\red{Querying !!!}
 
 \section{Conclusions and future work}
 
