@@ -69,7 +69,7 @@ Temporal data is information measured in the context of time. This contextual st
 
 \noindent%
 {\it Keywords:}  Interactive graphics; Multivariate time series;
-Longitudinal data;  Multiple linked windows; Data Visualization; Statistical graphics.
+Longitudinal data;  Multiple linked windows; Data visualization; Statistical graphics.
 
 \spacingset{1.45}
 
@@ -181,7 +181,8 @@ time series: (From top left to bottom right) overlaid line plots, faceted line p
 
 \end{itemize}
 
-When time can be broken into two components it might be displayed on both horizontal and vertical axes;
+When time can be broken into two components it might be displayed
+on both horizontal and vertical axes:
 
 \begin{itemize} \itemsep 0in
 \item A high frequency time series often has hierarchic or nested
@@ -257,8 +258,12 @@ integrate closely and flexibly with statistical modeling. Packages that support 
 and \texttt{\textbf{animint}}~\citep{animint}. 
 
 Of these software, \texttt{\textbf{cranvas}}, which evolved substantially from  \texttt{\textbf{GGobi}}, is the vehicle for the ideas described in this paper.
-At its foundation is a data pipeline that channels data to plot elements, and provides interaction through reactive data elements, using plumbr~\citep{plumbr2014}. The
-graphics are constructed using \texttt{\textbf{Qt}}~\citep{Qt} that enables flexible plot design and fast rendering for smooth interaction. Cranvas has
+\red{At its foundation} is a data pipeline that channels data to
+plot elements, and provides interaction through reactive data
+elements, using \texttt{\textbf{plumbr}}~\citep{plumbr2014}. The
+graphics are constructed using \texttt{\textbf{Qt}}~\citep{Qt}
+that enables flexible plot design and fast rendering for smooth
+interaction. \texttt{\textbf{cranvas}} has
 many different types of plots and possible interactions.
 %Other R packages incorporating interactive graphics have different purposes and strengths. \texttt{\textbf{rgl}} focuses more on 3-d plot rotation. \texttt{\textbf{ggvis}} interactivity is built on top of \texttt{\textbf{shiny}}~\citep{shiny}, and focuses on simple purposes as yet.  \texttt{\textbf{animint}} translates \texttt{\textbf{ggplot2}} to javascript plots.  \texttt{\textbf{iplots}} is the most similar to cranvas. It is built using \texttt{\textbf{Java}}, requires a special GUI, JGR to operate, and provides a smaller set of plot types and interactions.
 The design of \texttt{\textbf{cranvas}}, \citet{xie2014reactive} provides single display interactions and the linking between different displays. Single display interactions include brushing, zooming, panning, and querying. Linked brushing can be done between different displays. To integrate temporal displays in this system requires integrating with this setup. % The displays could be either in the same type, or different types, like the scatterplot, histogram, map, etc. These both need to be considered when making interactions on plots for temporal data.
@@ -300,7 +305,12 @@ common & required & brush, identify, keys\tabularnewline
 \end{tabular}
 \end{center}
 
-\caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}} of layers used in constructing plots. Some are common to all plots, and each plot has some layers that are unique. The ``keys'' layer listens for key strokes that change interaction modes. The ``cue'' layer on the histogram contains listeners and handles for dragging to change to binwidth interactively.}
+\caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}}
+of layers used in constructing plots. Some are common to all plots,
+and each plot has some layers that are unique. The ``keys'' layer
+listens for key strokes that change interaction modes. The ``cue''
+layer on the histogram contains listeners and handles for dragging
+to change the binwidth interactively.}
 \end{table}
 
 \end{center}
@@ -425,7 +435,12 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 %\multicolumn{2}{c}{\small{(g)}} \\
 \multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-18-mirrored}} \\
 \end{tabular}
-\caption{\label{fig:x-wrapping}Lynx trappings for 1821\textendash{}1934: (a) Time series, (b \textendash{} d) stages of x-wrapping, matching peaks, (e) faceted on the wrapped series, (f) area plot, (g) mirrored on the mean, blue indicating values above the mean, and yellow below the mean.  (Video illustrating these interactions is available at \url{https://vimeo.com/112431547} and \url{https://vimeo.com/112432400}.)}
+\caption{\label{fig:x-wrapping}Lynx trappings for 1821\textendash{}1934:
+(a) Time series, (b \textendash{} d) stages of $x$-wrapping, matching
+peaks, (e) faceted on the wrapped series, (f) area plot, (g) mirrored
+on the mean, blue indicating values above the mean, and yellow below
+the mean.  (Video illustrating these interactions is available at
+\url{https://vimeo.com/112431547} and \url{https://vimeo.com/112432400}.)}
 \end{center}
 \end{figure}
 
@@ -440,8 +455,22 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 \includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
 \end{centering}
 
-\caption{\label{fig:y-wrapping}Quarterly pig production for 1967-1978 in UK measured by five variables: (a) faceted, (b) y-wrapped (see video at \url{https://vimeo.com/112435889}). Profit and gilts seem slightly lag-related. Herdsz and production may be related in a lag relationship also, but neither is seasonal. In the y-wrapped version density indicates the magnitude of values, and long periods of higher values, like in herdsize are more visible. }
-%Top: the original data faceted on variable. HERDSZ and PRODUCTION goes up slowly then down after the midway, and grows a little at the end. PROFIT and GILTS seems to show the seasonality with increasing variation. Bottom: y-wrapping. We see the gradually change for the first two variables and seasonal change for the latter two variables, also a leading pattern between PROFIT and GILTS. The video at \url{https://vimeo.com/112435889} demonstrates this wrapping.}
+\caption{\label{fig:y-wrapping}Quarterly pig production for
+1967-1978 in UK measured by five variables: (a) faceted, (b)
+$y$-wrapped (see video at \url{https://vimeo.com/112435889}).
+Profit and gilts seem slightly lag-related. Herdsz and
+production may be related in a lag relationship also, but
+neither is seasonal. In the $y$-wrapped version density indicates
+the magnitude of values, and long periods of higher values,
+like in herdsize are more visible. }
+%Top: the original data faceted on variable. HERDSZ and
+%PRODUCTION goes up slowly then down after the midway, and
+%grows a little at the end. PROFIT and GILTS seems to show
+%the seasonality with increasing variation. Bottom: $y$-wrapping.
+%We see the gradually change for the first two variables and
+%seasonal change for the latter two variables, also a leading
+%pattern between PROFIT and GILTS. The video at
+%\url{https://vimeo.com/112435889} demonstrates this wrapping.}
 \end{figure}
 
 \end{center}
@@ -467,27 +496,27 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 
 
 \begin{itemize} \itemsep 0in
-\item Wrapping: In the x-direction explores seasonality and
-  temporal dependence.  In the y-direction it is done to compare
-  magnitude of peaks and dips. It is easiest to explain x-wrapping:
+\item Wrapping: In the $x$-direction explores seasonality and
+  temporal dependence.  In the $y$-direction it is done to compare
+  magnitude of peaks and dips. It is easiest to explain $x$-wrapping:
   the series is cut at a fixed-length interval, the part of the series
   that extends beyond this interval is re-drawn from the initial
   point. This will change the $x$-coordinates of the data. The main
-  purpose of x-wrapping is to explore the regularity of the
+  purpose of $x$-wrapping is to explore the regularity of the
   periodicity. Some series that look to follow a regular period can be
   quickly revealed to have irregularities. The classical example is
   the lynx trappings data for 1821\textendash{}1934 in the MacKenzie
   River District of North-West Canada\citep{campbell1977survey}, which
   looks periodic (Figure \ref{fig:x-wrapping}). The wrapping shows
   that the period is not quite regular, matching one peak off-sets
-  other peaks, and the period varies between 9-10 years. It is also
+  other peaks, and the period varies between 12-13 years. It is also
   possible to see that the increases are slower than the drops, that
   the population builds up and tends to plummet. To model this data
   well requires one also knows the snowshoe hare population. Figure
-  \ref{fig:y-wrapping} gives an example of the y-vertical wrapping. It
+  \ref{fig:y-wrapping} gives an example of the $y$-wrapping. It
   shows another classical example: quarterly pig production measured
   by four variables, herd size, production, profit and gilts, from
-  1967-1978 in United Kingdom \citep{andrews1985data}. The y-wrapping
+  1967-1978 in United Kingdom \citep{andrews1985data}. The $y$-wrapping
   induces something that might be considered a temporal boxplot, where
   density produced from overlaying the wrapped peaks emphasizes long
   runs of ups, or periodic ups.
@@ -537,8 +566,8 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 
 
 \item Mirroring: This splits the series vertically at a given value,
-  and reflects the bottom half across this axis. The result is called
-  a horizon graph, and it is used to compare the magnitude of peaks
+  and reflects the bottom half across this axis. \red{The result is called
+  a horizon graph,} and it is used to compare the magnitude of peaks
   and troughs, particularly for binary phenomena like gains and
   losses. The $y$-coordinates of the data are modified by this
   interaction. The choice of split value are typically mean, median,
@@ -892,7 +921,7 @@ Denote the function as $g_j$, so the new $x$-range is
 $(x_{(1)},x_{(n-g_j(p_{i3},\mathbf{x}_0)})$, and the
 movements can be calculated then.
 
-Movements from the y-wrapping on the $y$-direction,
+Movements from the $y$-wrapping on the $y$-direction,
 as shown in Figure \ref{fig:y-wrapping}, could be obtained
 by similar formulas. It is messier to realize because the
 $y$-values are typically not in a sequential order which
@@ -904,7 +933,7 @@ issues are discussed later in this paper.
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
 \caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
-the x-wrapping. There are three consecutive wrapping
+the $x$-wrapping. There are three consecutive wrapping
 steps. At step $j=1$ the $x$ value of the last point changes
 from 21 to 16, and the line group indicator increments to 2.
 At step $j=2$ the $x$ values of the last two points are changed,
@@ -932,7 +961,9 @@ the full plot width is used.}
 %\end{center}
 
 %In Figure \ref{fig:smoothness}, the interaction type $i=$ facet by individual. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the  right panel appears after 20 repeated user actions from the plot in the left panel, $j=20$. When $j>20$, the plot will remain the same, since the series are already fully split. The threshold 20 is got by the 
-An initial setting of the parameter $p_{i1}=0.05$, which means that every hit on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
+When $i=$ facet by individual, an initial setting of the
+parameter $p_{i1}=0.05$, which means that every hit on the
+key will lift the $l$th standardized line by $(l-1)\times0.05$.
 Hence for $j\in\mathcal{J}$,
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
@@ -1024,7 +1055,7 @@ a horizon graph, like Figure \ref{fig:horizontal-axis} (f).
 The cumulative interactions could
 entirely change both $x$ and $y$ coordinates of data.
 For example, Figure \ref{fig:x-wrapping} firstly directs
-75 steps of x-wrapping, and then a faceting by
+75 steps of $x$-wrapping, and then a faceting by
 period. That gives the eventual movement by
 \begin{eqnarray*}
 \mathbf{m} & = & (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{39}}\right\rceil -1\right)\times\Delta_{39}, \; \mathbf{l}{}_{facet}-1) \\
@@ -1402,7 +1433,12 @@ in the long data  (c), which will update (a) but make a conflict.}
 \end{centering}
 \caption{\label{fig:linking-plots}Linking between different plots
 for the Google Flu Trends data from November 24, 2013 -- March 16, 2014.
-(Left) Time series faceted by state (see \url{https://vimeo.com/112528131} for the transition to the facets), (top right) chloropleth map grey scale indicating time of the peak in the series, light is earlier, (bottom right) histogram of the number of searches. Two states in the map are brushed, which highlights all flu searches from these states in the time series and histogram. }
+(Left) Time series faceted by state (see \url{https://vimeo.com/112528131}
+for the transition to the facets), (top right) choropleth map grey
+scale indicating time of the peak in the series, light is earlier,
+(bottom right) histogram of the number of searches. Two states in
+the map are brushed, which highlights all flu searches from these
+states in the time series and histogram.}
 \end{figure}
 \end{center}
 
@@ -1461,7 +1497,12 @@ dots are created during the cropping step of faceting.}
 
 \section{Querying}
 
-In each of the examples, and plots shown the time axis is simply drawn using consecutive integers. This is necssary for convenience and generalizability. To know which actual time value requires querying, by mousing over the display, if labels have been set up in detail, the user can learn what day, month, year or individual identifier is under the cursor. 
+\red{In each of the examples, and plots shown the time axis is
+simply drawn using consecutive integers. This is necessary
+for convenience and generalizability. To know which actual
+time value requires querying, by mousing over the display,
+if labels have been set up in detail, the user can learn what
+day, month, year or individual identifier is under the cursor.}
 
 \section{Conclusions and future work}
 
@@ -1469,11 +1510,25 @@ This paper describes how interactions can be added to temporal displays by using
 
 %In this paper we reviewed the static and interactive graphics for the time series and longitudinal data and refined the framework of interactions. For the time dependent data, we elaborated the three-layer display and proposed five special interactions for data exploration and pattern examination. Facilitating these heavily data-transforming interactions requires a new conceptual framework, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. We introduced two procedures to transform data during the interactions, and the linking within and between plots, or between the original data and additional data. However, some issues are still open to further discussion, like the additivity, transfer speed, and the interaction direction.
 
-Future work would extend the interactions to include transforming between euclidean and polar coordinates, and between time and frequency domains. Earlier work in Dataviewer \citet{BAHM88} allowed users to interactively lag time series on itself to generate lag plots to explore auto-correlation. This could be reasonably be accomplished similarly to the interactions descibed here. 
+Future work would extend the interactions to include transforming
+between euclidean and polar coordinates, and between time and
+frequency domains. Earlier work in Dataviewer \citet{BAHM88} allowed
+users to interactively lag time series on itself to generate lag
+plots to explore auto-correlation. This could be reasonably be
+accomplished similarly to the interactions described here.
 
 %In future, more special interactions would be needed for the time dependent data, for example, the transformation between euclidean and polar coordinates, and the transformation between time domain and frequency domain. Besides, some more interactive plots will be needed, for example, interactive lag plots to detect auto-dependence between the time series and their lagged versions.
 
-One main drawback to realizing interactions through affine transformations is that it assumes the components are ordinal. This is not necessarily true, for example, in the flu searches series (Figure \ref{fig:linking-plots}) were faceted on the categorical variable state. This requires that states are first recoded to numerical values. In R, this is implicitly alphabetical order. However, because the implementation is created in R, the factor levels can be re-ordered easily, enabling the recoding to numerical value to be quite fluid. In the flu searches example, the states were re-ordered by earliest peak of searches. 
+\red{One main drawback to realizing interactions through affine
+transformations is that it assumes the components are ordinal.}
+This is not necessarily true, for example, in the flu searches
+series (Figure \ref{fig:linking-plots}) were faceted on the
+categorical variable state. This requires that states are first
+recoded to numerical values. In R, this is implicitly alphabetical
+order. However, because the implementation is created in R, the
+factor levels can be re-ordered easily, enabling the recoding to
+numerical value to be quite fluid. In the flu searches example,
+the states were re-ordered by earliest peak of searches.
 
 This paper focused on interactive graphics for multivariate time series and longitudinal data, but the ideas should extend some to other temporal-context data. 
 
