@@ -601,7 +601,7 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 
 \begin{figure}[htp]
 \begin{center}
-\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.5\textwidth]{graph/pipeline-25-2}
+\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.54\textwidth]{graph/pipeline-25-2}
 
 \caption{\label{fig:faceting-examples}Faceting can be conducted bi-directionally: (left) by spatial grid for spatiotemporal data (\url{https://vimeo.com/112503285}), (right) by two covariates, sex and age, in longitudinal data (\url{https://vimeo.com/112509324}).}
 \end{center}
@@ -637,10 +637,7 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
 \end{centering}
-\caption{\label{fig:x-shifting}Left: area plot for the longitudinal data with
-two variables and three individuals. Right: three bottom lines from
-variable A are shifted horizontally to the right, to match the peak
-time with variable B. See the video at \url{https://vimeo.com/112439923} for an illustration.}
+\caption{\label{fig:x-shifting}Illustration of shifting: three bottom series (variable A) are shifted horizontally to the right, to match the peak time with the top three series (variable B). (See also the video at \url{https://vimeo.com/112439923}.)}
 \end{figure}
 \end{center}
 
@@ -753,7 +750,7 @@ faceting, wrapping, and mirroring.
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
 
-\subsection{Generating interactions\label{interaction-formulas}}
+%\subsection{Generating interactions\label{interaction-formulas}}
 
 Let $(\mathbf{x},\mathbf{y})$ denote the positional coordinates
 for a temporal data set, where both are $n$-dimensional vectors
@@ -792,9 +789,9 @@ coordinates $(\mathbf{x},\mathbf{y})_0$,
 
 \noindent These are the specific functional definitions used to generate the movement for the interactions available in \texttt{\textbf{cranvas}}. 
 
-\begin{itemize} \itemsep 0in
+%\begin{itemize} \itemsep 0in
 
-\item Wrapping
+\subsection{Wrapping}
 
 Figure \ref{fig:x-wrapping} (except bottom right plot)
 illustrates the horizontal wrapping of the lynx trapping data.
@@ -850,23 +847,6 @@ The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of intera
 \item Connect the points that have the same line group indicator, in time order.
 \end{enumerate}
 
-\begin{center}
-\begin{figure}[htp]
-\centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
-\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
-the x-wrapping. There are three consecutive wrapping
-steps. At step $j=1$ the $x$ value of the last point changes
-from 21 to 16, and the line group indicator increments to 2.
-At step $j=2$ the $x$ values of the last two points are changed,
-and both have line group indicators equal to 2.  The wrapping
-stop parameter was set to $p_{i1}=3$, which means that after
-one more step, $n-j=3$, the wrapping would stop because each
-series has only 3 points. In the actual implementation the
-scale of the horizontal axis is changed at each step so that
-the full plot width is used.}
-\end{figure}
-\end{center}
-
 Sometimes it is useful to wrap the series faster. If you have
 a long time series, it might be useful to make full year jumps.
 This can be achieved with the above equations by setting the
@@ -920,7 +900,25 @@ means that more structural components need to be added to
 the data to actually draw the wrapped series. Some of the
 issues are discussed later in this paper.
 
-\item Faceting
+\begin{center}
+\begin{figure}[htp]
+\centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
+\caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
+the x-wrapping. There are three consecutive wrapping
+steps. At step $j=1$ the $x$ value of the last point changes
+from 21 to 16, and the line group indicator increments to 2.
+At step $j=2$ the $x$ values of the last two points are changed,
+and both have line group indicators equal to 2.  The wrapping
+stop parameter was set to $p_{i1}=3$, which means that after
+one more step, $n-j=3$, the wrapping would stop because each
+series has only 3 points. In the actual implementation the
+scale of the horizontal axis is changed at each step so that
+the full plot width is used.}
+\end{figure}
+\end{center}
+
+
+\subsection{Faceting}
 
 %\begin{center}
 %\begin{figure}[htp]
@@ -933,16 +931,8 @@ issues are discussed later in this paper.
 %\end{figure}
 %\end{center}
 
-In Figure \ref{fig:smoothness}, the interaction type
-$i=$ facet by individual. The plot in the center
-panel is obtained from the plot in the left panel by
-three repeated user actions, $j=3$. The plot in the 
-right panel appears after 20 repeated user actions from
-the plot in the left panel, $j=20$. When $j>20$, the
-plot will remain the same, since the series are already
-fully split. The threshold 20 is got by the initial
-setting of the parameter $p_{i1}=0.05$, which means that every hit
-on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
+%In Figure \ref{fig:smoothness}, the interaction type $i=$ facet by individual. The plot in the center panel is obtained from the plot in the left panel by three repeated user actions, $j=3$. The plot in the  right panel appears after 20 repeated user actions from the plot in the left panel, $j=20$. When $j>20$, the plot will remain the same, since the series are already fully split. The threshold 20 is got by the 
+An initial setting of the parameter $p_{i1}=0.05$, which means that every hit on the key will lift the $l$th standardized line by $(l-1)\times0.05$.
 Hence for $j\in\mathcal{J}$,
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
@@ -972,7 +962,7 @@ standardized between $[0,1]$ first, then the movement is given by
 Note that $\mathbf{l}{}_i$ in this case differs from
 $\mathbf{l}{}_i$ in faceting by individual.
 
-\item Mirroring
+\subsection{Mirroring}
 
 To realize the interaction shown in Figure \ref{fig:x-wrapping} (g),
 firstly we need to point the divider -- mean in this example.
@@ -991,7 +981,7 @@ hits on some triggering key, the movements are
 Note that if the mirroring is revisited after some other interactions,
 then the count of $j$ should not be reset.
 
-\item Shifting 
+\subsection{Shifting} 
 
 Figure \ref{fig:x-shifting} illustrates shifting the series, which is used to compare one series against another. The user input uses $\mathbf{u}{}_{ij}$, since the user can drag the
 series horizontally to any position. The starting point
@@ -1005,9 +995,10 @@ $i=$ $x$-shifting and $j\in\mathcal{J}$, we have
 \end{eqnarray*}
 where $I$ is the indicator function.
 
-\end{itemize}
+%\end{itemize}
 
-\subsection{Additive interactions\label{interaction-addition}}
+
+\subsection{Additivity of interactions\label{interaction-addition}}
 
 Most of the interactions could be considered to be additive.
 %That means interaction A can start at any status of interaction B.
@@ -1058,9 +1049,8 @@ Table \ref{tab:additive-faceting} takes the first point
 of each series as an example to show $y$ and the changes
 at the three stages.
 
-\begin{center}
 \begin{table}[h]
-\begin{centering}
+\begin{center}
 \begin{tabular}{|c|c|cc|c||c||c|}
 \cline{1-2} \cline{5-7}
 $l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\tabularnewline
@@ -1078,13 +1068,12 @@ $l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\t
 2 & 3 &  &  & 0.90 & 0.90+(2-1)=1.90 & 0.90+(2-1)$\times$3+(3-1)=5.90\tabularnewline
 \cline{1-2} \cline{5-7}
 \end{tabular}
-\end{centering}
+\end{center}
 \caption{\label{tab:additive-faceting}$y$-coordinates of the
 first point on each line, at Figure \ref{fig:faceting-var-ind}
 (a) no faceting, (b) faceting by variable, (d) faceting by
 variable then individual.}
 \end{table}
-\end{center}
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
@@ -1154,8 +1143,9 @@ However, the interactivities that we discussed in this paper is
 more complex, because we need to consider the interaction stream
 $\mathcal{I}$, but the tour movement does not need to.
 When there is only one type of modification, the formulas in
-Section \ref{interaction-formulas} will provide the target
-position easily. But when different types of modifications
+Section \ref{sec:Pipeline}%interaction-formulas} 
+will provide the target position easily.
+ But when different types of modifications
 are mixed, the baseline method structures the computation well.
 
 With this procedure we do not need to save the intermediate
@@ -1218,10 +1208,9 @@ respectively.
 
 %It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
 
-\begin{center}
 \begin{table}[h]
 \small
-\begin{centering}
+\begin{center}
 \begin{tabular}{ccc}
 \begin{tabular}{|c|ccc|ll|}
 \hline 
@@ -1247,19 +1236,17 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
 \end{tabular}
-\end{centering}
+\end{center}
 \normalsize
 \caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
-\end{center}
 
-\begin{center}
 \begin{figure}[htp]
-\begin{centering}
+\begin{center}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
 \includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
-\end{centering}
+\end{center}
 \caption{\label{fig:self-linking}When a single point is brushed,
 there could be three modes of highlighting: (left) only a single
 point is highlighted; (center) all points for that series are
@@ -1267,11 +1254,9 @@ highlighted, by treating the line group indicators as the categorical
 linking variables; (right) all points for that time are highlighted,
 by using the time as a linking variable.}
 \end{figure}
-\end{center}
 
-\begin{center}
 \begin{table}[htp]
-\begin{centering}
+\begin{center}
 \begin{tabular}{|c|cc|ll||ll||ll|}
 \hline 
 \multicolumn{1}{|c}{} & \multicolumn{2}{c|}{} & \multicolumn{2}{c||}{Single point}& \multicolumn{2}{c||}{All V1}& \multicolumn{2}{c|}{All Time$=2$}\tabularnewline
@@ -1287,10 +1272,9 @@ Time & Variable & Value & \texttt{.brushed} & \texttt{.color} & \texttt{.brushed
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\end{centering}
+\end{center}
 \caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
-\end{center}
 
 The long data format is typically the basic format
 for longitudinal data, where there may be differing
@@ -1343,9 +1327,8 @@ a longitudinal time plot, a map, and a histogram. The data
 come from the Google Flu Trends
 (\url{http://www.google.org/flutrends/}).
 
-\begin{center}
 \begin{table}[htp]
-\begin{centering}
+\begin{center}
 \begin{tabular}{c|cc|cc}
 \multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
 \hline 
@@ -1358,13 +1341,13 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\end{centering}
+%\end{center}
 
-\begin{centering}
+%\begin{centering}
 $\Downarrow$
-\end{centering}
+%\end{centering}
 
-\begin{centering}
+%\begin{centering}
 \begin{tabular}{c|ccc|cc}
 \multicolumn{6}{c}{(b) Wide data format, used in other plots}\tabularnewline
 \hline 
@@ -1375,13 +1358,13 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\end{centering}
+%\end{centering}
 
-\begin{centering}
+%\begin{centering}
 $\Downarrow$
-\end{centering}
+%\end{centering}
 
-\begin{centering}
+%\begin{centering}
 \begin{tabular}{c|cc|cc}
 \multicolumn{5}{c}{(c) Long data format, used in time plots}\tabularnewline
 \hline 
@@ -1394,7 +1377,7 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \hline 
 \end{tabular}
-\end{centering}
+\end{center}
 \caption{\label{tab:wide-long-linking}Linking between the long and wide data
 format may produce a problem. Suppose we start from brushing a point  (V1
 at time 2) in the long data  (a). Then the listener of the long data
@@ -1403,7 +1386,7 @@ wide data  (b). Then the listener of the wide data is triggered and
 switches the .brushed parameter for all the observations at time 2
 in the long data  (c), which will update (a) but make a conflict.}
 \end{table}
-\end{center}
+%\end{center}
 
 \begin{center}
 \begin{figure}[htp]
@@ -1476,47 +1459,27 @@ dots are created during the cropping step of faceting.}
 
 \end{itemize}
 
-\red{Querying !!!}
+\section{Querying}
+
+In each of the examples, and plots shown the time axis is simply drawn using consecutive integers. This is necssary for convenience and generalizability. To know which actual time value requires querying, by mousing over the display, if labels have been set up in detail, the user can learn what day, month, year or individual identifier is under the cursor. 
 
 \section{Conclusions and future work}
 
-In this paper we reviewed the static and interactive graphics for
-the time series and longitudinal data and refined the framework of
-interactions. For the time dependent data, we elaborated the
-three-layer display and proposed five special interactions for data
-exploration and pattern examination. Facilitating these heavily
-data-transforming interactions requires a new conceptual framework,
-including the timely coordinates calculation procedure and
-the linking system that supports brushing under new coordinates.
-We introduced two procedures to transform data during the
-interactions, and the linking within and between plots, or
-between the original data and additional data.
-However, some issues are still open to further discussion,
-like the additivity, transfer speed, and the interaction direction.
+This paper describes how interactions can be added to temporal displays by using sequences of affine transformations. This approach proves a rich variety of ways to slice and dice temporal data to explore seasonality, dependence, trends, anomalies and individual differences. These interactive temporal displays can be embedded in a large interactive graphics software system, enabling linking between plots to explore more general data where temporal components are just one aspect of many. Not everything is solved in terms of additivity, speed and interaction direction, but most common actions are possible for reasonably sized data. 
 
-In future, more special interactions would be needed for the time
-dependent data, for example, the transformation between euclidean
-and polar coordinates, and the transformation between time domain
-and frequency domain. Besides, some more interactive plots will
-be needed, for example, interactive lag plots to detect auto-dependence
-between the time series and their lagged versions.
+%In this paper we reviewed the static and interactive graphics for the time series and longitudinal data and refined the framework of interactions. For the time dependent data, we elaborated the three-layer display and proposed five special interactions for data exploration and pattern examination. Facilitating these heavily data-transforming interactions requires a new conceptual framework, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. We introduced two procedures to transform data during the interactions, and the linking within and between plots, or between the original data and additional data. However, some issues are still open to further discussion, like the additivity, transfer speed, and the interaction direction.
 
-Another issue that needs to be solved in future is the order of
-series after faceting. When faceting by variable or individual,
-an order is needed to sort the lines from top to bottom, from
-left to right. In the current work we use alphabetical order for
-sorting variables, and the default factor level order for sorting
-individuals. But the best order for visualization may be different.
-For example, in Figure \ref{fig:linking-plots}, sorting the states
-by the time of flu search peaks could better track the spatial
-trend of flu search, or flu eruption. In R language, users can
-manually change the factor levels for individuals before plotting,
-however, if they are not confident about the best order, there
-should be an interaction to switch between different orders.
+Future work would extend the interactions to include transforming between euclidean and polar coordinates, and between time and frequency domains. Earlier work in Dataviewer \citet{BAHM88} allowed users to interactively lag time series on itself to generate lag plots to explore auto-correlation. This could be reasonably be accomplished similarly to the interactions descibed here. 
 
-This paper aims at the time series and longitudinal data, but the
-ideas on how to assist data-transforming interactions can be applied
-to other interactive graphics too.
+%In future, more special interactions would be needed for the time dependent data, for example, the transformation between euclidean and polar coordinates, and the transformation between time domain and frequency domain. Besides, some more interactive plots will be needed, for example, interactive lag plots to detect auto-dependence between the time series and their lagged versions.
+
+One main drawback to realizing interactions through affine transformations is that it assumes the components are ordinal. This is not necessarily true, for example, in the flu searches series (Figure \ref{fig:linking-plots}) were faceted on the categorical variable state. This requires that states are first recoded to numerical values. In R, this is implicitly alphabetical order. However, because the implementation is created in R, the factor levels can be re-ordered easily, enabling the recoding to numerical value to be quite fluid. In the flu searches example, the states were re-ordered by earliest peak of searches. 
+
+This paper focused on interactive graphics for multivariate time series and longitudinal data, but the ideas should extend some to other temporal-context data. 
+
+%Another issue that needs to be solved in future is the order of series after faceting. When faceting by variable or individual, an order is needed to sort the lines from top to bottom, from left to right. In the current work we use alphabetical order for sorting variables, and the default factor level order for sorting individuals. But the best order for visualization may be different. For example, in Figure \ref{fig:linking-plots}, sorting the states by the time of flu search peaks could better track the spatial trend of flu search, or flu eruption. In R language, users can manually change the factor levels for individuals before plotting, however, if they are not confident about the best order, there should be an interaction to switch between different orders.
+
+%This paper aims at the time series and longitudinal data, but the ideas on how to assist data-transforming interactions can be applied to other interactive graphics too.
 
 \bibliographystyle{natbib}
 \bibliography{cranvastime}
