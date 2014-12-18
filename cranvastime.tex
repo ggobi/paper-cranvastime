@@ -566,15 +566,15 @@ like in herdsize are more visible. }
 
 
 \item Mirroring: This splits the series vertically at a given value,
-  and reflects the bottom half across this axis. \red{The result is called
-  a horizon graph,} and it is used to compare the magnitude of peaks
-  and troughs, particularly for binary phenomena like gains and
-  losses. The $y$-coordinates of the data are modified by this
-  interaction. The choice of split value are typically mean, median,
-  midpoint of the range, or in economic data the initial series
-  value. Figure \ref{fig:x-wrapping} (f) and (g) shows mirroring of
-  the lynx trappings data with the mean divider. We can see the peaks
-  are sharp and irregular and the valleys are smooth and regular.
+  and reflects the bottom half across this axis. With additional
+  wrapping, the result is called a horizon graph, and it is used to
+compare the magnitude of peaks and troughs, particularly for binary
+phenomena like gains and losses. The $y$-coordinates of the data are
+modified by this interaction. The choice of split value are typically
+mean, median, midpoint of the range, or in economic data the initial
+series value. Figure \ref{fig:x-wrapping} (f) and (g) shows mirroring
+of the lynx trappings data with the mean divider. We can see the peaks
+are sharp and irregular and the valleys are smooth and regular.
 %s that  helps to compare the extreme values of the two sides, save more room for the main body, and provide a better display for the series with  binary features like loss and earning. It dichotomizes the series by  a horizontal divider and reflects the bottom area up to the divider  with a change of the color scheme. The $y$-coordinates of the data  are modified by this interaction.
 %However, two issues raise up during the mirroring process:  (1) how to choose the horizontal divider -- midpoint of the range, mean of the series, or the initial value? For the financial related data, the starting value is preferred, like the price when entering the market. But for other types of time series, the choice would depend on the research interest.  (2) when an edge crosses the divider, the intersection will be a new data point to the line and need to be recorded. The new data points could make problems, especially when other interactions are added on the mirrored graph, like wrapping or linking. Section \ref{sub:Linking-of-the-addition} introduces the problems from the additional data in linking.
 % \begin{center}
@@ -1510,25 +1510,11 @@ This paper describes how interactions can be added to temporal displays by using
 
 %In this paper we reviewed the static and interactive graphics for the time series and longitudinal data and refined the framework of interactions. For the time dependent data, we elaborated the three-layer display and proposed five special interactions for data exploration and pattern examination. Facilitating these heavily data-transforming interactions requires a new conceptual framework, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. We introduced two procedures to transform data during the interactions, and the linking within and between plots, or between the original data and additional data. However, some issues are still open to further discussion, like the additivity, transfer speed, and the interaction direction.
 
-Future work would extend the interactions to include transforming
-between euclidean and polar coordinates, and between time and
-frequency domains. Earlier work in Dataviewer \citet{BAHM88} allowed
-users to interactively lag time series on itself to generate lag
-plots to explore auto-correlation. This could be reasonably be
-accomplished similarly to the interactions described here.
+Future work would extend the interactions to include transforming between euclidean and polar coordinates, and between time and frequency domains. Earlier work in Dataviewer \citep{BAHM88} allowed users to interactively lag time series to generate lag plots to explore auto-correlation. This could be reasonably be accomplished similarly to the interactions described here.
 
 %In future, more special interactions would be needed for the time dependent data, for example, the transformation between euclidean and polar coordinates, and the transformation between time domain and frequency domain. Besides, some more interactive plots will be needed, for example, interactive lag plots to detect auto-dependence between the time series and their lagged versions.
 
-\red{One main drawback to realizing interactions through affine
-transformations is that it assumes the components are ordinal.}
-This is not necessarily true, for example, in the flu searches
-series (Figure \ref{fig:linking-plots}) were faceted on the
-categorical variable state. This requires that states are first
-recoded to numerical values. In R, this is implicitly alphabetical
-order. However, because the implementation is created in R, the
-factor levels can be re-ordered easily, enabling the recoding to
-numerical value to be quite fluid. In the flu searches example,
-the states were re-ordered by earliest peak of searches.
+Using data transformations to generate interactions is efficient but it assumes the components are ordinal. This is not necessarily true, for example, in the flu searches series (Figure \ref{fig:linking-plots}) were faceted on the categorical variable state. This requires that states are first recoded to numerical values. In R, this is implicitly alphabetical order. However, because the implementation is created in R, the factor levels can be re-ordered easily, enabling the recoding to numerical value to be quite fluid. In the flu searches example, the states were re-ordered by earliest peak of searches.
 
 This paper focused on interactive graphics for multivariate time series and longitudinal data, but the ideas should extend some to other temporal-context data. 
 
