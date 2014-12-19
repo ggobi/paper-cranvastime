@@ -39,8 +39,7 @@
 \if0\blind
 {
   \title{\bf  Enabling Interactivity on Displays of Multivariate Time Series and Longitudinal Data}
-  \author{Xiaoyue Cheng\thanks{
-    The authors gratefully acknowledge},\hspace{.2cm}
+  \author{Xiaoyue Cheng,
     Dianne Cook, Heike Hofmann \\
     Department of Statistics, Iowa State University
     }
@@ -1508,7 +1507,15 @@ day, month, year or individual identifier is under the cursor.
 
 This paper describes how interactions can be added to temporal displays by using sequences of affine transformations. This approach proves a rich variety of ways to slice and dice temporal data to explore seasonality, dependence, trends, anomalies and individual differences. These interactive temporal displays can be embedded in a large interactive graphics software system, enabling linking between plots to explore more general data where temporal components are just one aspect of many. Not everything is solved in terms of additivity, speed and interaction direction, but most common actions are possible for reasonably sized data. 
 
-Optimal aspect ratio for temporal displays is an unsolved problem, and is something that we have grappled with in the implementation. According to \citep{cleveland1993} time series should be ``banked'' to 45$^o$, which means that on average the angle of the lines, in comparison to the x- or y-axes is 45$^o$. This is computed and used in the initial plots in cranvas, but as wrapping and faceting are conducted it probably should be re-calculated. Ideal integration of aspect ratio re-drawing with plot interactions is something that could be examined in new work.
+Optimal aspect ratio for temporal displays is an unsolved problem,
+and is something that we have grappled with in the implementation.
+According to \citep{cleveland1993} time series should be ``banked''
+to 45$^o$, which means that on average the angle of the lines, in
+comparison to the $x$- or $y$-axes is 45$^o$. This is computed and
+used in the initial plots in \texttt{\textbf{cranvas}}, but as
+wrapping and faceting are conducted it probably should be
+re-calculated. Ideal integration of aspect ratio re-drawing with
+plot interactions could be examined in new work.
 
 %In this paper we reviewed the static and interactive graphics for the time series and longitudinal data and refined the framework of interactions. For the time dependent data, we elaborated the three-layer display and proposed five special interactions for data exploration and pattern examination. Facilitating these heavily data-transforming interactions requires a new conceptual framework, including the timely coordinates calculation procedure and the linking system that supports brushing under new coordinates. We introduced two procedures to transform data during the interactions, and the linking within and between plots, or between the original data and additional data. However, some issues are still open to further discussion, like the additivity, transfer speed, and the interaction direction.
 
