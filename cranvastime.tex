@@ -285,40 +285,53 @@ The next section describes the building blocks for temporal displays, which is f
 
 \section{Layering to create a plot\label{sec:graph-layers}}
 
- For interactive graphics, layering up the plot to enable different interactions can be useful, and efficient for large data. The base layer is typically the plot of all of the data. An overlay of a brush layer, where only elements actively being colored are displayed, can provide the efficiency of faster rendering. A brush layer is common to all displays because brushing is a basic function for interactive graphics. Background layers like an axis layer or grid layer are common too, but are not necessary in displays like maps.  Table \ref{tab:Layers} lists the layers of common plot types in \texttt{\textbf{cranvas}}.
+For interactive graphics, layering up the plot to enable
+different interactions can be useful, and efficient for
+large data. The base layer is typically the plot of all
+of the data. An overlay of a brush layer, where only
+elements actively being colored are displayed, can provide
+the efficiency of faster rendering. A brush layer is
+common to all displays because brushing is a basic function
+for interactive graphics. Background layers like an axis
+layer or grid layer are common too, but are not necessary
+in displays like maps. \texttt{\textbf{cranvas}} provides
+some specific layers for different plot types. For instance,
+a \texttt{\textbf{cranvas}} map composes of four layers:
+polygon, googlemaps, path, and point layer.
 
+%Table \ref{tab:Layers} lists the layers of common plot types in \texttt{\textbf{cranvas}}.
 %we can different layers are desired as the plot regions by different interactions. Usually there are many layers for an interactive graph, because a complex interaction can be then decomposed into small simple tasks on different layers. One layer is often designed for only one graph element, like the title layer, x-axis layer, or brush layer. Based on the characteristics of the graph elements, different painting functions are used to make the plotting fast for layers. When one layer changes, the irrelevant layers will remain the same.
 
 
-\begin{center}
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{c|l|l}
-\hline
-  & scatterplot & point\tabularnewline
-\cline{2-3}
-display specific & histogram & bar, cue\tabularnewline
-\cline{2-3}
- & map & polygon, googlemaps, path, point\tabularnewline
-\cline{2-3}
- & time plot & point, line, area, stats\tabularnewline
-\hline
-common & required & brush, identify, keys\tabularnewline
-\cline{2-3}
- & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
-\hline
-\end{tabular}
-\end{center}
-
-\caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}}
-of layers used in constructing plots. Some are common to all plots,
-and each plot has some layers that are unique. The ``keys'' layer
-listens for key strokes that change interaction modes. The ``cue''
-layer on the histogram contains listeners and handles for dragging
-to change the binwidth interactively.}
-\end{table}
-
-\end{center}
+% \begin{center}
+% \begin{table}[h]
+% \begin{center}
+% \begin{tabular}{c|l|l}
+% \hline
+%   & scatterplot & point\tabularnewline
+% \cline{2-3}
+% display specific & histogram & bar, cue\tabularnewline
+% \cline{2-3}
+%  & map & polygon, googlemaps, path, point\tabularnewline
+% \cline{2-3}
+%  & time plot & point, line, area, stats\tabularnewline
+% \hline
+% common & required & brush, identify, keys\tabularnewline
+% \cline{2-3}
+%  & optional & grid, $x$-axis, $y$-axis, $x$-label, $y$-label, title \tabularnewline
+% \hline
+% \end{tabular}
+% \end{center}
+%
+% \caption{\label{tab:Layers}Examples from \texttt{\textbf{cranvas}}
+% of layers used in constructing plots. Some are common to all plots,
+% and each plot has some layers that are unique. The ``keys'' layer
+% listens for key strokes that change interaction modes. The ``cue''
+% layer on the histogram contains listeners and handles for dragging
+% to change the binwidth interactively.}
+% \end{table}
+%
+% \end{center}
 
 
 %\begin{center}
@@ -424,6 +437,36 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 
 %\subsection{A taxonomy of tasks\label{sub:Special-interactions}}
 
+\begin{itemize} \itemsep 0in
+\item Wrapping: In the $x$-direction explores seasonality and
+  temporal dependence.  In the $y$-direction it is done to compare
+  magnitude of peaks and dips. It is easiest to explain $x$-wrapping:
+  the series is cut at a fixed-length interval, the part of the series
+  that extends beyond this interval is re-drawn from the initial
+  point. This will change the $x$-coordinates of the data. The main
+  purpose of $x$-wrapping is to explore the regularity of the
+  periodicity. Some series that look to follow a regular period can be
+  quickly revealed to have irregularities. The classical example is
+  the lynx trappings data for 1821\textendash{}1934 in the MacKenzie
+  River District of North-West Canada\citep{campbell1977survey}, which
+  looks periodic (Figure \ref{fig:x-wrapping}). The wrapping shows
+  that the period is not quite regular, matching one peak off-sets
+  other peaks, and the period varies between 9-11 years. It is also
+  possible to see that the increases are slower than the drops, that
+  the population builds up and tends to plummet. To model this data
+  well requires one also knows the snowshoe hare population. Figure
+  \ref{fig:y-wrapping} gives an example of the $y$-wrapping. It
+  shows another classical example: quarterly pig production measured
+  by four variables, herd size, production, profit and gilts, from
+  1967-1978 in United Kingdom \citep{andrews1985data}. The $y$-wrapping
+  induces something that might be considered a temporal boxplot, where
+  density produced from overlaying the wrapped peaks emphasizes long
+  runs of ups, or periodic ups.
+ %Wrapping cuts the series by a fixed-length interval in the horizontal or vertical direction, and shifts the right/top pieces to the left/bottom. It could change the $x$- / $y$- coordinates of the data. There are two reasons for wrapping. The first one is to compare the periods, or to find the period for the data that is potentially periodical. Also the periodic variation could be explored \citep{mcdonald1986periodic}. For this purpose we suggest to wrap the series horizontally. % Figure \ref{fig:faceting-period} (left to center) gives an % example of horizontal wrapping with a known period. Figure \ref{fig:x-wrapping} shows an example of wrapping process with an unknown period.
+%The second reason is to cut the temporal and longitudinal data into parts for a better aspect ratio which will increase the effectiveness of data display \citep{cleveland1987graphical}, and then reveal more details. When the time series is long, to keep a proper aspect ratio is not always workable, due to the the limit of the screen width. Two possible solutions are:  (1) if the series is periodical, then wrap it horizontally by the period, as Figure %\ref{fig:faceting-period} \ref{fig:x-wrapping},  (2) Wrap the series vertically, especially when multiple series are faceted.
+%Figure \ref{fig:y-wrapping} gives an example of the y-vertical wrapping for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}. The four variables are HERDSZ: actual breeding herd size, PRODUCTION: number of clean pig meat slaughtered, PROFIT: ratio of all-pig price to all fattener feed price, GILTS: number of sows in pig for the first time. In the top panel we see some overall pattern but it is hard to compare two values from the first quarter and last quarter of a line. In the bottom panel the series are wrapped in an area plot. The darkness of the colors indicates the magnitude of the series values, and the color bands make the comparison within or between the series much easier.
+\item Faceting: This creates small multiples to organize and examine across structural data components. These components might be a period such as year, or month, or variables when multiple are measured at the same time points, or in longitudinal data these might be individuals. In the interactive setting these components can be used to slowly pull overlaid series apart, a process that might be more revealing that disjointly laying out each in a static plot. Figure \ref{fig:faceting-var-ind} illustrates sequential faceting on two variables and three individuals. The order of these operations changes the final result, and changes which comparison is primary and which secondary. Figure \ref{fig:faceting-examples} gives two more examples, by a grid of spatial locations, and by covariates, respectively. Watch the videos to see how these are achieved interactively. There is also another video at \url{https://vimeo.com/112505175} shows faceting on period for a time series with a regular period of every 12 observations.
+
 \begin{figure}[htp]
 \begin{center}
 \begin{tabular}{cc}
@@ -497,38 +540,6 @@ like in herdsize are more visible. }
 \end{figure}
 
 \end{center}
-
-
-
-\begin{itemize} \itemsep 0in
-\item Wrapping: In the $x$-direction explores seasonality and
-  temporal dependence.  In the $y$-direction it is done to compare
-  magnitude of peaks and dips. It is easiest to explain $x$-wrapping:
-  the series is cut at a fixed-length interval, the part of the series
-  that extends beyond this interval is re-drawn from the initial
-  point. This will change the $x$-coordinates of the data. The main
-  purpose of $x$-wrapping is to explore the regularity of the
-  periodicity. Some series that look to follow a regular period can be
-  quickly revealed to have irregularities. The classical example is
-  the lynx trappings data for 1821\textendash{}1934 in the MacKenzie
-  River District of North-West Canada\citep{campbell1977survey}, which
-  looks periodic (Figure \ref{fig:x-wrapping}). The wrapping shows
-  that the period is not quite regular, matching one peak off-sets
-  other peaks, and the period varies between 9-11 years. It is also
-  possible to see that the increases are slower than the drops, that
-  the population builds up and tends to plummet. To model this data
-  well requires one also knows the snowshoe hare population. Figure
-  \ref{fig:y-wrapping} gives an example of the $y$-wrapping. It
-  shows another classical example: quarterly pig production measured
-  by four variables, herd size, production, profit and gilts, from
-  1967-1978 in United Kingdom \citep{andrews1985data}. The $y$-wrapping
-  induces something that might be considered a temporal boxplot, where
-  density produced from overlaying the wrapped peaks emphasizes long
-  runs of ups, or periodic ups.
- %Wrapping cuts the series by a fixed-length interval in the horizontal or vertical direction, and shifts the right/top pieces to the left/bottom. It could change the $x$- / $y$- coordinates of the data. There are two reasons for wrapping. The first one is to compare the periods, or to find the period for the data that is potentially periodical. Also the periodic variation could be explored \citep{mcdonald1986periodic}. For this purpose we suggest to wrap the series horizontally. % Figure \ref{fig:faceting-period} (left to center) gives an % example of horizontal wrapping with a known period. Figure \ref{fig:x-wrapping} shows an example of wrapping process with an unknown period.
-%The second reason is to cut the temporal and longitudinal data into parts for a better aspect ratio which will increase the effectiveness of data display \citep{cleveland1987graphical}, and then reveal more details. When the time series is long, to keep a proper aspect ratio is not always workable, due to the the limit of the screen width. Two possible solutions are:  (1) if the series is periodical, then wrap it horizontally by the period, as Figure %\ref{fig:faceting-period} \ref{fig:x-wrapping},  (2) Wrap the series vertically, especially when multiple series are faceted.
-%Figure \ref{fig:y-wrapping} gives an example of the y-vertical wrapping for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}. The four variables are HERDSZ: actual breeding herd size, PRODUCTION: number of clean pig meat slaughtered, PROFIT: ratio of all-pig price to all fattener feed price, GILTS: number of sows in pig for the first time. In the top panel we see some overall pattern but it is hard to compare two values from the first quarter and last quarter of a line. In the bottom panel the series are wrapped in an area plot. The darkness of the colors indicates the magnitude of the series values, and the color bands make the comparison within or between the series much easier.
-\item Faceting: This creates small multiples to organize and examine across structural data components. These components might be a period such as year, or month, or variables when multiple are measured at the same time points, or in longitudinal data these might be individuals. In the interactive setting these components can be used to slowly pull overlaid series apart, a process that might be more revealing that disjointly laying out each in a static plot. Figure \ref{fig:faceting-var-ind} illustrates sequential faceting on two variables and three individuals. The order of these operations changes the final result, and changes which comparison is primary and which secondary. Figure \ref{fig:faceting-examples} gives two more examples, by a grid of spatial locations, and by covariates, respectively. Watch the videos to see how these are achieved interactively. There is also another video at \url{https://vimeo.com/112505175} shows faceting on period for a time series with a regular period of every 12 observations.
 
 %Sometimes we care about some objects or time intervals more than others, for instance, the patients under a special treatment, or the climate observations in a year when the earthquakes frequently happened. In other cases with many variables, we may have questions like whether the variables share the same period? Do the peaks and valleys match with each other? To explore the data with these questions, we need to compare multiple time series.
 
