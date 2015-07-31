@@ -540,7 +540,6 @@ like in herdsize are more visible. }
 \end{figure}
 
 \end{center}
-
 %Sometimes we care about some objects or time intervals more than others, for instance, the patients under a special treatment, or the climate observations in a year when the earthquakes frequently happened. In other cases with many variables, we may have questions like whether the variables share the same period? Do the peaks and valleys match with each other? To explore the data with these questions, we need to compare multiple time series.
 
 %In a static graph, several aesthetic methods can be used to distinguish and compare multiple lines, like the color, size, or line type. However, the aesthetic methods are not encouraged for a relatively large number of lines, say, more than 10 lines. This is because the difference of colors, sizes, or line types between adjacent lines could be too weak to tell. Hence, faceting is considered as a technique to reduce the number of lines displayed in the same plotting region. Users can compare within and between facet regions easily when the aspect ratio keeps well.
@@ -1109,35 +1108,35 @@ of individuals would be
 \[
 \mathbf{m} = (0, \; (\mathbf{l}{}_{facet~by~variable}-1)\times \max(\mathbf{l}{}_{facet~by~individual})+(\mathbf{l}{}_{facet~by~individual}-1)).
 \]
-Table \ref{tab:additive-faceting} takes the first point
-of each series as an example to show $y$ and the changes
-at the three stages.
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|cc|c||c||c|}
-\cline{1-2} \cline{5-7}
-$l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\tabularnewline
-\cline{1-2} \cline{5-7}
-1 & 1 &  &  & 0.16 & 0.16+(1-1)=0.16 & 0.16+(1-1)$\times$3+(1-1)=0.16\tabularnewline
-\cline{1-2} \cline{5-7}
-1 & 2 &  &  & 0.33 & 0.33+(1-1)=0.33 & 0.33+(1-1)$\times$3+(2-1)=1.33\tabularnewline
-\cline{1-2} \cline{5-7}
-1 & 3 &  &  & 0.26 & 0.26+(1-1)=0.26 & 0.26+(1-1)$\times$3+(3-1)=2.26\tabularnewline
-\cline{1-2} \cline{5-7}
-2 & 1 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(1-1)=3.84\tabularnewline
-\cline{1-2} \cline{5-7}
-2 & 2 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(2-1)=4.84\tabularnewline
-\cline{1-2} \cline{5-7}
-2 & 3 &  &  & 0.90 & 0.90+(2-1)=1.90 & 0.90+(2-1)$\times$3+(3-1)=5.90\tabularnewline
-\cline{1-2} \cline{5-7}
-\end{tabular}
-\end{center}
-\caption{\label{tab:additive-faceting}$y$-coordinates of the
-first point on each line, at Figure \ref{fig:faceting-var-ind}
-(a) no faceting, (b) faceting by variable, (d) faceting by
-variable then individual.}
-\end{table}
+% Table \ref{tab:additive-faceting} takes the first point
+% of each series as an example to show $y$ and the changes
+% at the three stages.
+%
+% \begin{table}[h]
+% \begin{center}
+% \begin{tabular}{|c|c|cc|c||c||c|}
+% \cline{1-2} \cline{5-7}
+% $l_{variable}$ & $l_{individual}$ &  &  & $y$ at (a) & $y$ at (b) & $y$ at (d)\tabularnewline
+% \cline{1-2} \cline{5-7}
+% 1 & 1 &  &  & 0.16 & 0.16+(1-1)=0.16 & 0.16+(1-1)$\times$3+(1-1)=0.16\tabularnewline
+% \cline{1-2} \cline{5-7}
+% 1 & 2 &  &  & 0.33 & 0.33+(1-1)=0.33 & 0.33+(1-1)$\times$3+(2-1)=1.33\tabularnewline
+% \cline{1-2} \cline{5-7}
+% 1 & 3 &  &  & 0.26 & 0.26+(1-1)=0.26 & 0.26+(1-1)$\times$3+(3-1)=2.26\tabularnewline
+% \cline{1-2} \cline{5-7}
+% 2 & 1 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(1-1)=3.84\tabularnewline
+% \cline{1-2} \cline{5-7}
+% 2 & 2 &  &  & 0.84 & 0.84+(2-1)=1.84 & 0.84+(2-1)$\times$3+(2-1)=4.84\tabularnewline
+% \cline{1-2} \cline{5-7}
+% 2 & 3 &  &  & 0.90 & 0.90+(2-1)=1.90 & 0.90+(2-1)$\times$3+(3-1)=5.90\tabularnewline
+% \cline{1-2} \cline{5-7}
+% \end{tabular}
+% \end{center}
+% \caption{\label{tab:additive-faceting}$y$-coordinates of the
+% first point on each line, at Figure \ref{fig:faceting-var-ind}
+% (a) no faceting, (b) faceting by variable, (d) faceting by
+% variable then individual.}
+% \end{table}
 
 \subsection{Incremental vs baseline operations\label{sub:Two-procedures}}
 
@@ -1319,7 +1318,7 @@ linking variables; (right) all points for that time are highlighted,
 by using the time as a linking variable.}
 \end{figure}
 
-\begin{table}[htp]
+\begin{table}[H]%[htp]
 \begin{center}
 \begin{tabular}{|c|cc|ll||ll||ll|}
 \hline
