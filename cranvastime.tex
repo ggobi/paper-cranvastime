@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath}
-\usepackage{graphicx,psfrag,epsf}
+\usepackage{graphicx}
 \usepackage{enumerate}
 \usepackage{natbib}
 \usepackage[T1]{fontenc}
@@ -643,14 +643,6 @@ are sharp and irregular and the valleys are smooth and regular.
 
 \end{itemize}
 
-\begin{figure}[htp]
-\begin{center}
-\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.54\textwidth]{graph/pipeline-25-2}
-
-\caption{\label{fig:faceting-examples}Faceting can be conducted bi-directionally: (left) by spatial grid for spatiotemporal data (\url{https://vimeo.com/112503285}), (right) by two covariates, sex and age, in longitudinal data (\url{https://vimeo.com/112509324}).}
-\end{center}
-\end{figure}
-
 
 %\begin{figure}[htp]
 %\begin{center}
@@ -673,17 +665,6 @@ are sharp and irregular and the valleys are smooth and regular.
 %\caption{\label{fig:faceting-4ind}Faceting on four categorical variables for a longitudinal data set  (pharmacokinetics of remifentanil, \citep{pinheiro2000mixed}). Sex and height are used in the horizontal direction, age and weight are used in the vertical direction.  (Top left) Original data without facetting.  (Top right) Faceted by height and weight.  (Bottom left) Faceted by sex and age.  (Bottom right) Faceted by sex and height horizontally, age and weight vertically. See the video at \url{https://vimeo.com/112509324} on how this works.}
 %\end{figure}
 %\end{center}
-
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
-\end{centering}
-\caption{\label{fig:x-shifting}Illustration of shifting: three bottom series (variable A) are shifted horizontally to the right, to match the peak time with the top three series (variable B). (See also the video at \url{https://vimeo.com/112439923}.)}
-\end{figure}
-\end{center}
 
 
 %\subsection{Considerations}
@@ -796,6 +777,23 @@ be manipulated simply by updating limits of the graphical device.
 
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
+\begin{figure}[htp]
+\begin{center}
+\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.54\textwidth]{graph/pipeline-25-2}
+
+\caption{\label{fig:faceting-examples}Faceting can be conducted bi-directionally: (left) by spatial grid for spatiotemporal data (\url{https://vimeo.com/112503285}), (right) by two covariates, sex and age, in longitudinal data (\url{https://vimeo.com/112509324}).}
+\end{center}
+\end{figure}
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
+\end{centering}
+\caption{\label{fig:x-shifting}Illustration of shifting: three bottom series (variable A) are shifted horizontally to the right, to match the peak time with the top three series (variable B). (See also the video at \url{https://vimeo.com/112439923}.)}
+\end{figure}
+\end{center}
 
 %\subsection{Generating interactions\label{interaction-formulas}}
 
@@ -1176,9 +1174,56 @@ that line (e.g. V1) are highlighted, or (3) all points
 for that time are highlighted (Figure \ref{fig:self-linking}).
 The latter two are achieved by treating the line group
 indicator or ``Time'' as a categorical linking variable,
-respectively.
+respectively. Brushing and self-linking also works for longitudinal data, because it is typically in long data format.
+
 
 %It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
+
+
+\subsection{Linking between plots}
+
+Linking between plots builds a reactive brushing chain that
+when the data points on one plot are brushed, then they are
+highlighted on all the plots. In the normal cases of
+\texttt{\textbf{cranvas}}, data behind the plots is unique,
+so the brush interaction will modify the parameter attached
+to the data and trigger the listeners of plots to highlight
+the corresponding part. However, linking between a time
+series plot and other plots (Figure \ref{fig:linking-plots}) is different, because the
+data to create the time plot is in the long data format,
+while the data to create the other plots, like scatterplots
+or histograms, are in the wide data format. Hence, a link
+between the two data formats must be constructed.
+
+\citet{xie2014reactive} delineated how to link two data
+objects. First a linking variable must be pointed out, then two listeners
+are attached on the two objects. If the \texttt{.brushed} parameter
+switches in one dataset, then the listener is triggered. And if any
+observations from the second dataset have the same value in the linking
+variable as the first dataset, then the corresponding \texttt{.brushed}
+parameter in the second dataset will be changed.
+
+Note that the linking between wide data and long data is not a one-to-one
+linking. ``Time'' is the linking variable between two formats.
+In the direction from wide to long data, each entry in the
+wide data can project to multiple entries in the long data. In the
+opposite direction, an entry in the long data will map to one entry in
+the wide data. The unbalanced linking could produce a problem (see 
+Table \ref{tab:wide-long-linking} in the Appendix). This problem can be solved by cutting off the backward linking.
+
+\begin{figure}[htp]
+\begin{center}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
+\end{center}
+\caption{\label{fig:self-linking}When a single point is brushed,
+there could be three modes of highlighting: (left) only a single
+point is highlighted; (center) all points for that series are
+highlighted, by treating the line group indicators as the categorical
+linking variables; (right) all points for that time are highlighted,
+by using the time as a linking variable.}
+\end{figure}
 
 \begin{table}[h]
 \small
@@ -1213,20 +1258,6 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
 
-\begin{figure}[htp]
-\begin{center}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
-\end{center}
-\caption{\label{fig:self-linking}When a single point is brushed,
-there could be three modes of highlighting: (left) only a single
-point is highlighted; (center) all points for that series are
-highlighted, by treating the line group indicators as the categorical
-linking variables; (right) all points for that time are highlighted,
-by using the time as a linking variable.}
-\end{figure}
-
 \begin{table}[H]%[htp]
 \begin{center}
 \begin{tabular}{|c|cc|ll||ll||ll|}
@@ -1248,117 +1279,6 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 \caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
 
-The long data format is typically the basic format
-for longitudinal data, where there may be differing
-number time points per subject, and measured at
-different times. So this approach to implementing
-the brushing works here, too.
-
-
-\subsection{Linking between plots}
-
-Linking between plots builds a reactive brushing chain that
-when the data points on one plot are brushed, then they are
-highlighted on all the plots. In the normal cases of
-\texttt{\textbf{cranvas}}, data behind the plots is unique,
-so the brush interaction will modify the parameter attached
-to the data and trigger the listeners of plots to highlight
-the corresponding part. However, linking between a time
-series plot and other plots is different, because the
-data to create the time plot is in the long data format,
-while the data to create the other plots, like scatterplots
-or histograms, are in the wide data format. Hence, a link
-between the two data formats must be constructed.
-
-\citet{xie2014reactive} delineated how to link two data
-objects. First a linking variable must be pointed out, then two listeners
-are attached on the two objects. If the \texttt{.brushed} parameter
-switches in one dataset, then the listener is triggered. And if any
-observations from the second dataset have the same value in the linking
-variable as the first dataset, then the corresponding \texttt{.brushed}
-parameter in the second dataset will be changed.
-
-Note that the linking between wide data and long data is not a one-to-one
-linking. ``Time'' is the linking variable between two formats.
-In the direction from wide to long data, each entry in the
-wide data can project to multiple entries in the long data. In the
-opposite direction, an entry in the long data will map to one entry in
-the wide data. The unbalanced linking could produce a problem, as
-shown in Table \ref{tab:wide-long-linking}.
-
-This problem can be solved by cutting off the backward linking.
-To facilitate the cutoff, two signals are added respectively
-in the listeners of the two data objects. When one listener
-is triggered, the signal will be turned on until the listener
-finishes its work. During this period, the other listener cannot work.
-As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
-will be cut off.
-
-Figure \ref{fig:linking-plots} shows the linking between
-a longitudinal time plot, a map, and a histogram. The data
-come from the Google Flu Trends
-(\url{http://www.google.org/flutrends/}).
-
-\begin{table}[htp]
-\begin{center}
-\begin{tabular}{c|cc|cc}
-\multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
-\hline
-Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
-\hline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
-2 & V2 & 23 & FALSE & blue \tabularnewline
-2 & V3 & 12.5 & FALSE & blue \tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
-\hline
-\end{tabular}
-%\end{center}
-
-%\begin{centering}
-$\Downarrow$
-%\end{centering}
-
-%\begin{centering}
-\begin{tabular}{c|ccc|cc}
-\multicolumn{6}{c}{(b) Wide data format, used in other plots}\tabularnewline
-\hline
-Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} \tabularnewline
-\hline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
-\textcolor{red}{2} & \textcolor{red}{3.4} & \textcolor{red}{23} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
-\hline
-\end{tabular}
-%\end{centering}
-
-%\begin{centering}
-$\Downarrow$
-%\end{centering}
-
-%\begin{centering}
-\begin{tabular}{c|cc|cc}
-\multicolumn{5}{c}{(c) Long data format, used in time plots}\tabularnewline
-\hline
-Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
-\hline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V2} & \textcolor{red}{23} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
-\textcolor{red}{2} & \textcolor{red}{V3} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
-$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
-\hline
-\end{tabular}
-\end{center}
-\caption{\label{tab:wide-long-linking}Linking between the long and wide data
-format may produce a problem. Suppose we start from brushing a point  (V1
-at time 2) in the long data  (a). Then the listener of the long data
-is triggered and changes the .brushed parameter for time 2 in the
-wide data  (b). Then the listener of the wide data is triggered and
-switches the .brushed parameter for all the observations at time 2
-in the long data  (c), which will update (a) but make a conflict.}
-\end{table}
-%\end{center}
 
 \begin{center}
 \begin{figure}[htp]
@@ -1373,7 +1293,7 @@ in the long data  (c), which will update (a) but make a conflict.}
 \end{tabular}
 \end{centering}
 \caption{\label{fig:linking-plots}Linking between different plots
-for the Google Flu Trends data from November 24, 2013 -- March 16, 2014.
+for the Google Flu Trends data (\url{http://www.google.org/flutrends/}) from November 24, 2013 -- March 16, 2014.
 (Left) Time series faceted by state (see \url{https://vimeo.com/112528131}
 for the transition to the facets), (top right) choropleth map grey
 scale indicating time of the peak in the series, light is earlier,
@@ -1383,58 +1303,6 @@ states in the time series and histogram.}
 \end{figure}
 \end{center}
 
-
-\subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
-
-Besides the issue of wide data and long data, there are other datasets
-created during the interactions that could produce some linking issues,
-such as the follows.
-\begin{itemize} \itemsep 0in
-\item The polygon data from the area layer.
-The area layer does not
-only need the values in the time series, but also the baseline to
-form many polygons. To draw the polygons, the data must be rearranged
-in an order of polygon vertexes. Each polygon is made of four vertexes:
-two from the time series and two from the baseline. Because the polygon
-layer should listen to the point and line layers, the link between
-the original data and the polygon data is one-way.
-
-\item Copies of the dataset during the incremental operation.
-When adopting the incremental procedure in Section
-\ref{sub:Two-procedures}, the variations of original dataset will
-be created with multiple stages of the interactions. However, these
-additional datasets are not required to get linked, because we only
-make the copies of the coordinates, not the properties. To use the
-coordinates, we combine them with the properties in the last minute,
-so there will not be any linking issues.
-
-\item Additional areas from the vertical faceting.
-The example of vertical faceting is shown in Figure \ref{fig:y-wrapping}
-and Figure \ref{fig:Additional-data} explained how the interaction
-creates the additional areas. In Figure \ref{fig:Additional-data},
-the black dots are given by the time series, and the red dots are
-created during the cropping step of faceting, by the choice of
-cutting lines. The black and red dots are mixed in some order to
-form the shaded polygons. Whenever a point is brushed, one, two,
-or even more cropped polygons should be highlighted. Hence the
-two-direction linking between the cropped polygons and points
-should be constructed. Note that this is a one-to-$n$ mapping,
-and the linking variable is the point ID, which should be assigned
-to the polygons when the red dots are generated.
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-23-1}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
-\end{centering}
-\caption{\label{fig:Additional-data}Additional data created from the vertical
-faceting. The black dots are given by the time series, and the red
-dots are created during the cropping step of faceting.}
-\end{figure}
-\end{center}
-
-\end{itemize}
 
 \section{Querying}
 
@@ -1484,6 +1352,11 @@ Novartis, and by National Science Research grant DMS0706949.
 \newpage
 \section*{Appendix}
 \renewcommand{\thesubsection}{\Alph{subsection}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A\arabic{figure}}
+
 \subsection{Wrapping}\label{sub:appendix-wrapping}
 
 Recall that $\Delta_{n-j}=x_{(n-j)}-x_{(1)}+1$,
@@ -1591,5 +1464,128 @@ standardized between $[0,1]$ first, then the movement is given by
 \]
 Note that $\mathbf{l}{}_i$ in this case differs from
 $\mathbf{l}{}_i$ in faceting by individual.
+
+\subsection{Linking}
+
+To cutoff the backward linking problem, generated by linking to different forms of the data, two signals are added respectively
+in the listeners of the two data objects. When one listener
+is triggered, the signal will be turned on until the listener
+finishes its work. During this period, the other listener cannot work.
+As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
+will be cut off.
+
+
+\begin{table}[htp]
+\begin{center}
+\begin{tabular}{c|cc|cc}
+\multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
+\hline
+Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
+\hline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+2 & V2 & 23 & FALSE & blue \tabularnewline
+2 & V3 & 12.5 & FALSE & blue \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\hline
+\end{tabular}
+%\end{center}
+
+%\begin{centering}
+$\Downarrow$
+%\end{centering}
+
+%\begin{centering}
+\begin{tabular}{c|ccc|cc}
+\multicolumn{6}{c}{(b) Wide data format, used in other plots}\tabularnewline
+\hline
+Time & V1 & V2 & V3 & \texttt{.brushed} & \texttt{.color} \tabularnewline
+\hline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{3.4} & \textcolor{red}{23} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\hline
+\end{tabular}
+%\end{centering}
+
+%\begin{centering}
+$\Downarrow$
+%\end{centering}
+
+%\begin{centering}
+\begin{tabular}{c|cc|cc}
+\multicolumn{5}{c}{(c) Long data format, used in time plots}\tabularnewline
+\hline
+Time & Variable & Value & \texttt{.brushed} & \texttt{.color} \tabularnewline
+\hline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V1} & \textcolor{red}{3.4} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V2} & \textcolor{red}{23} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+\textcolor{red}{2} & \textcolor{red}{V3} & \textcolor{red}{12.5} & \textcolor{red}{TRUE} & \textcolor{red}{blue} \tabularnewline
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{tab:wide-long-linking}Linking between the long and wide data
+format may produce a problem. Suppose we start from brushing a point  (V1
+at time 2) in the long data  (a). Then the listener of the long data
+is triggered and changes the .brushed parameter for time 2 in the
+wide data  (b). Then the listener of the wide data is triggered and
+switches the .brushed parameter for all the observations at time 2
+in the long data  (c), which will update (a) but make a conflict.}
+\end{table}
+%\end{center}
+
+%\subsection{Additional linking issues\label{sub:Linking-of-the-addition}}
+
+Besides the issue of wide data and long data, there are other datasets
+created during the interactions that could produce some linking issues,
+such as the follows.
+\begin{itemize} \itemsep 0in
+\item The polygon data from the area layer.
+The area layer does not
+only need the values in the time series, but also the baseline to
+form many polygons. To draw the polygons, the data must be rearranged
+in an order of polygon vertexes. Each polygon is made of four vertexes:
+two from the time series and two from the baseline. Because the polygon
+layer should listen to the point and line layers, the link between
+the original data and the polygon data is one-way.
+
+\item Copies of the dataset during the incremental operation.
+When adopting the incremental procedure in Section
+\ref{sub:Two-procedures}, the variations of original dataset will
+be created with multiple stages of the interactions. However, these
+additional datasets are not required to get linked, because we only
+make the copies of the coordinates, not the properties. To use the
+coordinates, we combine them with the properties in the last minute,
+so there will not be any linking issues.
+
+\item Additional areas from the vertical faceting.
+The example of vertical faceting is shown in Figure \ref{fig:y-wrapping}
+and Figure \ref{fig:Additional-data} explained how the interaction
+creates the additional areas. In Figure \ref{fig:Additional-data},
+the black dots are given by the time series, and the red dots are
+created during the cropping step of faceting, by the choice of
+cutting lines. The black and red dots are mixed in some order to
+form the shaded polygons. Whenever a point is brushed, one, two,
+or even more cropped polygons should be highlighted. Hence the
+two-direction linking between the cropped polygons and points
+should be constructed. Note that this is a one-to-$n$ mapping,
+and the linking variable is the point ID, which should be assigned
+to the polygons when the red dots are generated.
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-23-1}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
+\end{centering}
+\caption{\label{fig:Additional-data}Additional data created from the vertical
+faceting. The black dots are given by the time series, and the red
+dots are created during the cropping step of faceting.}
+\end{figure}
+\end{center}
+
+\end{itemize}
 
 \end{document}
