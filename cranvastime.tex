@@ -43,6 +43,7 @@
     Dianne Cook, Heike Hofmann \\
     Department of Statistics, Iowa State University
     }
+\date{}
   \maketitle
 } \fi
 
@@ -86,10 +87,12 @@ In data, time is coded in many different ways: as a date/time format ("Wed Oct 1
 %The custom time formats brings some further problems, for example, the number of weeks per year is not an integer, the number of days per month varies over the year, and the leap year recurs every four years. In some cases, the data can only be collected during the weekdays.  Therefore, the time plot may not be accurate in an absolute time line, and the length of the periodicity could be hard to verify. Besides, the dependent variables could appear with different time formats, which makes the visualization more difficult but interesting.
 
 The most common description of time is as a continuous or discrete ordered numerical variable. All data is technically discrete, but if measurements are recorded often enough, and long enough they are effectively continuous. For example, currency exchange rates change on a microsecond basis, blood pressure measurements made with a wearable device records at every minute. For these examples time could essentially be considered continuous. However, it may be not helpful to evaluate trends on this microscale, and aggregating at an hourly, daily or monthly value may be sufficient. For simplicity, the methods developed in this paper assume the time variable is measured on a discrete scale.
-
 %The main division of the data types is that whether the time is discrete or continuous. For example, the time to record the salary of an employee is discrete, but the time for the temperature in a location is continuous. However, people can not measure a variable continuously over time, so the data collected is still discrete. To simplify the problem, we only consider the discrete case. Another further division of the discrete time series data is that whether a time datum is recorded as an event or an interval. For example, in a customer visiting problem, the time length that each customer stays  (interval) is as important as the time that the customer enters  (event). Again, to simplify, we only consider the event type.
-
 On a discrete scale, it may be possible to have regular or irregular time spacing. Regular time spacing means that the measurement is collected on constant time intervals, e.g. average monthly temperature in climate records. Irregular time spacing typically arise from events like measurements taken during visits to the doctor's office. Figure \ref{fig:Time-series-plots} illustrates data collected at regular, and irregular, intervals, respectively.
+
+%When many measurements are made more complications ensue. In climate records we may have temperature measurements taken at many different locations. In longitudinal data, we may have records for many patients. Making comparisons between many time series is a challenge. This work addresses this for a moderate number of series.
+
+%Visualizing the longitudinal data is another challenge to the time plots. It brings some issues, such as  (1) intensive layout for a relatively large number% \footnote{20 can be considered as a large number for the graphical layout.% } of individuals,  (2) a few overwhelming large representatives could make the other individuals invisible,  (3) comparison between two or more individuals is difficult if they are not plotted closely.
 
 \begin{figure}[h]
 \begin{centering}
@@ -99,11 +102,6 @@ On a discrete scale, it may be possible to have regular or irregular time spacin
 \caption{\label{fig:Time-series-plots}Time series plots for regular time spacing
  (left) and irregular time spacing  (right). Tick marks at bottom indicate the time sampling.}
 \end{figure}
-
-When many measurements are made more complications ensue. In climate records we may have temperature measurements taken at many different locations. In longitudinal data, we may have records for many patients. Making comparisons between many time series is a challenge. This work addresses this for a moderate number of series.
-
-%Visualizing the longitudinal data is another challenge to the time plots. It brings some issues, such as  (1) intensive layout for a relatively large number% \footnote{20 can be considered as a large number for the graphical layout.% } of individuals,  (2) a few overwhelming large representatives could make the other individuals invisible,  (3) comparison between two or more individuals is difficult if they are not plotted closely.
-
 
 \subsection{Visualizing time}
 
@@ -115,7 +113,7 @@ visualization taxonomy from \citet{aigner2011visualization},
 methods here emphasize coordinate arrangement and the
 effectivity on information delivery.
 
-Time is most conventionally displayed on a horizontal axis of a plot. There are many different variations:
+Time is conventionally displayed on a horizontal axis of a plot, with many different variations:
 
 \begin{itemize} \itemsep 0in
 \item A line graph, the basic building block for temporal data, displays the measured variable on the vertical axis, time horizontally, and consecutive time points are connected with line segments. Figure \ref{fig:Time-series-plots} gives two examples of line graphs, for a single measured variable: (left) a classical time series plot, (right) a profile plot of longitudinal data. When there are many series, for example time series of different stocks or different geographic locations, or many patients, the series may be overlaid on the same plot (Figure \ref{fig:horizontal-axis} row 1 left), or faceted in several blocks (Figure \ref{fig:horizontal-axis} row 1 right).
@@ -164,26 +162,6 @@ the band height is easy for the stock prices since they can use 10\%
 of the initial value, and in most cases the price will not increase
 or decrease for more than 30\%.
 
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\begin{tabular}{cc}
-(a) & (b) \\
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-linegraph} &
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-multilines}\\
-(c) & (d) \\
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-stacked} &
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-smallmultiples}\\
-(e) & (f) \\
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-themeriver} &
-\includegraphics[width=0.48\textwidth]{graph/pipeline-02-horizon}
-\end{tabular}
-\end{centering}
-\caption{\label{fig:horizontal-axis} Six variations of horizontal axis time plots for multivariate
-time series: (From top left to bottom right) overlaid line plots, faceted line plots,  stacked graph, faceted area chart, themeriver, horizon graph. Plots in the right column are examples of small multiples. }
-\end{figure}
-\end{center}
-
 \end{itemize}
 
 % When time can be broken into two components it might be displayed
@@ -223,6 +201,26 @@ is good for seeking the period, but the length for the same time unit
 changes over the loops. Besides, spiral graphs would be unhandy for
 the short period problems and multiple time series.
 \end{itemize}
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\begin{tabular}{cc}
+(a) & (b) \\
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-linegraph} &
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-multilines}\\
+(c) & (d) \\
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-stacked} &
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-smallmultiples}\\
+(e) & (f) \\
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-themeriver} &
+\includegraphics[width=0.48\textwidth]{graph/pipeline-02-horizon}
+\end{tabular}
+\end{centering}
+\caption{\label{fig:horizontal-axis} Six variations of horizontal axis time plots for multivariate
+time series: (From top left to bottom right) overlaid line plots, faceted line plots,  stacked graph, faceted area chart, themeriver, horizon graph. Plots in the right column are examples of small multiples. }
+\end{figure}
+\end{center}
 
 \begin{center}
 \begin{figure}[htp]
@@ -467,6 +465,110 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
 %Figure \ref{fig:y-wrapping} gives an example of the y-vertical wrapping for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}. The four variables are HERDSZ: actual breeding herd size, PRODUCTION: number of clean pig meat slaughtered, PROFIT: ratio of all-pig price to all fattener feed price, GILTS: number of sows in pig for the first time. In the top panel we see some overall pattern but it is hard to compare two values from the first quarter and last quarter of a line. In the bottom panel the series are wrapped in an area plot. The darkness of the colors indicates the magnitude of the series values, and the color bands make the comparison within or between the series much easier.
 \item Faceting: This creates small multiples to organize and examine across structural data components. These components might be a period such as year, or month, or variables when multiple are measured at the same time points, or in longitudinal data these might be individuals. In the interactive setting these components can be used to slowly pull overlaid series apart, a process that might be more revealing that disjointly laying out each in a static plot. Figure \ref{fig:faceting-var-ind} illustrates sequential faceting on two variables and three individuals. The order of these operations changes the final result, and changes which comparison is primary and which secondary. Figure \ref{fig:faceting-examples} gives two more examples, by a grid of spatial locations, and by covariates, respectively. Watch the videos to see how these are achieved interactively. There is also another video at \url{https://vimeo.com/112505175} shows faceting on period for a time series with a regular period of every 12 observations.
 
+%Sometimes we care about some objects or time intervals more than others, for instance, the patients under a special treatment, or the climate observations in a year when the earthquakes frequently happened. In other cases with many variables, we may have questions like whether the variables share the same period? Do the peaks and valleys match with each other? To explore the data with these questions, we need to compare multiple time series.
+
+%In a static graph, several aesthetic methods can be used to distinguish and compare multiple lines, like the color, size, or line type. However, the aesthetic methods are not encouraged for a relatively large number of lines, say, more than 10 lines. This is because the difference of colors, sizes, or line types between adjacent lines could be too weak to tell. Hence, faceting is considered as a technique to reduce the number of lines displayed in the same plotting region. Users can compare within and between facet regions easily when the aspect ratio keeps well.
+
+%There are three possible conditions to facet on: variable, individual (for the longitudinal data), or period. Those faceting methods change the coordinates of the points, and then the baselines of the area layer. Figure \ref{fig:faceting-var-ind} gives an example for faceting on two variables and three individuals. Design of the faceting interaction should make the switching among five panels done on-the-fly.
+% Figure \ref{fig:faceting-period} explains why and shows how to facet on period.
+
+%Faceting by individual sometimes extends to much more complex situations, because individuals can be grouped under different combinations of categorical variables, not only the individual IDs. Both horizontal and vertical directions will be needed to facet, and in each direction, more than one variable may be utilized to facet. For example, Figure \ref{fig:faceting-2ind} shows faceting on individual by two independent groups  (longitude and latitude). Figure \ref{fig:faceting-4ind} shows faceting by four categorical variables, two in the horizontal direction and two in the vertical direction.
+
+%It is apparent that faceting by either variable, individual or both helps to find the similar or unusual temporal pattern among variables and individuals. To realize this functionality we use the variables as the $y$ input, and specify the variable name that indicates the individuals or groups. Faceting on period is similar as faceting on individual -- in both ways the observations are grouped by a variable indicator and the points within group are connected. But the faceting-on-period interaction can not be substituted by faceting on individual, because faceting on period needs to re-index the time points. Figure \ref{fig:x-wrapping} (e) shows faceting on an irregular period. The video at \url{https://vimeo.com/112505175} illustrates an example of faceting on period for a time series with a regular period of every 12 observations.
+
+% If we treat the period as the individual, then each period has one
+% line of the same length, so we can plot them together and use the
+% individual faceting method to separate the lines. But the answer
+% is no. Two things are ignored in the idea. First, it assumes that
+% the period exists as a variable in the data, like the year for
+% monthly data. Second, it assumes that the time indexes for each
+% period are already the same. For example, in Figure \ref{fig:faceting-period} (left),
+% the time indexes for the original series are from 1-72. The indexes
+% for the six periods are 1-12, 13-24, 25-36, 37-48, 49-60, 61-72,
+% respectively. If we facet the period as faceting by individual,
+% then the six lines are separated vertically and also horizontally,
+% which is different from Figure \ref{fig:faceting-period} (right).
+
+% \begin{center}
+% \begin{figure}[htp]
+% \begin{centering}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-01-1}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
+% \includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
+% \par\end{centering}
+% \caption{\label{fig:faceting-period}An example of faceting on period
+% for a time series with a period of every 12 observations. The left
+% panel is the original series, the center and right panels show the
+% periods before and after faceting. From the left to center, the
+% wrapping interaction is used.}
+% \end{figure}
+% \par\end{center}
+
+
+\item Mirroring: This splits the series vertically at a given value,
+  and reflects the bottom half across this axis. With additional
+  wrapping, the result is called a horizon graph, and it is used to
+compare the magnitude of peaks and troughs, particularly for binary
+phenomena like gains and losses. The $y$-coordinates of the data are
+modified by this interaction. The choice of split value are typically
+mean, median, midpoint of the range, or in economic data the initial
+series value. Figure \ref{fig:x-wrapping} (f) and (g) shows mirroring
+of the lynx trappings data with the mean divider. We can see the peaks
+are sharp and irregular and the valleys are smooth and regular.
+%s that  helps to compare the extreme values of the two sides, save more room for the main body, and provide a better display for the series with  binary features like loss and earning. It dichotomizes the series by  a horizontal divider and reflects the bottom area up to the divider  with a change of the color scheme. The $y$-coordinates of the data  are modified by this interaction.
+%However, two issues raise up during the mirroring process:  (1) how to choose the horizontal divider -- midpoint of the range, mean of the series, or the initial value? For the financial related data, the starting value is preferred, like the price when entering the market. But for other types of time series, the choice would depend on the research interest.  (2) when an edge crosses the divider, the intersection will be a new data point to the line and need to be recorded. The new data points could make problems, especially when other interactions are added on the mirrored graph, like wrapping or linking. Section \ref{sub:Linking-of-the-addition} introduces the problems from the additional data in linking.
+% \begin{center}
+% \begin{figure}[htp]
+% \begin{centering}
+% \includegraphics[width=0.98\textwidth]{graph/pipeline-18-original}
+% \par\end{centering}
+% \begin{centering}
+% \includegraphics[width=0.98\textwidth]{graph/pipeline-18-mirrored}
+% \par\end{centering}
+% \caption{\label{fig:mirroring}Top: area plot for the lynx trappings data.
+% Bottom: mirroring by the mean. Two colors are assigned to the upper
+% and lower part: blue are the values above the mean, yellow below the
+% mean. The video at \url{https://vimeo.com/112432400} shows these interactions.}
+% \end{figure}
+% \par\end{center}
+
+\item Shifting: A series can be grabbed and shifted against another series. This is a more tangible operation than wrapping in order to compare periodicity and temporal dependence. Figure \ref{fig:x-shifting} shows three series that have been picked up and shifted together against the other three series to match peaks.
+
+%exploring dependence between series. When there are multiple series, we may consider to shift one or more series horizontally to match with others for some reason, like the starting time of the series is not the same, or one variable is leading another. This interaction will modify the $x$-coordinates for the selected series.
+
+%Figure \ref{fig:x-shifting} shows how shifting reveals the leading pattern. From the left panel we see variable B  (blue lines) has all its pumps later than variable A  (red lines), but we are not sure if the lag is fixed or varied. So we can shift variable A to the right by four time points and get the right panel. The peaks and valleys match well for the two variables, which confirms the guess of leading pattern.
+
+\item Switching: At any time it should be possible to switch between line and area displays. Line plots are efficient but filling the area under the curve can give a stronger sense of the patterns in the series, especially when trying to compare multiple series.   The video at \url{https://vimeo.com/112530645} demonstrates switching.
+
+%Starting from the basic demand, the interactive time plots should support the switch between the line and area layers, as the line and area plots have their own pluses and minuses. The line plots are concise when comparing the series in the same scales, in contrast the area plots make the space noisy with the overlapping area. In some other cases like the small multiples, the area plots are better because when the baselines are not of the same height, the area makes the understanding and comparison more accurate between values from different series. The video at \url{https://vimeo.com/112530645} demonstrates two situations when the line plot or area plot is preferred.
+
+% As shown in Figure \ref{fig:switching-layers} (1), the area draws much
+% attention but not necessary. In Figure \ref{fig:switching-layers} (2),
+% the line plot does not deliver the information as clearly as the area
+% plot, on the overall high values of series B1 and low values of series A1.
+
+% Switching between the layers does not change the data  (just need to
+% add the baselines), but the following interactions will require for
+% some data modification.
+
+% \begin{figure}[htp]
+% \begin{centering}
+% \begin{tabular}{cc}
+% \multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
+% \includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
+%  & \tabularnewline
+% \multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
+% \includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
+% \end{tabular}
+% \par\end{centering}
+% \caption{\label{fig:switching-layers}Switching between the line plot and the
+% area plot. The line plot is preferred in the first row for the compact
+% design without losing information. The area plot is preferred in the
+% second row for the easier comparison among values in different lines. Swithcing is illustrated in \url{https://vimeo.com/112530645}. }
+% \end{figure}
+
+\end{itemize}
+
 \begin{figure}[htp]
 \begin{center}
 \begin{tabular}{cc}
@@ -540,108 +642,6 @@ like in herdsize are more visible. }
 \end{figure}
 
 \end{center}
-%Sometimes we care about some objects or time intervals more than others, for instance, the patients under a special treatment, or the climate observations in a year when the earthquakes frequently happened. In other cases with many variables, we may have questions like whether the variables share the same period? Do the peaks and valleys match with each other? To explore the data with these questions, we need to compare multiple time series.
-
-%In a static graph, several aesthetic methods can be used to distinguish and compare multiple lines, like the color, size, or line type. However, the aesthetic methods are not encouraged for a relatively large number of lines, say, more than 10 lines. This is because the difference of colors, sizes, or line types between adjacent lines could be too weak to tell. Hence, faceting is considered as a technique to reduce the number of lines displayed in the same plotting region. Users can compare within and between facet regions easily when the aspect ratio keeps well.
-
-%There are three possible conditions to facet on: variable, individual (for the longitudinal data), or period. Those faceting methods change the coordinates of the points, and then the baselines of the area layer. Figure \ref{fig:faceting-var-ind} gives an example for faceting on two variables and three individuals. Design of the faceting interaction should make the switching among five panels done on-the-fly.
-% Figure \ref{fig:faceting-period} explains why and shows how to facet on period.
-
-%Faceting by individual sometimes extends to much more complex situations, because individuals can be grouped under different combinations of categorical variables, not only the individual IDs. Both horizontal and vertical directions will be needed to facet, and in each direction, more than one variable may be utilized to facet. For example, Figure \ref{fig:faceting-2ind} shows faceting on individual by two independent groups  (longitude and latitude). Figure \ref{fig:faceting-4ind} shows faceting by four categorical variables, two in the horizontal direction and two in the vertical direction.
-
-%It is apparent that faceting by either variable, individual or both helps to find the similar or unusual temporal pattern among variables and individuals. To realize this functionality we use the variables as the $y$ input, and specify the variable name that indicates the individuals or groups. Faceting on period is similar as faceting on individual -- in both ways the observations are grouped by a variable indicator and the points within group are connected. But the faceting-on-period interaction can not be substituted by faceting on individual, because faceting on period needs to re-index the time points. Figure \ref{fig:x-wrapping} (e) shows faceting on an irregular period. The video at \url{https://vimeo.com/112505175} illustrates an example of faceting on period for a time series with a regular period of every 12 observations.
-
-% If we treat the period as the individual, then each period has one
-% line of the same length, so we can plot them together and use the
-% individual faceting method to separate the lines. But the answer
-% is no. Two things are ignored in the idea. First, it assumes that
-% the period exists as a variable in the data, like the year for
-% monthly data. Second, it assumes that the time indexes for each
-% period are already the same. For example, in Figure \ref{fig:faceting-period} (left),
-% the time indexes for the original series are from 1-72. The indexes
-% for the six periods are 1-12, 13-24, 25-36, 37-48, 49-60, 61-72,
-% respectively. If we facet the period as faceting by individual,
-% then the six lines are separated vertically and also horizontally,
-% which is different from Figure \ref{fig:faceting-period} (right).
-
-% \begin{center}
-% \begin{figure}[htp]
-% \begin{centering}
-% \includegraphics[width=0.32\textwidth]{graph/pipeline-01-1}
-% \includegraphics[width=0.32\textwidth]{graph/pipeline-15-5}
-% \includegraphics[width=0.32\textwidth]{graph/pipeline-15-3}
-% \par\end{centering}
-% \caption{\label{fig:faceting-period}An example of faceting on period
-% for a time series with a period of every 12 observations. The left
-% panel is the original series, the center and right panels show the
-% periods before and after faceting. From the left to center, the
-% wrapping interaction is used.}
-% \end{figure}
-% \par\end{center}
-
-
-\item Mirroring: This splits the series vertically at a given value,
-  and reflects the bottom half across this axis. With additional
-  wrapping, the result is called a horizon graph, and it is used to
-compare the magnitude of peaks and troughs, particularly for binary
-phenomena like gains and losses. The $y$-coordinates of the data are
-modified by this interaction. The choice of split value are typically
-mean, median, midpoint of the range, or in economic data the initial
-series value. Figure \ref{fig:x-wrapping} (f) and (g) shows mirroring
-of the lynx trappings data with the mean divider. We can see the peaks
-are sharp and irregular and the valleys are smooth and regular.
-%s that  helps to compare the extreme values of the two sides, save more room for the main body, and provide a better display for the series with  binary features like loss and earning. It dichotomizes the series by  a horizontal divider and reflects the bottom area up to the divider  with a change of the color scheme. The $y$-coordinates of the data  are modified by this interaction.
-%However, two issues raise up during the mirroring process:  (1) how to choose the horizontal divider -- midpoint of the range, mean of the series, or the initial value? For the financial related data, the starting value is preferred, like the price when entering the market. But for other types of time series, the choice would depend on the research interest.  (2) when an edge crosses the divider, the intersection will be a new data point to the line and need to be recorded. The new data points could make problems, especially when other interactions are added on the mirrored graph, like wrapping or linking. Section \ref{sub:Linking-of-the-addition} introduces the problems from the additional data in linking.
-% \begin{center}
-% \begin{figure}[htp]
-% \begin{centering}
-% \includegraphics[width=0.98\textwidth]{graph/pipeline-18-original}
-% \par\end{centering}
-% \begin{centering}
-% \includegraphics[width=0.98\textwidth]{graph/pipeline-18-mirrored}
-% \par\end{centering}
-% \caption{\label{fig:mirroring}Top: area plot for the lynx trappings data.
-% Bottom: mirroring by the mean. Two colors are assigned to the upper
-% and lower part: blue are the values above the mean, yellow below the
-% mean. The video at \url{https://vimeo.com/112432400} shows these interactions.}
-% \end{figure}
-% \par\end{center}
-\item Shifting: A series can be grabbed and shifted against another series. This is a more tangible operation than wrapping in order to compare periodicity and temporal dependence. Figure \ref{fig:x-shifting} shows three series that have been picked up and shifted together against the other three series to match peaks.
-
-%exploring dependence between series. When there are multiple series, we may consider to shift one or more series horizontally to match with others for some reason, like the starting time of the series is not the same, or one variable is leading another. This interaction will modify the $x$-coordinates for the selected series.
-
-%Figure \ref{fig:x-shifting} shows how shifting reveals the leading pattern. From the left panel we see variable B  (blue lines) has all its pumps later than variable A  (red lines), but we are not sure if the lag is fixed or varied. So we can shift variable A to the right by four time points and get the right panel. The peaks and valleys match well for the two variables, which confirms the guess of leading pattern.
-
-\item Switching: At any time it should be possible to switch between line and area displays. Line plots are efficient but filling the area under the curve can give a stronger sense of the patterns in the series, especially when trying to compare multiple series.   The video at \url{https://vimeo.com/112530645} demonstrates switching.
-
-%Starting from the basic demand, the interactive time plots should support the switch between the line and area layers, as the line and area plots have their own pluses and minuses. The line plots are concise when comparing the series in the same scales, in contrast the area plots make the space noisy with the overlapping area. In some other cases like the small multiples, the area plots are better because when the baselines are not of the same height, the area makes the understanding and comparison more accurate between values from different series. The video at \url{https://vimeo.com/112530645} demonstrates two situations when the line plot or area plot is preferred.
-
-% As shown in Figure \ref{fig:switching-layers} (1), the area draws much
-% attention but not necessary. In Figure \ref{fig:switching-layers} (2),
-% the line plot does not deliver the information as clearly as the area
-% plot, on the overall high values of series B1 and low values of series A1.
-
-% Switching between the layers does not change the data  (just need to
-% add the baselines), but the following interactions will require for
-% some data modification.
-
-% \begin{figure}[htp]
-% \begin{centering}
-% \begin{tabular}{cc}
-% \multicolumn{2}{c}{{\scriptsize{ (1) Line plot is better than the area plot.}}}\tabularnewline
-% \includegraphics[width=0.48\textwidth]{graph/pipeline-14-6} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-8}\tabularnewline
-%  & \tabularnewline
-% \multicolumn{2}{c}{{\scriptsize{ (2) Area plot is better than the line plot.}}}\tabularnewline
-% \includegraphics[width=0.48\textwidth]{graph/pipeline-14-7} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-9}\tabularnewline
-% \end{tabular}
-% \par\end{centering}
-% \caption{\label{fig:switching-layers}Switching between the line plot and the
-% area plot. The line plot is preferred in the first row for the compact
-% design without losing information. The area plot is preferred in the
-% second row for the easier comparison among values in different lines. Swithcing is illustrated in \url{https://vimeo.com/112530645}. }
-% \end{figure}
-
-\end{itemize}
 
 
 %\begin{figure}[htp]
