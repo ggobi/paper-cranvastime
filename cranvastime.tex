@@ -867,110 +867,27 @@ $x$-wrapping will be reset to $(x_{(1)}, x_{(n-j)})$, so the
 plot is rescaled accordingly. Let $\Delta_{n-j}=x_{(n-j)}-x_{(1)}+1$,
 %then the new $x$-coordinate, $x^*$ of $x$ is
 then the movements for $i=$ wrap are
-% \begin{eqnarray*}
-% x^* & = & \begin{cases}
-% x_{(n-j)}  & \mbox{if~} x-x_{(1)}+1 \mbox{~mod}\Delta_{n-j} = 0\\
-% (x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} ~~+x_{(1)}-1 &  \mbox{o.w.}
-% \end{cases} \\
-% & = & \begin{cases}
-% x_{(n-j)}  & \mbox{if~} (x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} = 0\\
-% (x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rfloor\times\Delta_{n-j}+x_{(1)}-1 &\mbox{o.w.}\\
-% \end{cases} \\
-%  & = &
-% (x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times \Delta_{n-j} +x_{(1)}-1 \\ & = &
-% x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j},
-% \end{eqnarray*}
-% enabling the movements for $i=$ wrap to be described as
+
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_3}\right\rceil -1\right)\times\Delta_3, \; 0) & j\ge n-2
 \end{cases} \\
 \end{eqnarray*}
-% or equivalently in terms of line group indicators as well as points as
-% \begin{eqnarray*}
-% \mathbf{m}{}_{ij} & = & \begin{cases}
-% (-(\mathbf{l}{}_{ij} -1)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
-% (-(\mathbf{l}{}_{ij} -1)\times\Delta_3, \; 0) & j\ge n-2.
-% \end{cases}
-% \end{eqnarray*}
-%
-% The line group indicator $\mathbf{l}{}_{ij}$ will depend on the number of interactions $j$.
-
-% Sometimes it is useful to wrap the series faster. If you have
-% a long time series, it might be useful to make full year jumps.
-% This can be achieved with the above equations by setting the
-% sequence of $j$ to respect this period. In other instances it
-% may be useful to have a multiplicative wrapping so that it
-% looks like the series wraps faster and faster with each step.
-% That means every keystroke will send a different number of
-% points from the right to the left. The number of points
-% wrapped by the $j$th step, can be represented by the user
-% input parameter $u_{ij}$. Then the $x$-range after $j$ steps
-% is $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$, yielding
-% $\Delta_{n-\sum_{a=1}^j u_{ia}}=x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1$, and
-% \begin{eqnarray*}
-% x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-\sum_{a=1}^j u_{ia}}}\right\rceil -1\right)\times\Delta_{n-\sum_{a=1}^j u_{ia}}, \\
-% \mathbf{m}{}_{ij} & = & \begin{cases}
-% (-(\mathbf{l}{}_{ij} -1)\times\Delta_{n-\sum_{a=1}^j u_{ia}}, \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
-% (-(\mathbf{l}{}_{ij} -1)\times\Delta_3, \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
-% \end{cases}
-% \end{eqnarray*}
-%
-% If the user wants to skip all intermediate positions and use
-% only one jump to the fully wrapped position, %as shown in Figure
-% %\ref{fig:faceting-period} from the left to center panel,
-% then the new $x$-range will be $(x_{(1)}, x_{(p_{i2})})$, where
-% the parameter $p_{i2}$ is the length of period. Hence for $j\ge 1$,
-% \begin{eqnarray*}
-% x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{p_{i2}}}\right\rceil -1\right)\times\Delta_{p_{i2}}, \\
-% \mathbf{m}{}_{ij} & = &
-% (-(\mathbf{l}{}_{ij} -1)\times\Delta_{p_{i2}}, \; 0).
-% \end{eqnarray*}
-%
-% To generalize our case to the irregular time series, we
-% should specify a wrapping speed parameter $p_{i3}$, i.e.,
-% with every key stroke, the $x$-range is shortened by at
-% least $p_{i3}$. The wrapping speed parameter will determine
-% how many points are shifted every time, because if the
-% difference between largest two points is greater than
-% $p_{i3}$, then only one point is shifted; if the difference
-% is smaller than $p_{i3}$, then more than one points are
-% shifted. After $j$ steps, the total number of points
-% shifted is a function of $p_{i3}$ and $\mathbf{x}_0$.
-% Denote the function as $g_j$, so the new $x$-range is
-% $(x_{(1)},x_{(n-g_j(p_{i3},\mathbf{x}_0)})$, and the
-% movements can be calculated then.
-%
-% Movements from the $y$-wrapping on the $y$-direction,
-% as shown in Figure \ref{fig:y-wrapping}, could be obtained
-% by similar formulas. It is messier to realize because the
-% $y$-values are typically not in a sequential order which
-% means that more structural components need to be added to
-% the data to actually draw the wrapped series. Some of the
-% issues are discussed later in this paper.
-%
-% \begin{center}
-% \begin{figure}[htp]
-% \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
-% \caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
-% the $x$-wrapping. There are three consecutive wrapping
-% steps. At step $j=1$ the $x$ value of the last point changes
-% from 21 to 16, and the line group indicator increments to 2.
-% At step $j=2$ the $x$ values of the last two points are changed,
-% and both have line group indicators equal to 2.  The wrapping
-% stop parameter was set to $p_{i1}=3$, which means that after
-% one more step, $n-j=3$, the wrapping would stop because each
-% series has only 3 points. In the actual implementation the
-% scale of the horizontal axis is changed at each step so that
-% the full plot width is used.}
-% \end{figure}
-% \end{center}
 
 where $\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil$
 is equivalent to the line group indicator $\mathbf{l}{}_{ij}$.
 The derivation of the formula, generalized cases for a faster
-wrap and irregular time series can be found in the appendix.
+wrap and irregular time series can be found in Appendix
+\ref{sub:appendix-wrapping}.
+
+Movements from the $y$-wrapping on the $y$-direction,
+as shown in Figure \ref{fig:y-wrapping}, could be obtained
+by similar formulas. It is messier to realize because the
+$y$-values are typically not in a sequential order which
+means that more structural components need to be added to
+the data to actually draw the wrapped series. Some of the
+issues are discussed later in this paper.
 
 
 %\subsection{Faceting}
@@ -1011,16 +928,8 @@ The example shows that $\mathbf{m}{}_{ij}$ is a function of $\mathbf{p}{}_{i}$,
 $j$, and $\mathbf{l}_{ij}$, where $\mathbf{l}_{ij}=\mathbf{l}{}_i$ in this example
 means that the line indicator for faceting is free from $j$.
 More details on faceting by variable and period can be
-found in the appendix.
+found in Appendix \ref{sub:appendix-faceting}.
 
-% For $i=$ facet by variable/period, one click will fully split
-% the variables, so $j$ does not matter. All lines should be
-% standardized between $[0,1]$ first, then the movement is given by
-% \[
-% \mathbf{m}{}_{ij} = (0,\; \mathbf{l}{}_i-1).
-% \]
-% Note that $\mathbf{l}{}_i$ in this case differs from
-% $\mathbf{l}{}_i$ in faceting by individual.
 
 %\subsection{Mirroring}
 
@@ -1571,5 +1480,116 @@ Novartis, and by National Science Research grant DMS0706949.
 
 \bibliographystyle{natbib}
 \bibliography{cranvastime}
+
+\newpage
+\section*{Appendix}
+\renewcommand{\thesubsection}{\Alph{subsection}}
+\subsection{Wrapping}\label{sub:appendix-wrapping}
+
+Recall that $\Delta_{n-j}=x_{(n-j)}-x_{(1)}+1$,
+then the new $x$-coordinate after $j$ keystrokes
+for $x$-wrapping, $x^*$ of $x$ is
+\begin{eqnarray*}
+x^* & = & \begin{cases}
+x_{(n-j)}  & \mbox{if~} x-x_{(1)}+1 \mbox{~mod}\Delta_{n-j} = 0\\
+(x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} ~~+x_{(1)}-1 &  \mbox{o.w.}
+\end{cases} \\
+& = & \begin{cases}
+x_{(n-j)}  & \mbox{if~} (x-x_{(1)}+1) \mbox{~mod}\Delta_{n-j} = 0\\
+(x-x_{(1)}+1)-\left\lfloor\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rfloor\times\Delta_{n-j}+x_{(1)}-1 &\mbox{o.w.}\\
+\end{cases} \\
+ & = &
+(x-x_{(1)}+1)-\left(\left\lceil\frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times \Delta_{n-j} +x_{(1)}-1 \\ & = &
+x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j},
+\end{eqnarray*}
+enabling the movements for $i=$ wrap to be described as
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
+(-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_3}\right\rceil -1\right)\times\Delta_3, \; 0) & j\ge n-2
+\end{cases} \\
+\end{eqnarray*}
+or equivalently in terms of line group indicators as well as points as
+\begin{eqnarray*}
+\mathbf{m}{}_{ij} & = & \begin{cases}
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_3, \; 0) & j\ge n-2.
+\end{cases}
+\end{eqnarray*}
+The line group indicator $\mathbf{l}{}_{ij}$ will depend on
+the number of interactions $j$.
+
+Sometimes it is useful to wrap the series faster. If you have
+a long time series, it might be useful to make full year jumps.
+This can be achieved with the above equations by setting the
+sequence of $j$ to respect this period. In other instances it
+may be useful to have a multiplicative wrapping so that it
+looks like the series wraps faster and faster with each step.
+That means every keystroke will send a different number of
+points from the right to the left. The number of points
+wrapped by the $j$th step, can be represented by the user
+input parameter $u_{ij}$. Then the $x$-range after $j$ steps
+is $(x_{(1)}, x_{(n-\sum_{a=1}^j u_{ia})})$, yielding
+$\Delta_{n-\sum_{a=1}^j u_{ia}}=x_{(n-\sum_{a=1}^j u_{ia})}-x_{(1)}+1$, and
+\begin{eqnarray*}
+x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{n-\sum_{a=1}^j u_{ia}}}\right\rceil -1\right)\times\Delta_{n-\sum_{a=1}^j u_{ia}}, \\
+\mathbf{m}{}_{ij} & = & \begin{cases}
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_{n-\sum_{a=1}^j u_{ia}}, \; 0) & 1\leq \sum_{a=1}^j u_{ia} \leq n-3 \\
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_3, \; 0) & \sum_{a=1}^j u_{ia}\ge n-2.
+\end{cases}
+\end{eqnarray*}
+
+If the user wants to skip all intermediate positions and use
+only one jump to the fully wrapped position, %as shown in Figure
+%\ref{fig:faceting-period} from the left to center panel,
+then the new $x$-range will be $(x_{(1)}, x_{(p_{i2})})$, where
+the parameter $p_{i2}$ is the length of period. Hence for $j\ge 1$,
+\begin{eqnarray*}
+x^* & = & x-\left(\left\lceil \frac{x-x_{(1)}+1}{\Delta_{p_{i2}}}\right\rceil -1\right)\times\Delta_{p_{i2}}, \\
+\mathbf{m}{}_{ij} & = &
+(-(\mathbf{l}{}_{ij} -1)\times\Delta_{p_{i2}}, \; 0).
+\end{eqnarray*}
+
+To generalize our case to the irregular time series, we
+should specify a wrapping speed parameter $p_{i3}$, i.e.,
+with every key stroke, the $x$-range is shortened by at
+least $p_{i3}$. The wrapping speed parameter will determine
+how many points are shifted every time, because if the
+difference between largest two points is greater than
+$p_{i3}$, then only one point is shifted; if the difference
+is smaller than $p_{i3}$, then more than one points are
+shifted. After $j$ steps, the total number of points
+shifted is a function of $p_{i3}$ and $\mathbf{x}_0$.
+Denote the function as $g_j$, so the new $x$-range is
+$(x_{(1)},x_{(n-g_j(p_{i3},\mathbf{x}_0)})$, and the
+movements can be calculated then.
+
+% \begin{center}
+% \begin{figure}[htp]
+% \centerline{\includegraphics[width=0.9\textwidth]{graph/wrap-example.pdf}}
+% \caption{\label{fig:x-wrapping-algorithm} Cartoon illustrating
+% the $x$-wrapping. There are three consecutive wrapping
+% steps. At step $j=1$ the $x$ value of the last point changes
+% from 21 to 16, and the line group indicator increments to 2.
+% At step $j=2$ the $x$ values of the last two points are changed,
+% and both have line group indicators equal to 2.  The wrapping
+% stop parameter was set to $p_{i1}=3$, which means that after
+% one more step, $n-j=3$, the wrapping would stop because each
+% series has only 3 points. In the actual implementation the
+% scale of the horizontal axis is changed at each step so that
+% the full plot width is used.}
+% \end{figure}
+% \end{center}
+
+\subsection{Faceting}\label{sub:appendix-faceting}
+
+For $i=$ facet by variable/period, one click will fully split
+the variables, so $j$ does not matter. All lines should be
+standardized between $[0,1]$ first, then the movement is given by
+\[
+\mathbf{m}{}_{ij} = (0,\; \mathbf{l}{}_i-1).
+\]
+Note that $\mathbf{l}{}_i$ in this case differs from
+$\mathbf{l}{}_i$ in faceting by individual.
 
 \end{document}
