@@ -463,6 +463,59 @@ Some interactions, like brushing, selection, linking, zooming, panning, and quer
  %Wrapping cuts the series by a fixed-length interval in the horizontal or vertical direction, and shifts the right/top pieces to the left/bottom. It could change the $x$- / $y$- coordinates of the data. There are two reasons for wrapping. The first one is to compare the periods, or to find the period for the data that is potentially periodical. Also the periodic variation could be explored \citep{mcdonald1986periodic}. For this purpose we suggest to wrap the series horizontally. % Figure \ref{fig:faceting-period} (left to center) gives an % example of horizontal wrapping with a known period. Figure \ref{fig:x-wrapping} shows an example of wrapping process with an unknown period.
 %The second reason is to cut the temporal and longitudinal data into parts for a better aspect ratio which will increase the effectiveness of data display \citep{cleveland1987graphical}, and then reveal more details. When the time series is long, to keep a proper aspect ratio is not always workable, due to the the limit of the screen width. Two possible solutions are:  (1) if the series is periodical, then wrap it horizontally by the period, as Figure %\ref{fig:faceting-period} \ref{fig:x-wrapping},  (2) Wrap the series vertically, especially when multiple series are faceted.
 %Figure \ref{fig:y-wrapping} gives an example of the y-vertical wrapping for quarterly pig production from 1967-1978 in United Kingdom \citep{andrews1985data}. The four variables are HERDSZ: actual breeding herd size, PRODUCTION: number of clean pig meat slaughtered, PROFIT: ratio of all-pig price to all fattener feed price, GILTS: number of sows in pig for the first time. In the top panel we see some overall pattern but it is hard to compare two values from the first quarter and last quarter of a line. In the bottom panel the series are wrapped in an area plot. The darkness of the colors indicates the magnitude of the series values, and the color bands make the comparison within or between the series much easier.
+
+\begin{figure}[htp]
+\begin{center}
+\begin{tabular}{cc}
+%\multicolumn{2}{c}{\small{(a)}}\\
+\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-16-original}}\\
+%\small{(b)} & \small{(c)} \\
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-1} &
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-2} \\
+%\small{(d)} & \small{(e)} \\
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-xwrap} &
+\includegraphics[width=0.4\textwidth]{graph/pipeline-16-xwrap-facet} \\
+%\multicolumn{2}{c}{\small{(f)}} \\
+\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-18-original}} \\
+%\multicolumn{2}{c}{\small{(g)}} \\
+\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-18-mirrored}} \\
+\end{tabular}
+\caption{\label{fig:x-wrapping}Lynx trappings for 1821\textendash{}1934:
+(a) Time series, (b \textendash{} d) stages of $x$-wrapping, matching
+peaks, (e) faceted on the wrapped series, (f) area plot, (g) mirrored
+on the mean, blue indicating values above the mean, and yellow below
+the mean.  (Video illustrating these interactions is available at
+\url{https://vimeo.com/112431547} and \url{https://vimeo.com/112432400}.)}
+\end{center}
+\end{figure}
+
+\begin{center}
+\begin{figure}[htp]
+\begin{centering}
+\includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
+\end{centering}
+\begin{centering}
+\includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
+\end{centering}
+\caption{\label{fig:y-wrapping}Quarterly pig production for
+1967-1978 in UK measured by five variables: (a) faceted, (b)
+$y$-wrapped (see video at \url{https://vimeo.com/112435889}).
+Profit and gilts seem slightly lag-related. Herdsz and
+production may be related in a lag relationship also, but
+neither is seasonal. In the $y$-wrapped version density indicates
+the magnitude of values, and long periods of higher values,
+like in herdsize are more visible. }
+%Top: the original data faceted on variable. HERDSZ and
+%PRODUCTION goes up slowly then down after the midway, and
+%grows a little at the end. PROFIT and GILTS seems to show
+%the seasonality with increasing variation. Bottom: $y$-wrapping.
+%We see the gradually change for the first two variables and
+%seasonal change for the latter two variables, also a leading
+%pattern between PROFIT and GILTS. The video at
+%\url{https://vimeo.com/112435889} demonstrates this wrapping.}
+\end{figure}
+\end{center}
+
 \item Faceting: This creates small multiples to organize and examine across structural data components. These components might be a period such as year, or month, or variables when multiple are measured at the same time points, or in longitudinal data these might be individuals. In the interactive setting these components can be used to slowly pull overlaid series apart, a process that might be more revealing that disjointly laying out each in a static plot. Figure \ref{fig:faceting-var-ind} illustrates sequential faceting on two variables and three individuals. The order of these operations changes the final result, and changes which comparison is primary and which secondary. Figure \ref{fig:faceting-examples} gives two more examples, by a grid of spatial locations, and by covariates, respectively. Watch the videos to see how these are achieved interactively. There is also another video at \url{https://vimeo.com/112505175} shows faceting on period for a time series with a regular period of every 12 observations.
 
 %Sometimes we care about some objects or time intervals more than others, for instance, the patients under a special treatment, or the climate observations in a year when the earthquakes frequently happened. In other cases with many variables, we may have questions like whether the variables share the same period? Do the peaks and valleys match with each other? To explore the data with these questions, we need to compare multiple time series.
@@ -569,61 +622,6 @@ are sharp and irregular and the valleys are smooth and regular.
 
 \end{itemize}
 
-\begin{figure}[htp]
-\begin{center}
-\begin{tabular}{cc}
-%\multicolumn{2}{c}{\small{(a)}}\\
-\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-16-original}}\\
-%\small{(b)} & \small{(c)} \\
-\includegraphics[width=0.4\textwidth]{graph/pipeline-16-1} &
-\includegraphics[width=0.4\textwidth]{graph/pipeline-16-2} \\
-%\small{(d)} & \small{(e)} \\
-\includegraphics[width=0.4\textwidth]{graph/pipeline-16-xwrap} &
-\includegraphics[width=0.4\textwidth]{graph/pipeline-16-xwrap-facet} \\
-%\multicolumn{2}{c}{\small{(f)}} \\
-\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-18-original}} \\
-%\multicolumn{2}{c}{\small{(g)}} \\
-\multicolumn{2}{c}{\includegraphics[width=0.8\textwidth]{graph/pipeline-18-mirrored}} \\
-\end{tabular}
-\caption{\label{fig:x-wrapping}Lynx trappings for 1821\textendash{}1934:
-(a) Time series, (b \textendash{} d) stages of $x$-wrapping, matching
-peaks, (e) faceted on the wrapped series, (f) area plot, (g) mirrored
-on the mean, blue indicating values above the mean, and yellow below
-the mean.  (Video illustrating these interactions is available at
-\url{https://vimeo.com/112431547} and \url{https://vimeo.com/112432400}.)}
-\end{center}
-\end{figure}
-
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-17-original-wp-l}
-\end{centering}
-
-\begin{centering}
-\includegraphics[width=0.98\textwidth]{graph/pipeline-17-ywrap-w}
-\end{centering}
-
-\caption{\label{fig:y-wrapping}Quarterly pig production for
-1967-1978 in UK measured by five variables: (a) faceted, (b)
-$y$-wrapped (see video at \url{https://vimeo.com/112435889}).
-Profit and gilts seem slightly lag-related. Herdsz and
-production may be related in a lag relationship also, but
-neither is seasonal. In the $y$-wrapped version density indicates
-the magnitude of values, and long periods of higher values,
-like in herdsize are more visible. }
-%Top: the original data faceted on variable. HERDSZ and
-%PRODUCTION goes up slowly then down after the midway, and
-%grows a little at the end. PROFIT and GILTS seems to show
-%the seasonality with increasing variation. Bottom: $y$-wrapping.
-%We see the gradually change for the first two variables and
-%seasonal change for the latter two variables, also a leading
-%pattern between PROFIT and GILTS. The video at
-%\url{https://vimeo.com/112435889} demonstrates this wrapping.}
-\end{figure}
-
-\end{center}
 
 \begin{center}
 \begin{figure}[htp]
@@ -637,12 +635,26 @@ like in herdsize are more visible. }
 \includegraphics[width=0.48\textwidth]{graph/pipeline-14-4} & \includegraphics[width=0.48\textwidth]{graph/pipeline-14-5}\tabularnewline
 \end{tabular}
 \end{centering}
-
 \caption{\label{fig:faceting-var-ind}Order of interaction matters when faceting with two variables and three individuals: (a) all series overlaid, color indicates variable, (b) facet first on variable (A, B),  (c) facet first by individual (1, 2, 3), (d) facets (b) by individual, and (e) facets (c) by variable. Both final configurations are useful: (d) supports the primary comparison of individuals, with variable comparisons secondary and (e) supports comparison of variables within individuals.  (Video footage illustration is available at \url{https://vimeo.com/112438919}.)}
 \end{figure}
-
 \end{center}
 
+\begin{figure}[htp]
+\begin{center}
+\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.54\textwidth]{graph/pipeline-25-2}
+\caption{\label{fig:faceting-examples}Faceting can be conducted bi-directionally: (left) by spatial grid for spatiotemporal data (\url{https://vimeo.com/112503285}), (right) by two covariates, sex and age, in longitudinal data (\url{https://vimeo.com/112509324}).}
+\end{center}
+\end{figure}
+
+\begin{center}
+\begin{figure}[H]%[htp]
+\begin{centering}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
+\includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
+\end{centering}
+\caption{\label{fig:x-shifting}Illustration of shifting: three bottom series (variable A) are shifted horizontally to the right, to match the peak time with the top three series (variable B). (See also the video at \url{https://vimeo.com/112439923}.)}
+\end{figure}
+\end{center}
 
 %\begin{figure}[htp]
 %\begin{center}
@@ -777,24 +789,6 @@ be manipulated simply by updating limits of the graphical device.
 
 %Moreover, most of the parameters that Will mentioned are the graphical elements, like which elements to display, what color scheme to use, etc. In a more specific interactive graphics design, like the time series problem, the transform parameters need more attention.  Will did not give fully discussion for the last parameter type in his book, but he pointed out that ``\textit{the transforms are strongly data dependent}.'' In fact, the transformed data in the final display also strongly depend on the transform parameters, when there exist more than one type of transform. We will discuss how the interactions change both the transform parameters and data as follows. Note that the term $parameter$ will refer to the transform parameter, which could change the coordinates of the data.
 
-\begin{figure}[htp]
-\begin{center}
-\includegraphics[width=0.45\textwidth]{graph/pipeline-24-4}\includegraphics[width=0.54\textwidth]{graph/pipeline-25-2}
-
-\caption{\label{fig:faceting-examples}Faceting can be conducted bi-directionally: (left) by spatial grid for spatiotemporal data (\url{https://vimeo.com/112503285}), (right) by two covariates, sex and age, in longitudinal data (\url{https://vimeo.com/112509324}).}
-\end{center}
-\end{figure}
-
-\begin{center}
-\begin{figure}[htp]
-\begin{centering}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-19-original}
-\includegraphics[width=0.48\textwidth]{graph/pipeline-19-shifting}
-\end{centering}
-\caption{\label{fig:x-shifting}Illustration of shifting: three bottom series (variable A) are shifted horizontally to the right, to match the peak time with the top three series (variable B). (See also the video at \url{https://vimeo.com/112439923}.)}
-\end{figure}
-\end{center}
-
 %\subsection{Generating interactions\label{interaction-formulas}}
 
 Let $(\mathbf{x},\mathbf{y})$ denote the positional coordinates
@@ -865,14 +859,12 @@ $x$-wrapping will be reset to $(x_{(1)}, x_{(n-j)})$, so the
 plot is rescaled accordingly. Let $\Delta_{n-j}=x_{(n-j)}-x_{(1)}+1$,
 %then the new $x$-coordinate, $x^*$ of $x$ is
 then the movements for $i=$ wrap are
-
 \begin{eqnarray*}
 \mathbf{m}{}_{ij} & = & \begin{cases}
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil -1\right)\times\Delta_{n-j}, \; 0) & 1\leq j \leq n-3 \\
 (-\left(\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_3}\right\rceil -1\right)\times\Delta_3, \; 0) & j\ge n-2
 \end{cases} \\
 \end{eqnarray*}
-
 where $\left\lceil \frac{\mathbf{x}-x_{(1)}+1}{\Delta_{n-j}}\right\rceil$
 is equivalent to the line group indicator $\mathbf{l}{}_{ij}$.
 The derivation of the formula, generalized cases for a faster
@@ -885,7 +877,7 @@ by similar formulas. It is messier to realize because the
 $y$-values are typically not in a sequential order which
 means that more structural components need to be added to
 the data to actually draw the wrapped series. Some of the
-issues are discussed later in this paper.
+issues are discussed in Appendix \ref{sub:appendix-linking}.
 
 
 %\subsection{Faceting}
@@ -1050,12 +1042,11 @@ of individuals would be
 Calculations can be made incrementally or with respect to a stable state (baseline), which, respectively, stores multiple copies of data, or a single storage of the data with storage of movement.
 \begin{enumerate} \itemsep 0in
 \item Incremental: Let
-
 \begin{eqnarray*}
 s_{0} & = & \textrm{initial status},\\
 s_{t+1} & = & s_{t}+u_{i1}.
 \end{eqnarray*}
- Note that every new status is only one interaction after the previous
+Note that every new status is only one interaction after the previous
 status. The coordinates are given by
 \begin{eqnarray*}
  (\mathbf{x},\mathbf{y})_{s_{t+1}} & = &  (\mathbf{x},\mathbf{y})_{s_{t}}+\mathbf{m}{}_{i1}\\
@@ -1165,67 +1156,7 @@ selecting either a single point or an entire time series.
 
 %The time series and longitudinal data are usually ``wide'', as for each time point, there are inputs from multiple variables. To explore the dependency of the variables regardless of the time, many graph types, like the scatterplot and parallel coordinates plot, can be applied. However, if we utilize the ``wide data'' directly to generate a mutaframe and plot the time series, then different variables must share the same point parameters as from the same observations, as explained in Table \ref{tab:wide-data}.
 
-A more flexible format is provided by melting the data
-into the ``long data'' format (Table \ref{tab:long-data}).
-In this format it is easy to realize brushing and self-linking
-in different ways: the user can select a single point, and
-(1) only this point is highlighted, (2) all points for
-that line (e.g. V1) are highlighted, or (3) all points
-for that time are highlighted (Figure \ref{fig:self-linking}).
-The latter two are achieved by treating the line group
-indicator or ``Time'' as a categorical linking variable,
-respectively. Brushing and self-linking also works for longitudinal data, because it is typically in long data format.
-
-
-%It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
-
-
-\subsection{Linking between plots}
-
-Linking between plots builds a reactive brushing chain that
-when the data points on one plot are brushed, then they are
-highlighted on all the plots. In the normal cases of
-\texttt{\textbf{cranvas}}, data behind the plots is unique,
-so the brush interaction will modify the parameter attached
-to the data and trigger the listeners of plots to highlight
-the corresponding part. However, linking between a time
-series plot and other plots (Figure \ref{fig:linking-plots}) is different, because the
-data to create the time plot is in the long data format,
-while the data to create the other plots, like scatterplots
-or histograms, are in the wide data format. Hence, a link
-between the two data formats must be constructed.
-
-\citet{xie2014reactive} delineated how to link two data
-objects. First a linking variable must be pointed out, then two listeners
-are attached on the two objects. If the \texttt{.brushed} parameter
-switches in one dataset, then the listener is triggered. And if any
-observations from the second dataset have the same value in the linking
-variable as the first dataset, then the corresponding \texttt{.brushed}
-parameter in the second dataset will be changed.
-
-Note that the linking between wide data and long data is not a one-to-one
-linking. ``Time'' is the linking variable between two formats.
-In the direction from wide to long data, each entry in the
-wide data can project to multiple entries in the long data. In the
-opposite direction, an entry in the long data will map to one entry in
-the wide data. The unbalanced linking could produce a problem (see 
-Table \ref{tab:wide-long-linking} in the Appendix). This problem can be solved by cutting off the backward linking.
-
-\begin{figure}[htp]
-\begin{center}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
-\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
-\end{center}
-\caption{\label{fig:self-linking}When a single point is brushed,
-there could be three modes of highlighting: (left) only a single
-point is highlighted; (center) all points for that series are
-highlighted, by treating the line group indicators as the categorical
-linking variables; (right) all points for that time are highlighted,
-by using the time as a linking variable.}
-\end{figure}
-
-\begin{table}[h]
+\begin{table}[htp]
 \small
 \begin{center}
 \begin{tabular}{ccc}
@@ -1258,7 +1189,20 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \tabularnewline
 \caption{\label{tab:wide-data}Basic tabular form of data underlying plot (left), think of this as the ``wide data'' format. Each row contains values recorded at one time point. The aesthetic parameters are associated with one time point. Brushing on this form will highlight the points for a particular time (right), three points if all three series are drawn. It is probably more desirable for the behavior to be different: that selecting a single point will highlight all the values for that series, or only a single point, which can be achieved by a data re-structuring.}
 \end{table}
 
-\begin{table}[H]%[htp]
+A more flexible format is provided by melting the data
+into the ``long data'' format (Table \ref{tab:long-data}).
+In this format it is easy to realize brushing and self-linking
+in different ways: the user can select a single point, and
+(1) only this point is highlighted, (2) all points for
+that line (e.g. V1) are highlighted, or (3) all points
+for that time are highlighted (Figure \ref{fig:self-linking}).
+The latter two are achieved by treating the line group
+indicator or ``Time'' as a categorical linking variable,
+respectively. Brushing and self-linking also works for longitudinal data, because it is typically in long data format.
+
+%It is not ideal to make all the dots upon the same time point look the same. To force them to be brushed or unbrushed simultaneously is even a worse design. Hence we need the ``long data'' to assign different properties to different points. Table \ref{tab:long-data} is the corresponding long data of Table \ref{tab:wide-data}.
+
+\begin{table}[htp]
 \begin{center}
 \begin{tabular}{|c|cc|ll||ll||ll|}
 \hline
@@ -1279,6 +1223,19 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 \caption{\label{tab:long-data}The ``long data'' format, which is called the melted form in \citet{reshape}. This format allows a lot of flexibility. The ``Variable'' column can be used as a categorical linking variable, so that all points corresponding to ``V1'' are highlighted, when any one is selected, or a single point can be highlighted in the simplest brushing style, by changing the parameters of just that row. It would also be possible to use this form to use ``Time'' as a categorical variable for linking, and highlight all values recorded at a particular time. }
 \end{table}
 
+\begin{figure}[H]%[htp]
+\begin{center}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-1}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-2}
+\includegraphics[width=0.32\textwidth]{graph/pipeline-27-3}
+\end{center}
+\caption{\label{fig:self-linking}When a single point is brushed,
+there could be three modes of highlighting: (left) only a single
+point is highlighted; (center) all points for that series are
+highlighted, by treating the line group indicators as the categorical
+linking variables; (right) all points for that time are highlighted,
+by using the time as a linking variable.}
+\end{figure}
 
 \begin{center}
 \begin{figure}[htp]
@@ -1294,7 +1251,8 @@ $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\v
 \end{centering}
 \caption{\label{fig:linking-plots}Linking between different plots
 for the Google Flu Trends data (\url{http://www.google.org/flutrends/}) from November 24, 2013 -- March 16, 2014.
-(Left) Time series faceted by state (see \url{https://vimeo.com/112528131}
+(Left) Time series faceted by state at an intermediate position
+(see \url{https://vimeo.com/112528131}
 for the transition to the facets), (top right) choropleth map grey
 scale indicating time of the peak in the series, light is earlier,
 (bottom right) histogram of the number of searches. Two states in
@@ -1303,7 +1261,38 @@ states in the time series and histogram.}
 \end{figure}
 \end{center}
 
+\subsection{Linking between plots}
 
+Linking between plots builds a reactive brushing chain that
+when the data points on one plot are brushed, then they are
+highlighted on all the plots. In the normal cases of
+\texttt{\textbf{cranvas}}, data behind the plots is unique,
+so the brush interaction will modify the parameter attached
+to the data and trigger the listeners of plots to highlight
+the corresponding part. However, linking between a time
+series plot and other plots (Figure \ref{fig:linking-plots}) is different, because the
+data to create the time plot is in the long data format,
+while the data to create the other plots, like scatterplots
+or histograms, are in the wide data format. Hence, a link
+between the two data formats must be constructed.
+
+\citet{xie2014reactive} delineated how to link two data
+objects. First a linking variable must be pointed out, then two listeners
+are attached on the two objects. If the \texttt{.brushed} parameter
+switches in one dataset, then the listener is triggered. And if any
+observations from the second dataset have the same value in the linking
+variable as the first dataset, then the corresponding \texttt{.brushed}
+parameter in the second dataset will be changed.
+
+Note that the linking between wide data and long data is not a one-to-one
+linking. ``Time'' is the linking variable between two formats.
+In the direction from wide to long data, each entry in the
+wide data can project to multiple entries in the long data. In the
+opposite direction, an entry in the long data will map to one entry in
+the wide data. The unbalanced linking could produce a problem (see
+Table \ref{tab:wide-long-linking} in the Appendix). This problem can be solved by cutting off the backward linking.
+
+\vspace{-.1cm}
 \section{Querying}
 
 In each of the examples, and plots shown the time axis is
@@ -1313,6 +1302,7 @@ time value requires querying, by mousing over the display,
 if labels have been set up in detail, the user can learn what
 day, month, year or individual identifier is under the cursor.
 
+\vspace{-.1cm}
 \section{Conclusions and future work}
 
 This paper describes how interactions can be added to temporal displays by using sequences of affine transformations. This approach proves a rich variety of ways to slice and dice temporal data to explore seasonality, dependence, trends, anomalies and individual differences. These interactive temporal displays can be embedded in a large interactive graphics software system, enabling linking between plots to explore more general data where temporal components are just one aspect of many. Not everything is solved in terms of additivity, speed and interaction direction, but most common actions are possible for reasonably sized data.
@@ -1341,21 +1331,24 @@ This paper focused on interactive graphics for multivariate time series and long
 
 %This paper aims at the time series and longitudinal data, but the ideas on how to assist data-transforming interactions can be applied to other interactive graphics too.
 
+
 \section*{Acknowledgements}
 This work was started with funding from Google Summer of Code,
 then partially supported by an unrestricted fellowship from
 Novartis, and by National Science Research grant DMS0706949.
 
+\addcontentsline{toc}{section}{BIBLIOGRAPHY}
 \bibliographystyle{natbib}
 \bibliography{cranvastime}
 
 \newpage
 \section*{Appendix}
+\addcontentsline{toc}{section}{\appendixname}
 \renewcommand{\thesubsection}{\Alph{subsection}}
 \setcounter{table}{0}
-\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thetable}{C\arabic{table}}
 \setcounter{figure}{0}
-\renewcommand{\thefigure}{A\arabic{figure}}
+\renewcommand{\thefigure}{C\arabic{figure}}
 
 \subsection{Wrapping}\label{sub:appendix-wrapping}
 
@@ -1465,7 +1458,7 @@ standardized between $[0,1]$ first, then the movement is given by
 Note that $\mathbf{l}{}_i$ in this case differs from
 $\mathbf{l}{}_i$ in faceting by individual.
 
-\subsection{Linking}
+\subsection{Linking}\label{sub:appendix-linking}
 
 To cutoff the backward linking problem, generated by linking to different forms of the data, two signals are added respectively
 in the listeners of the two data objects. When one listener
@@ -1475,7 +1468,7 @@ As in Table \ref{tab:wide-long-linking}, the arrow from  (b) to  (c)
 will be cut off.
 
 
-\begin{table}[htp]
+\begin{table}[H]%[htp]
 \begin{center}
 \begin{tabular}{c|cc|cc}
 \multicolumn{5}{c}{(a) Long data format, used in time plots}\tabularnewline
@@ -1575,7 +1568,7 @@ and the linking variable is the point ID, which should be assigned
 to the polygons when the red dots are generated.
 
 \begin{center}
-\begin{figure}[htp]
+\begin{figure}[H]%[htp]
 \begin{centering}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-1}
 \includegraphics[width=0.48\textwidth]{graph/pipeline-23-2}
